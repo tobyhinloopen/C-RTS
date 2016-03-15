@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<style>
+.tank {
+  position: absolute;
+  margin: -12px 0 0 -16px;
+  border: 1px solid;
+  width: 24px;
+  height: 32px;
+}
+
+.enemy {
+  color: red;
+}
+
+.friendly {
+  color: blue;
+}
+
+.zone {
+  border: 1px solid;
+  color: green;
+}
+</style>
+<div id=canvas>
+  <div class="enemy tank" data-position="10,12" data-rotation="45"></div>
+  <div class="friendly tank" data-position="10,15" data-rotation="50"></div>
+  <div class="enemy tank" data-position="15,10" data-rotation="22"></div>
+</div>
+<script type=text/javascript>
+function setEntityPosition(entity, x, y) {
+  console.log(entity, x, y);
+  entity.style.top = y * 16 + 'px';
+  entity.style.left = x * 16 + 'px';
+}
+
+function setEntityRotationDeg(entity, rotation) {
+  entity.style.transform = 'rotate('+rotation+'deg)';
+}
+
+var entities = document.querySelectorAll('[data-position]');
+for(var i=0, entity; entity = entities[i]; i++) {
+  var xy = entity.dataset.position.split(',');
+  setEntityPosition(entity, xy[0]|0, xy[1]|0);
+}
+
+var entities = document.querySelectorAll('[data-rotation]');
+for(var i=0, entity; entity = entities[i]; i++)
+  setEntityRotationDeg(entity, entity.dataset.rotation|0);
+</script>

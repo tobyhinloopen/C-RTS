@@ -13,7 +13,7 @@ CFLAGS = -Wall -g -std=c99
 
 # define any directories containing header files other than /usr/include
 #
-INCLUDES =
+INCLUDES = 
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
@@ -23,7 +23,7 @@ LFLAGS = -lm
 # define any libraries to link into executable:
 #   if I want to link in libraries (libx.so or libx.a) I use the -llibname
 #   option, something like (this will link in libmylib.so and libm.so:
-LIBS =
+LIBS = -framework SDL2
 
 # define the C source files
 SRCS = $(wildcard *.c)
