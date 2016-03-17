@@ -47,7 +47,7 @@ void test_unit_with_throttle_and_delta_does_move() {
   unit_initialize(&unit);
   unit.throttle = 1.0f;
   unit_update(&unit, 1.0f);
-  assert_position(0.0f, 1.0f);
+  assert_position(0.0f, 1.0f * UNIT_PIXELS_PER_SECOND);
 }
 
 void test_unit_moves_in_direction() {
@@ -55,7 +55,7 @@ void test_unit_moves_in_direction() {
   unit.throttle = 1.0f;
   unit.direction = HALF_PIf;
   unit_update(&unit, 1.0f);
-  assert_position(1.0f, 0.0f);
+  assert_position(1.0f * UNIT_PIXELS_PER_SECOND, 0.0f);
 }
 
 void assert_position(float x, float y) {

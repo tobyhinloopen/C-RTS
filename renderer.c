@@ -10,7 +10,6 @@ SDL_Window * create_sdl_window();
 void renderer_initialize(Renderer *renderer) {
   SDL_InitSubSystem(SDL_INIT_VIDEO);
   renderer->window = create_sdl_window();
-  renderer->surface = SDL_GetWindowSurface(renderer->window);
 }
 
 void renderer_deinitialize(Renderer *renderer) {

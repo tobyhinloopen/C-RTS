@@ -3,6 +3,8 @@
 
 #include "vector.h"
 
+extern const float UNIT_PIXELS_PER_SECOND;
+
 typedef struct {
   Vector position;
   float direction;

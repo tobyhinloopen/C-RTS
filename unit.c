@@ -1,6 +1,8 @@
 #include "unit.h"
 #include "vector.h"
 
+const float UNIT_PIXELS_PER_SECOND = 100;
+
 void unit_update_movement(Unit *unit, float delta);
 
 void unit_initialize(Unit *unit) {
@@ -15,7 +17,7 @@ void unit_update(Unit *unit, float delta) {
 }
 
 void unit_update_movement(Unit *unit, float delta) {
-  Vector movement = (Vector) { 0, unit->throttle * delta };
+  Vector movement = (Vector) { 0, unit->throttle * delta * UNIT_PIXELS_PER_SECOND };
   vector_rotate(&movement, unit->direction);
   vector_add(&unit->position, movement);
 }
