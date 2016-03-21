@@ -4,6 +4,8 @@
 #include "unit.h"
 #include "renderer.h"
 #include "test.h"
+#include "world.h"
+#include "pi.h"
 
 void render();
 
@@ -12,8 +14,6 @@ int main(int argc, char **argv) {
   render();
   return 0;
 }
-
-#include "world.h"
 
 void render() {
   Renderer renderer;
@@ -29,6 +29,7 @@ void render() {
   WorldUnit * world_unit = world_unit_allocate(&world);
   unit_initialize(&world_unit->unit);
   world_unit->unit.throttle = 1.0f;
+  world_unit->unit.direction = PI2f * -0.1f;
 
   SDL_InitSubSystem(SDL_INIT_TIMER);
   unsigned int start_time = SDL_GetTicks();
