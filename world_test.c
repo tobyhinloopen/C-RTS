@@ -5,6 +5,7 @@
 #include "unit.h"
 
 World world;
+int test_world_iterate_units_iterator_callback_called;
 
 void test_world_unit_allocate_single();
 void test_world_unit_allocate_multiple();
@@ -13,6 +14,7 @@ void test_world_unit_allocate_after_deallocate_once();
 void test_world_unit_allocate_after_deallocate_many_times();
 void allocate_and_deallocate_unit_once();
 void assert_allocated_unit(WorldUnit *);
+void test_world_iterate_units_iterator_callback(Unit * unit);
 
 void test_world() {
   test_world_initialize();
@@ -116,8 +118,22 @@ void test_world_update() {
   world_deinitialize(&world);
 }
 
+void test_world_iterate_units() {
+  world_initialize(&world);
+  test_world_iterate_units_iterator_callback_called = 0;
+  world_unit_allocate(&world);
+  world_unit_allocate(&world);
+  world_iterate_units(&world, test_world_iterate_units_iterator_callback);
+  assert(test_world_iterate_units_iterator_callback_called == 2);
+  world_deinitialize(&world);
+}
+
 void allocate_and_deallocate_unit_once() {
   world_unit_deallocate(&world, world_unit_allocate(&world));
+}
+
+void test_world_iterate_units_iterator_callback(Unit * unit) {
+  ++test_world_iterate_units_iterator_callback_called;
 }
 
 void assert_allocated_unit(WorldUnit * world_unit) {

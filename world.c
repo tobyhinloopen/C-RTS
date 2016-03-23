@@ -36,6 +36,18 @@ void world_update(World * world, float delta) {
   }
 }
 
+void world_iterate_units(World * world, void (* fn)(Unit * unit)) {
+  int unit_index = 0;
+  int world_unit_index = 0;
+  while(unit_index < world->unit_count) {
+    WorldUnit * world_unit = &world->units[world_unit_index++];
+    if(world_unit->alive) {
+      unit_index++;
+      (*fn)(&world_unit->unit);
+    }
+  }
+}
+
 void world_deinitialize(World * world) {
   free(world->units);
 }
