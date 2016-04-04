@@ -16,11 +16,11 @@ int main(int argc, char **argv) {
 }
 
 void render() {
-  Renderer renderer;
-  renderer_initialize(&renderer);
+  Renderer rts_renderer;
+  renderer_initialize(&rts_renderer);
 
-  SDL_Renderer * sdl_renderer = SDL_CreateRenderer(renderer.window, -1, 0);
-  if(!sdl_renderer)
+  SDL_Renderer * renderer = SDL_CreateRenderer(rts_renderer.window, -1, 0);
+  if(!renderer)
     printf("%s\n", SDL_GetError());
 
   World world;
@@ -34,6 +34,18 @@ void render() {
   SDL_InitSubSystem(SDL_INIT_TIMER);
   unsigned int start_time = SDL_GetTicks();
   unsigned int last_time = start_time;
+
+  SDL_Texture * texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 64, 64);
+  SDL_SetRenderTarget(renderer, texture);
+  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+  SDL_RenderClear(renderer);
+  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+  SDL_Rect rect = { 20, 16, 24, 32 };
+  SDL_RenderDrawRect(renderer, &rect);
+  SDL_SetRenderTarget(renderer, NULL);
+
+  const double RAD2DEG = 360 / PI2f;
+
   while(1) {
     SDL_Event event;
     if(SDL_PollEvent(&event) && event.type == SDL_QUIT)
@@ -44,11 +56,8 @@ void render() {
     if(delta > 0)
       world_update(&world, delta);
 
-    SDL_SetRenderDrawColor(sdl_renderer, 255, 255, 255, 255);
-    SDL_RenderClear(sdl_renderer);
-
-    SDL_SetRenderDrawColor(sdl_renderer, 255, 0, 0, 255);
-    SDL_Rect rect = { 0, 0, 24, 32 };
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderClear(renderer);
 
     int unit_index = 0;
     int world_unit_index = 0;
@@ -57,18 +66,17 @@ void render() {
       if(world_unit->alive) {
         unit_index++;
 
-        rect.x = world_unit->unit.position.x + 100;
-        rect.y = world_unit->unit.position.y + 100;
-        SDL_RenderDrawRect(sdl_renderer, &rect);
+        SDL_Rect dest_rect = { world_unit->unit.position.x - 32, world_unit->unit.position.y - 32, 64, 64 };
+        SDL_RenderCopyEx(renderer, texture, NULL, &dest_rect, world_unit->unit.direction * RAD2DEG, NULL, SDL_FLIP_NONE);
       }
     }
 
 
-    SDL_RenderPresent(sdl_renderer);
+    SDL_RenderPresent(renderer);
     last_time = current_time;
   }
   SDL_QuitSubSystem(SDL_INIT_TIMER);
   world_deinitialize(&world);
-  SDL_DestroyRenderer(sdl_renderer);
-  renderer_deinitialize(&renderer);
+  SDL_DestroyRenderer(renderer);
+  renderer_deinitialize(&rts_renderer);
 }

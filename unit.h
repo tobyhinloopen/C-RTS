@@ -7,6 +7,7 @@ extern const float UNIT_PIXELS_PER_SECOND;
 
 typedef struct {
   Vector position;
+  // Direction in radians
   float direction;
   float throttle;
 } Unit;
