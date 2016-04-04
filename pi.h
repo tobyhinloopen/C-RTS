@@ -4,5 +4,6 @@
 extern const float PI2f;
 extern const float PIf;
 extern const float HALF_PIf;
+extern const float RAD2DEGf;
 
 #endif
