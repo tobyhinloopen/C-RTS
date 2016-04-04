@@ -12,7 +12,6 @@ void render();
 
 int main(int argc, char **argv) {
   test();
-  srand(time(NULL));
   render();
   return 0;
 }
@@ -35,6 +34,8 @@ void render() {
 
   World world;
   world_initialize(&world);
+
+  srand(time(NULL));
 
   for(int i=0; i<1000; i++)
     setup_unit(&world_unit_allocate(&world)->unit);
