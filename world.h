@@ -19,7 +19,7 @@ void world_initialize(World *world);
 WorldUnit * world_unit_allocate(World *world);
 void world_unit_deallocate(World *world, WorldUnit *unit);
 void world_update(World *world, float delta);
-void world_iterate_units(World * world, void (*)(Unit *));
+void world_iterate_units(World * world, void * arg, void (*)(Unit *, void *));
 void world_deinitialize(World *world);
 
 #endif

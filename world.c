@@ -4,6 +4,7 @@
 
 const unsigned int REALLOC_UNITS_INCREMENT = 256;
 void world_increase_unit_pool_size(World * world);
+void world_unit_update(Unit * unit, void * delta_fp);
 
 void world_initialize(World * world) {
   world->unit_count = 0;
@@ -25,25 +26,21 @@ void world_unit_deallocate(World * world, WorldUnit * world_unit) {
 }
 
 void world_update(World * world, float delta) {
-  int unit_index = 0;
-  int world_unit_index = 0;
-  while(unit_index < world->unit_count) {
-    WorldUnit * world_unit = &world->units[world_unit_index++];
-    if(world_unit->alive) {
-      unit_index++;
-      unit_update(&world_unit->unit, delta);
-    }
-  }
+  world_iterate_units(world, &delta, world_unit_update);
 }
 
-void world_iterate_units(World * world, void (* fn)(Unit * unit)) {
+void world_unit_update(Unit * unit, void * delta) {
+  unit_update(unit, *((float*)delta));
+}
+
+void world_iterate_units(World * world, void * arg, void (* fn)(Unit * unit, void * arg)) {
   int unit_index = 0;
   int world_unit_index = 0;
   while(unit_index < world->unit_count) {
     WorldUnit * world_unit = &world->units[world_unit_index++];
     if(world_unit->alive) {
       unit_index++;
-      (*fn)(&world_unit->unit);
+      (*fn)(&world_unit->unit, arg);
     }
   }
 }

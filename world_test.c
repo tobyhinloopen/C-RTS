@@ -14,7 +14,7 @@ void test_world_unit_allocate_after_deallocate_once();
 void test_world_unit_allocate_after_deallocate_many_times();
 void allocate_and_deallocate_unit_once();
 void assert_allocated_unit(WorldUnit *);
-void test_world_iterate_units_iterator_callback(Unit * unit);
+void test_world_iterate_units_iterator_callback(Unit *, void *);
 
 void test_world() {
   test_world_initialize();
@@ -123,7 +123,7 @@ void test_world_iterate_units() {
   test_world_iterate_units_iterator_callback_called = 0;
   world_unit_allocate(&world);
   world_unit_allocate(&world);
-  world_iterate_units(&world, test_world_iterate_units_iterator_callback);
+  world_iterate_units(&world, NULL, test_world_iterate_units_iterator_callback);
   assert(test_world_iterate_units_iterator_callback_called == 2);
   world_deinitialize(&world);
 }
@@ -132,7 +132,7 @@ void allocate_and_deallocate_unit_once() {
   world_unit_deallocate(&world, world_unit_allocate(&world));
 }
 
-void test_world_iterate_units_iterator_callback(Unit * unit) {
+void test_world_iterate_units_iterator_callback(Unit * unit, void * arg) {
   ++test_world_iterate_units_iterator_callback_called;
 }
 
