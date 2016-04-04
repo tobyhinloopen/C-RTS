@@ -36,7 +36,7 @@ void render() {
   World world;
   world_initialize(&world);
 
-  for(int i=0; i<10; i++)
+  for(int i=0; i<1000; i++)
     setup_unit(&world_unit_allocate(&world)->unit);
 
   SDL_InitSubSystem(SDL_INIT_TIMER);
