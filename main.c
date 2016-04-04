@@ -30,8 +30,8 @@ void setup_unit(Unit * unit) {
 }
 
 void render() {
-  Renderer rts_renderer;
-  renderer_initialize(&rts_renderer);
+  Renderer renderer;
+  renderer_initialize(&renderer);
 
   World world;
   world_initialize(&world);
@@ -53,14 +53,14 @@ void render() {
     if(delta > 0)
       world_update(&world, delta);
 
-    renderer_clear_color(&rts_renderer, 255, 255, 255, 255);
-    renderer_render_world(&rts_renderer, &world);
-    renderer_present(&rts_renderer);
+    renderer_clear_color(&renderer, 255, 255, 255, 255);
+    renderer_render_world(&renderer, &world);
+    renderer_present(&renderer);
 
     last_time = current_time;
   }
 
   SDL_QuitSubSystem(SDL_INIT_TIMER);
   world_deinitialize(&world);
-  renderer_deinitialize(&rts_renderer);
+  renderer_deinitialize(&renderer);
 }
