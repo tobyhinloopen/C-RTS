@@ -43,6 +43,7 @@ void render() {
   SDL_Rect rect = { 20, 16, 24, 32 };
   SDL_RenderDrawRect(renderer, &rect);
   SDL_SetRenderTarget(renderer, NULL);
+  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
   const double RAD2DEG = 360 / PI2f;
 
@@ -56,7 +57,6 @@ void render() {
     if(delta > 0)
       world_update(&world, delta);
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
     int unit_index = 0;
@@ -65,7 +65,6 @@ void render() {
       WorldUnit * world_unit = &world.units[world_unit_index++];
       if(world_unit->alive) {
         unit_index++;
-
         SDL_Rect dest_rect = { world_unit->unit.position.x - 32, world_unit->unit.position.y - 32, 64, 64 };
         SDL_RenderCopyEx(renderer, texture, NULL, &dest_rect, world_unit->unit.direction * RAD2DEG, NULL, SDL_FLIP_NONE);
       }
