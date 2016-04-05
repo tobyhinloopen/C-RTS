@@ -22,6 +22,7 @@ float randf() {
 
 void setup_unit(Unit * unit) {
   unit_initialize(unit);
+  unit->angular_throttle = -.25f + .5f * randf();
   unit->throttle = .5f + .5f * randf();
   unit->position.x = -200.f + randf() * 400.f;
   unit->position.y = -200.f + randf() * 400.f;
