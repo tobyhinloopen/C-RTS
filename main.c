@@ -14,8 +14,10 @@ float randf();
 int event_is_window_resize(SDL_Event * event, SDL_Window * window);
 int event_is_quit_request(SDL_Event * event);
 
-int team_colors[] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
-float team_spawns[][2] = { { -320, 240 }, { 320, 240 }, { -320, -240 }, { 320, -240 } };
+const int TEAM_COUNT = 4;
+const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
+const float TEAM_SPAWN[TEAM_COUNT][2] = { { -320, 240 }, { 320, 240 }, { -320, -240 }, { 320, -240 } };
+const int UNIT_SPAWN_INTERVAL = 100;
 
 int main(int argc, char **argv) {
   test();
@@ -32,12 +34,13 @@ void render() {
 
   srand(time(NULL));
 
-  for(int i=0; i<1000; i++)
+  for(int i=0; i<4; i++)
     setup_unit(&world_unit_allocate(&world)->unit);
 
   SDL_InitSubSystem(SDL_INIT_TIMER);
   unsigned int start_time = SDL_GetTicks();
   unsigned int last_time = start_time;
+  unsigned int last_spawn_time = last_time;
 
   int is_quit_requested = 0;
   while(!is_quit_requested) {
@@ -50,6 +53,12 @@ void render() {
     }
 
     unsigned int current_time = SDL_GetTicks();
+
+    while(last_spawn_time + UNIT_SPAWN_INTERVAL <= current_time) {
+      last_spawn_time += UNIT_SPAWN_INTERVAL;
+      setup_unit(&world_unit_allocate(&world)->unit);
+    }
+
     float delta = (current_time - last_time) / 1000.f;
     if(delta > 0)
       world_update(&world, delta);
@@ -73,10 +82,10 @@ void setup_unit(Unit * unit) {
   unit->head_throttle = -1 + 2 * randf();
   unit->direction = PI2f * -.5f + randf() * PI2f;
 
-  int team_offset = (int)(randf() * sizeof(team_colors) / sizeof(int));
-  unit->team_id = team_colors[team_offset];
-  unit->position.x = team_spawns[team_offset][0] + -80.f + randf() * 160.f;
-  unit->position.y = team_spawns[team_offset][1] + -80.f + randf() * 160.f;
+  int team_offset = randf() * TEAM_COUNT;
+  unit->team_id = TEAM_COLOR[team_offset];
+  unit->position.x = TEAM_SPAWN[team_offset][0] + -80.f + randf() * 160.f;
+  unit->position.y = TEAM_SPAWN[team_offset][1] + -80.f + randf() * 160.f;
 }
 
 float randf() {
