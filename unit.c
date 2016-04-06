@@ -26,7 +26,6 @@ void unit_update(Unit * unit, float delta) {
     unit_update_straight_movement(unit, delta);
   else if(unit->angular_throttle != 0)
     unit_update_angular_movement(unit, delta);
-
   if(unit->head_throttle != 0)
     unit_update_head_direction(unit, delta);
 }
@@ -40,9 +39,8 @@ void unit_update_straight_movement(Unit * unit, float delta) {
 
 void unit_update_angular_movement(Unit * unit, float delta) {
   float angular_motion = unit->angular_throttle * UNIT_RADIANS_PER_SECOND;
+  float movement_radius = unit->throttle * UNIT_PIXELS_PER_SECOND / angular_motion;
   float angular_movement = angular_motion * delta;
-  float forward_motion = unit->throttle * UNIT_PIXELS_PER_SECOND;
-  float movement_radius = PI2f / angular_motion * forward_motion / PI2f;
 
   Vector movement = (Vector) { movement_radius, 0 };
   vector_rotate(&movement, angular_movement);
