@@ -14,6 +14,7 @@ typedef struct {
   float head_throttle;
   float angular_throttle;
   float throttle;
+  int team_id;
 } Unit;
 
 void unit_initialize(Unit *unit);

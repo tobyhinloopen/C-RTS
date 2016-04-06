@@ -14,6 +14,8 @@ float randf();
 int event_is_window_resize(SDL_Event * event, SDL_Window * window);
 int event_is_quit_request(SDL_Event * event);
 
+int team_colors[] = { 0xFF0000, 0x00FF00, 0x0000FF };
+
 int main(int argc, char **argv) {
   test();
   render();
@@ -71,6 +73,7 @@ void setup_unit(Unit * unit) {
   unit->position.y = -200.f + randf() * 400.f;
   unit->head_throttle = -1 + 2 * randf();
   unit->direction = PI2f * -.5f + randf() * PI2f;
+  unit->team_id = team_colors[(int)(randf() * sizeof(team_colors) / sizeof(int))];
 }
 
 float randf() {

@@ -54,13 +54,13 @@ void initialize_texture(SDL_Renderer * renderer, SDL_Texture ** texture, Rendere
 }
 
 void render_unit_texture(SDL_Renderer * renderer, SDL_Texture * texture) {
-  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
   SDL_Rect rect = { HALF_UNIT_TEXTURE_SIZE-12, HALF_UNIT_TEXTURE_SIZE-16, 24, 32 };
   SDL_RenderDrawRect(renderer, &rect);
 }
 
 void render_unit_head_texture(SDL_Renderer * renderer, SDL_Texture * texture) {
-  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
   SDL_RenderDrawLine(renderer,
     HALF_UNIT_TEXTURE_SIZE, HALF_UNIT_TEXTURE_SIZE+4,
     HALF_UNIT_TEXTURE_SIZE-8, HALF_UNIT_TEXTURE_SIZE-4);
@@ -79,6 +79,14 @@ void sdl_renderer_clear_color(SDL_Renderer * renderer, Uint8 r, Uint8 g, Uint8 b
 }
 
 void renderer_render_unit(Renderer * renderer, Unit * unit) {
+
+  unsigned char rgb[3];
+  rgb[2] = 0xFF & unit->team_id;
+  rgb[1] = 0xFF & (unit->team_id >> 8);
+  rgb[0] = 0xFF & (unit->team_id >> 16);
+  SDL_SetTextureColorMod(renderer->unit_texture,      rgb[0], rgb[1], rgb[2]);
+  SDL_SetTextureColorMod(renderer->unit_head_texture, rgb[0], rgb[1], rgb[2]);
+
   SDL_Rect dest_rect = {
     unit->position.x - HALF_UNIT_TEXTURE_SIZE + renderer->viewport_width/2,
     unit->position.y - HALF_UNIT_TEXTURE_SIZE + renderer->viewport_height/2,

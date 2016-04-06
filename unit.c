@@ -18,6 +18,7 @@ void unit_initialize(Unit * unit) {
   unit->throttle = 0;
   unit->head_direction = 0;
   unit->head_throttle = 0;
+  unit->team_id = 0;
 }
 
 void unit_update(Unit * unit, float delta) {
