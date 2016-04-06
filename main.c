@@ -47,7 +47,7 @@ void render() {
     }
 
     unsigned int current_time = SDL_GetTicks();
-    float delta = (current_time - last_time) / 1000.0f;
+    float delta = (current_time - last_time) / 1000.f;
     if(delta > 0)
       world_update(&world, delta);
 

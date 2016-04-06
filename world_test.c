@@ -28,7 +28,7 @@ void test_world_initialize() {
   world_initialize(&world);
   assert(world.unit_count == 0);
   assert(world.unit_pool_size == 0);
-  assert(world.time == 0.0f);
+  assert(world.time == 0);
   world_deinitialize(&world);
 }
 
