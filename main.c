@@ -9,24 +9,15 @@
 #include "pi.h"
 
 void render();
+void setup_unit(Unit * unit);
+float randf();
+int event_is_window_resize(SDL_Event * event, SDL_Window * window);
+int event_is_quit_request(SDL_Event * event);
 
 int main(int argc, char **argv) {
   test();
   render();
   return 0;
-}
-
-float randf() {
-  return (float)((double)rand() / RAND_MAX);
-}
-
-void setup_unit(Unit * unit) {
-  unit_initialize(unit);
-  unit->angular_throttle = -.25f + .5f * randf();
-  unit->throttle = .5f + .5f * randf();
-  unit->position.x = -200.f + randf() * 400.f;
-  unit->position.y = -200.f + randf() * 400.f;
-  unit->direction = PI2f * -.5f + randf() * PI2f;
 }
 
 void render() {
@@ -45,10 +36,15 @@ void render() {
   unsigned int start_time = SDL_GetTicks();
   unsigned int last_time = start_time;
 
-  while(1) {
+  int is_quit_requested = 0;
+  while(!is_quit_requested) {
     SDL_Event event;
-    if(SDL_PollEvent(&event) && event.type == SDL_QUIT)
-      break;
+    while(SDL_PollEvent(&event)) {
+      if(event_is_quit_request(&event))
+        is_quit_requested = 1;
+      else if(event_is_window_resize(&event, renderer.window))
+        renderer_notify_viewport_resized(&renderer);
+    }
 
     unsigned int current_time = SDL_GetTicks();
     float delta = (current_time - last_time) / 1000.0f;
@@ -65,4 +61,28 @@ void render() {
   SDL_QuitSubSystem(SDL_INIT_TIMER);
   world_deinitialize(&world);
   renderer_deinitialize(&renderer);
+}
+
+void setup_unit(Unit * unit) {
+  unit_initialize(unit);
+  unit->angular_throttle = -1 + 2 * randf();
+  unit->throttle = .5f + .5f * randf();
+  unit->position.x = -200.f + randf() * 400.f;
+  unit->position.y = -200.f + randf() * 400.f;
+  unit->head_throttle = -1 + 2 * randf();
+  unit->direction = PI2f * -.5f + randf() * PI2f;
+}
+
+float randf() {
+  return (float)((double)rand() / RAND_MAX);
+}
+
+int event_is_quit_request(SDL_Event * event) {
+  return event->type == SDL_QUIT;
+}
+
+int event_is_window_resize(SDL_Event * event, SDL_Window * window) {
+  return event->type == SDL_WINDOWEVENT
+    && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED
+    && event->window.windowID == SDL_GetWindowID(window);
 }

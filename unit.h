@@ -5,10 +5,13 @@
 
 extern const float UNIT_PIXELS_PER_SECOND;
 extern const float UNIT_RADIANS_PER_SECOND;
+extern const float UNIT_HEAD_RADIANS_PER_SECOND;
 
 typedef struct {
   Vector position;
   float direction; // Direction in radians
+  float head_direction;
+  float head_throttle;
   float angular_throttle;
   float throttle;
 } Unit;
