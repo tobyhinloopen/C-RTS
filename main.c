@@ -14,7 +14,8 @@ float randf();
 int event_is_window_resize(SDL_Event * event, SDL_Window * window);
 int event_is_quit_request(SDL_Event * event);
 
-int team_colors[] = { 0xFF0000, 0x00FF00, 0x0000FF };
+int team_colors[] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
+float team_spawns[][2] = { { -200.f, 200.f }, { 200.f, 200.f }, { -200.f, -200.f }, { 200.f, -200.f } };
 
 int main(int argc, char **argv) {
   test();
@@ -31,7 +32,7 @@ void render() {
 
   srand(time(NULL));
 
-  for(int i=0; i<1000; i++)
+  for(int i=0; i<100; i++)
     setup_unit(&world_unit_allocate(&world)->unit);
 
   SDL_InitSubSystem(SDL_INIT_TIMER);
@@ -69,11 +70,13 @@ void setup_unit(Unit * unit) {
   unit_initialize(unit);
   unit->angular_throttle = -1 + 2 * randf();
   unit->throttle = .5f + .5f * randf();
-  unit->position.x = -200.f + randf() * 400.f;
-  unit->position.y = -200.f + randf() * 400.f;
   unit->head_throttle = -1 + 2 * randf();
   unit->direction = PI2f * -.5f + randf() * PI2f;
-  unit->team_id = team_colors[(int)(randf() * sizeof(team_colors) / sizeof(int))];
+
+  int team_offset = (int)(randf() * sizeof(team_colors) / sizeof(int));
+  unit->team_id = team_colors[team_offset];
+  unit->position.x = team_spawns[team_offset][0] + -80.f + randf() * 160.f;
+  unit->position.y = team_spawns[team_offset][1] + -80.f + randf() * 160.f;
 }
 
 float randf() {
