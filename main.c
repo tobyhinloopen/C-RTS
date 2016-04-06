@@ -80,7 +80,8 @@ void setup_unit(Unit * unit) {
   unit->angular_throttle = -1 + 2 * randf();
   unit->throttle = .5f + .5f * randf();
   unit->head_throttle = -1 + 2 * randf();
-  unit->direction = PI2f * -.5f + randf() * PI2f;
+  unit->head_direction = (-.5f + randf()) * PI2f;
+  unit->direction = (-.5f + randf()) * PI2f;
 
   int team_offset = randf() * TEAM_COUNT;
   unit->team_id = TEAM_COLOR[team_offset];
