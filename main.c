@@ -15,7 +15,7 @@ int event_is_window_resize(SDL_Event * event, SDL_Window * window);
 int event_is_quit_request(SDL_Event * event);
 
 int team_colors[] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
-float team_spawns[][2] = { { -200.f, 200.f }, { 200.f, 200.f }, { -200.f, -200.f }, { 200.f, -200.f } };
+float team_spawns[][2] = { { -320, 240 }, { 320, 240 }, { -320, -240 }, { 320, -240 } };
 
 int main(int argc, char **argv) {
   test();
@@ -32,7 +32,7 @@ void render() {
 
   srand(time(NULL));
 
-  for(int i=0; i<100; i++)
+  for(int i=0; i<1000; i++)
     setup_unit(&world_unit_allocate(&world)->unit);
 
   SDL_InitSubSystem(SDL_INIT_TIMER);
