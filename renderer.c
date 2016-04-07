@@ -47,7 +47,7 @@ void initialize_unit_head_texture(Renderer * renderer) {
 }
 
 void initialize_texture(SDL_Renderer * renderer, SDL_Texture ** texture, RendererRenderFunction render_fn) {
-  (*texture) = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
+  *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
     SDL_TEXTUREACCESS_TARGET, UNIT_TEXTURE_SIZE, UNIT_TEXTURE_SIZE);
   SDL_SetTextureBlendMode(*texture, SDL_BLENDMODE_BLEND);
   SDL_SetRenderTarget(renderer, *texture);
