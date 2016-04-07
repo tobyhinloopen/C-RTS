@@ -11,12 +11,12 @@ const int INITIAL_WINDOW_HEIGHT = 480;
 const int HALF_UNIT_TEXTURE_SIZE = 32;
 const int UNIT_TEXTURE_SIZE = HALF_UNIT_TEXTURE_SIZE*2;
 
-typedef void (* RendererRenderFunction)(SDL_Renderer *, SDL_Texture *);
+typedef void (* RenderFunction)(SDL_Renderer *, SDL_Texture *);
 typedef union { Uint32 color; struct { Uint8 b; Uint8 g; Uint8 r; }; } RendererColor;
 
 SDL_Window * create_sdl_window();
 SDL_Renderer * create_sdl_renderer(SDL_Window *);
-void initialize_texture(SDL_Renderer *, SDL_Texture **, RendererRenderFunction);
+void initialize_texture(SDL_Renderer *, SDL_Texture **, RenderFunction);
 void render_unit_texture(SDL_Renderer * renderer, SDL_Texture * texture);
 void render_unit_head_texture(SDL_Renderer * renderer, SDL_Texture * texture);
 void initialize_unit_texture(Renderer *);
@@ -46,7 +46,7 @@ void initialize_unit_head_texture(Renderer * renderer) {
   initialize_texture(renderer->renderer, &renderer->unit_head_texture, render_unit_head_texture);
 }
 
-void initialize_texture(SDL_Renderer * renderer, SDL_Texture ** texture, RendererRenderFunction render_fn) {
+void initialize_texture(SDL_Renderer * renderer, SDL_Texture ** texture, RenderFunction render_fn) {
   *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
     SDL_TEXTUREACCESS_TARGET, UNIT_TEXTURE_SIZE, UNIT_TEXTURE_SIZE);
   SDL_SetTextureBlendMode(*texture, SDL_BLENDMODE_BLEND);
