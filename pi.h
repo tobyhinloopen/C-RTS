@@ -1,9 +1,8 @@
 #ifndef PI_H
 #define PI_H
 
-extern const float PI2f;
-extern const float PIf;
-extern const float HALF_PIf;
-extern const float RAD2DEGf;
+#define PI      3.14159265359
+#define PI2     6.28318530718
+#define HALF_PI 1.57079632679
 
 #endif

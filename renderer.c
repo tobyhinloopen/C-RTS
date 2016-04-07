@@ -3,6 +3,8 @@
 #include "renderer.h"
 #include "pi.h"
 
+const float RAD2DEGf = 360 / PI2;
+
 const int INITIAL_WINDOW_WIDTH = 640;
 const int INITIAL_WINDOW_HEIGHT = 480;
 

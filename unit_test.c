@@ -57,14 +57,14 @@ void text_unit_with_throttle_and_angular_throttle_turns_half_a_circle() {
   unit_initialize(&unit);
   unit.throttle = 1;
   unit.angular_throttle = -1;
-  unit_update(&unit, PIf / UNIT_RADIANS_PER_SECOND);
-  assert_position_within_delta(UNIT_PIXELS_PER_SECOND / HALF_PIf, 0, 0.05);
+  unit_update(&unit, PI / UNIT_RADIANS_PER_SECOND);
+  assert_position_within_delta(UNIT_PIXELS_PER_SECOND / HALF_PI, 0, 0.05);
 }
 
 void test_unit_moves_in_direction() {
   unit_initialize(&unit);
   unit.throttle = 1;
-  unit.direction = HALF_PIf;
+  unit.direction = HALF_PI;
   unit_update(&unit, 1);
   assert_position(1 * UNIT_PIXELS_PER_SECOND, 0);
 }

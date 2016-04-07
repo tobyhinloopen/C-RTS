@@ -1,10 +1,11 @@
 #include "unit.h"
 #include "vector.h"
 #include "pi.h"
+#include <math.h>
 
 const float UNIT_PIXELS_PER_SECOND = 100;
-const float UNIT_RADIANS_PER_SECOND = 3.1415927f;
-const float UNIT_HEAD_RADIANS_PER_SECOND = 3.1415927f;
+const float UNIT_RADIANS_PER_SECOND = PI;
+const float UNIT_HEAD_RADIANS_PER_SECOND = PI;
 
 void unit_update_movement(Unit *, float delta);
 void unit_update_straight_movement(Unit *, float delta);
@@ -32,9 +33,8 @@ void unit_update(Unit * unit, float delta) {
 
 void unit_update_straight_movement(Unit * unit, float delta) {
   float forward_movement = unit->throttle * UNIT_PIXELS_PER_SECOND * delta;
-  Vector movement = (Vector) { 0, forward_movement };
-  vector_rotate(&movement, unit->direction);
-  vector_add(&unit->position, movement);
+  unit->position.x -= forward_movement * sinf(unit->direction);
+  unit->position.y += forward_movement * cosf(unit->direction);
 }
 
 void unit_update_angular_movement(Unit * unit, float delta) {
@@ -42,9 +42,10 @@ void unit_update_angular_movement(Unit * unit, float delta) {
   float movement_radius = unit->throttle * UNIT_PIXELS_PER_SECOND / angular_motion;
   float angular_movement = angular_motion * delta;
 
-  Vector movement = (Vector) { movement_radius, 0 };
-  vector_rotate(&movement, angular_movement);
-  movement.x -= movement_radius;
+  Vector movement = {
+    movement_radius * cosf(angular_movement) - movement_radius,
+    movement_radius * sinf(angular_movement)
+  };
 
   vector_rotate(&movement, unit->direction);
   vector_add(&unit->position, movement);
