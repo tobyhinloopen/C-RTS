@@ -12,6 +12,7 @@ const int HALF_UNIT_TEXTURE_SIZE = 32;
 const int UNIT_TEXTURE_SIZE = HALF_UNIT_TEXTURE_SIZE*2;
 
 typedef void (* RendererRenderFunction)(SDL_Renderer *, SDL_Texture *);
+typedef union { Uint32 color; struct { Uint8 b; Uint8 g; Uint8 r; }; } RendererColor;
 
 SDL_Window * create_sdl_window();
 SDL_Renderer * create_sdl_renderer(SDL_Window *);
@@ -81,13 +82,9 @@ void sdl_renderer_clear_color(SDL_Renderer * renderer, Uint8 r, Uint8 g, Uint8 b
 }
 
 void renderer_render_unit(Renderer * renderer, Unit * unit) {
-
-  unsigned char rgb[3];
-  rgb[2] = 0xFF & unit->team_id;
-  rgb[1] = 0xFF & (unit->team_id >> 8);
-  rgb[0] = 0xFF & (unit->team_id >> 16);
-  SDL_SetTextureColorMod(renderer->unit_texture,      rgb[0], rgb[1], rgb[2]);
-  SDL_SetTextureColorMod(renderer->unit_head_texture, rgb[0], rgb[1], rgb[2]);
+  RendererColor color = { unit->team_id };
+  SDL_SetTextureColorMod(renderer->unit_texture, color.r, color.g, color.b);
+  SDL_SetTextureColorMod(renderer->unit_head_texture, color.r, color.g, color.b);
 
   SDL_Rect dest_rect = {
     unit->position.x - HALF_UNIT_TEXTURE_SIZE + renderer->viewport_width/2,
