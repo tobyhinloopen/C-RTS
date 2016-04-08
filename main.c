@@ -82,7 +82,7 @@ void render() {
 
 void update_unit_movement(Unit * unit, void * _) {
   Vector target_position = { 0, 0 };
-  unit_movement_set_target_position(unit, target_position, 0);
+  unit_movement_set_target_position(unit, target_position, 24);
 }
 
 void setup_unit(Unit * unit) {

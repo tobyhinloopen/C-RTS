@@ -5,6 +5,7 @@
 void unit_movement_set_target_position(Unit * unit, Vector target_position, float min_distance) {
   if(vector_distance(unit->position, target_position) < min_distance) {
     unit->throttle = 0;
+    unit->angular_throttle = 0;
   } else {
     unit->throttle = 1;
     Vector target_movement = target_position;
