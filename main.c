@@ -7,12 +7,15 @@
 #include "test.h"
 #include "world.h"
 #include "pi.h"
+#include "vector.h"
+#include "unit/movement.h"
 
 void render();
-void setup_unit(Unit * unit);
+void setup_unit(Unit *);
 float randf();
-int event_is_window_resize(SDL_Event * event, SDL_Window * window);
-int event_is_quit_request(SDL_Event * event);
+int event_is_window_resize(SDL_Event *, SDL_Window *);
+int event_is_quit_request(SDL_Event *);
+void update_unit_movement(Unit *, void *);
 
 const int TEAM_COUNT = 4;
 const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
@@ -34,7 +37,7 @@ void render() {
 
   srand(time(NULL));
 
-  for(int i=0; i<4; i++)
+  for(int i=0; i<1; i++)
     setup_unit(&world_unit_allocate(&world)->unit);
 
   SDL_InitSubSystem(SDL_INIT_TIMER);
@@ -54,10 +57,12 @@ void render() {
 
     unsigned int current_time = SDL_GetTicks();
 
-    while(last_spawn_time + UNIT_SPAWN_INTERVAL <= current_time) {
-      last_spawn_time += UNIT_SPAWN_INTERVAL;
-      setup_unit(&world_unit_allocate(&world)->unit);
-    }
+    // while(last_spawn_time + UNIT_SPAWN_INTERVAL <= current_time) {
+    //   last_spawn_time += UNIT_SPAWN_INTERVAL;
+    //   setup_unit(&world_unit_allocate(&world)->unit);
+    // }
+
+    world_iterate_units(&world, NULL, update_unit_movement);
 
     float delta = (current_time - last_time) / 1000.f;
     if(delta > 0)
@@ -75,12 +80,17 @@ void render() {
   renderer_deinitialize(&renderer);
 }
 
+void update_unit_movement(Unit * unit, void * _) {
+  Vector target_position = { 0, 0 };
+  unit_movement_set_target_position(unit, target_position, 0);
+}
+
 void setup_unit(Unit * unit) {
   unit_initialize(unit);
-  unit->angular_throttle = -1 + 2 * randf();
-  unit->throttle = .5f + .5f * randf();
-  unit->head_throttle = -1 + 2 * randf();
-  unit->head_direction = (-.5f + randf()) * PI2;
+  // unit->angular_throttle = -1 + 2 * randf();
+  // unit->throttle = .5f + .5f * randf();
+  // unit->head_throttle = -1 + 2 * randf();
+  // unit->head_direction = (-.5f + randf()) * PI2;
   unit->direction = (-.5f + randf()) * PI2;
 
   int team_offset = randf() * TEAM_COUNT;

@@ -13,7 +13,7 @@ CFLAGS = -Wall -g -std=c99
 
 # define any directories containing header files other than /usr/include
 #
-INCLUDES = 
+INCLUDES =
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
@@ -26,7 +26,7 @@ LFLAGS = -lm
 LIBS = -framework SDL2
 
 # define the C source files
-SRCS = $(wildcard *.c)
+SRCS = $(wildcard **/*.c *.c)
 
 # define the C object files
 #
@@ -62,7 +62,7 @@ $(MAIN): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<  -o $@
 
 clean:
-	$(RM) *.o *~ $(MAIN)
+	$(RM) **/*.o *.o *~ $(MAIN)
 
 depend: $(SRCS)
 	makedepend $(INCLUDES) $^

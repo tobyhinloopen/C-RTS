@@ -1,7 +1,7 @@
 #include <math.h>
 #include "vector.h"
 
-void vector_initialize(Vector *vector) {
+void vector_initialize(Vector * vector) {
   vector->x = 0;
   vector->y = 0;
 }
@@ -18,7 +18,18 @@ void vector_add(Vector * vector, Vector other) {
   vector->y += other.y;
 }
 
+void vector_subtract(Vector * vector, Vector other) {
+  vector->x -= other.x;
+  vector->y -= other.y;
+}
+
 void vector_multiply(Vector * vector, Vector other) {
   vector->x *= other.x;
   vector->y *= other.y;
+}
+
+float vector_distance(Vector a, Vector b) {
+  float dx = a.x - b.x;
+  float dy = a.y - a.y;
+  return sqrtf(dx * dx + dy * dy);
 }
