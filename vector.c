@@ -1,5 +1,6 @@
 #include <math.h>
 #include "vector.h"
+#include "pi.h"
 
 void vector_initialize(Vector * vector) {
   vector->x = 0;
@@ -30,6 +31,15 @@ void vector_multiply(Vector * vector, Vector other) {
 
 float vector_distance(Vector a, Vector b) {
   float dx = a.x - b.x;
-  float dy = a.y - a.y;
+  float dy = a.y - b.y;
   return sqrtf(dx * dx + dy * dy);
+}
+
+float vector_angle(Vector vector) {
+  return atan2f(vector.y, vector.x);
+}
+
+float vector_angle_between(Vector a, Vector b) {
+  vector_subtract(&b, a);
+  return vector_angle(b);
 }

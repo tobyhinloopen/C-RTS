@@ -15,11 +15,11 @@ typedef struct {
   unsigned int unit_pool_size;
 } World;
 
-void world_initialize(World *world);
-WorldUnit * world_unit_allocate(World *world);
-void world_unit_deallocate(World *world, WorldUnit *unit);
-void world_update(World *world, float delta);
-void world_iterate_units(World * world, void * arg, void (*)(Unit *, void *));
-void world_deinitialize(World *world);
+void world_initialize(World *);
+WorldUnit * world_unit_allocate(World *);
+void world_unit_deallocate(World *, WorldUnit *);
+void world_update(World *, float delta);
+void world_iterate_units(World *, void *, void (*)(Unit *, void *));
+void world_deinitialize(World *);
 
 #endif

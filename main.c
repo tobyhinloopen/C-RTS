@@ -8,28 +8,55 @@
 #include "world.h"
 #include "pi.h"
 #include "vector.h"
-#include "unit/movement.h"
-
-void render();
-void setup_unit(Unit *);
-float rand_rangef(float min, float max);
-int rand_rangei(int min, int max);
-int event_is_window_resize(SDL_Event *, SDL_Window *);
-int event_is_quit_request(SDL_Event *);
-void update_unit_movement(Unit *, void *);
+#include "unit/behavior.h"
 
 const int TEAM_COUNT = 4;
 const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
-const float TEAM_SPAWN[TEAM_COUNT][2] = { { -320, 240 }, { 320, 240 }, { -320, -240 }, { 320, -240 } };
-const int UNIT_SPAWN_INTERVAL = 100;
+const float TEAM_SPAWN[TEAM_COUNT][2] = { { -240, 240 }, { 240, 240 }, { -240, -240 }, { 240, -240 } };
 
-int main(int argc, char **argv) {
-  test();
-  render();
-  return 0;
+const int UNIT_INITIAL_SPAWN_COUNT = 10;
+const int UNIT_SPAWN_INTERVAL_MS = 100;
+
+static void update_unit_behavior(Unit * unit, void * world_ptr) {
+  World * world = (World*)world_ptr;
+  Unit * closest_enemy_unit = unit_behavior_find_closest_enemy_unit(unit, world);
+  if(closest_enemy_unit) {
+    unit_behavior_look_at(unit, closest_enemy_unit->position);
+    unit_behavior_set_target_position(unit, closest_enemy_unit->position, -1);
+  } else {
+    unit_behavior_look_forward(unit);
+    unit_behavior_stop(unit);
+  }
 }
 
-void render() {
+static float rand_rangef(float min, float max) {
+  return min + ((double)rand() / RAND_MAX) * (max - min);
+}
+
+static int rand_rangei(int min, int max) {
+  return rand_rangef(min, max);
+}
+
+static void setup_unit(Unit * unit) {
+  unit_initialize(unit);
+  unit->direction = rand_rangef(0, PI2);
+  int team_offset = rand_rangei(0, TEAM_COUNT);
+  unit->team_id = TEAM_COLOR[team_offset];
+  unit->position.x = TEAM_SPAWN[team_offset][0] + rand_rangef(-80, 80);
+  unit->position.y = TEAM_SPAWN[team_offset][1] + rand_rangef(-80, 80);
+}
+
+static int event_is_quit_request(SDL_Event * event) {
+  return event->type == SDL_QUIT;
+}
+
+static int event_is_window_resize(SDL_Event * event, SDL_Window * window) {
+  return event->type == SDL_WINDOWEVENT
+    && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED
+    && event->window.windowID == SDL_GetWindowID(window);
+}
+
+static void render() {
   Renderer renderer;
   renderer_initialize(&renderer);
 
@@ -38,13 +65,13 @@ void render() {
 
   srand(time(NULL));
 
-  for(int i=0; i<1; i++)
+  for(int i=0; i<UNIT_INITIAL_SPAWN_COUNT; i++)
     setup_unit(&world_unit_allocate(&world)->unit);
 
   SDL_InitSubSystem(SDL_INIT_TIMER);
   unsigned int start_time = SDL_GetTicks();
   unsigned int last_time = start_time;
-  // unsigned int last_spawn_time = last_time;
+  unsigned int last_spawn_time = last_time;
 
   int is_quit_requested = 0;
   while(!is_quit_requested) {
@@ -58,12 +85,12 @@ void render() {
 
     unsigned int current_time = SDL_GetTicks();
 
-    // while(last_spawn_time + UNIT_SPAWN_INTERVAL <= current_time) {
-    //   last_spawn_time += UNIT_SPAWN_INTERVAL;
-    //   setup_unit(&world_unit_allocate(&world)->unit);
-    // }
+    while(UNIT_SPAWN_INTERVAL_MS > 0 && last_spawn_time + UNIT_SPAWN_INTERVAL_MS <= current_time) {
+      last_spawn_time += UNIT_SPAWN_INTERVAL_MS;
+      setup_unit(&world_unit_allocate(&world)->unit);
+    }
 
-    world_iterate_units(&world, NULL, update_unit_movement);
+    world_iterate_units(&world, &world, update_unit_behavior);
 
     float delta = (current_time - last_time) / 1000.f;
     if(delta > 0)
@@ -81,34 +108,8 @@ void render() {
   renderer_deinitialize(&renderer);
 }
 
-void update_unit_movement(Unit * unit, void * _) {
-  Vector target_position = { 0, 0 };
-  unit_movement_set_target_position(unit, target_position, 24);
-}
-
-void setup_unit(Unit * unit) {
-  unit_initialize(unit);
-  unit->direction = rand_rangef(0, PI2);
-  int team_offset = rand_rangei(0, TEAM_COUNT);
-  unit->team_id = TEAM_COLOR[team_offset];
-  unit->position.x = TEAM_SPAWN[team_offset][0] + rand_rangef(-80, 80);
-  unit->position.y = TEAM_SPAWN[team_offset][1] + rand_rangef(-80, 80);
-}
-
-int rand_rangei(int min, int max) {
-  return rand_rangef(min, max);
-}
-
-float rand_rangef(float min, float max) {
-  return min + ((double)rand() / RAND_MAX) * (max - min);
-}
-
-int event_is_quit_request(SDL_Event * event) {
-  return event->type == SDL_QUIT;
-}
-
-int event_is_window_resize(SDL_Event * event, SDL_Window * window) {
-  return event->type == SDL_WINDOWEVENT
-    && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED
-    && event->window.windowID == SDL_GetWindowID(window);
+int main(int argc, char **argv) {
+  test();
+  render();
+  return 0;
 }

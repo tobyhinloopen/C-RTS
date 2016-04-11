@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdio.h>
 #include "unit_test.h"
 #include "unit.h"
 #include "pi.h"
@@ -50,7 +51,7 @@ void test_unit_with_throttle_and_delta_does_move() {
   unit_initialize(&unit);
   unit.throttle = 1;
   unit_update(&unit, 1);
-  assert_position(0, 1 * UNIT_PIXELS_PER_SECOND);
+  assert_position(0, UNIT_PIXELS_PER_SECOND);
 }
 
 void text_unit_with_throttle_and_angular_throttle_turns_half_a_circle() {
@@ -58,7 +59,7 @@ void text_unit_with_throttle_and_angular_throttle_turns_half_a_circle() {
   unit.throttle = 1;
   unit.angular_throttle = -1;
   unit_update(&unit, PI / UNIT_RADIANS_PER_SECOND);
-  assert_position_within_delta(UNIT_PIXELS_PER_SECOND / HALF_PI, 0, 0.05);
+  assert_position_within_delta(0, UNIT_PIXELS_PER_SECOND / UNIT_RADIANS_PER_SECOND * 2, 0.05);
 }
 
 void test_unit_moves_in_direction() {
@@ -66,7 +67,7 @@ void test_unit_moves_in_direction() {
   unit.throttle = 1;
   unit.direction = HALF_PI;
   unit_update(&unit, 1);
-  assert_position(1 * UNIT_PIXELS_PER_SECOND, 0);
+  assert_position(0, UNIT_PIXELS_PER_SECOND);
 }
 
 void assert_position(float x, float y) {
@@ -75,7 +76,10 @@ void assert_position(float x, float y) {
 }
 
 void assert_position_within_delta(float x, float y, float delta) {
-  //printf("assert %fx%f to equal %fx%f (delta %f)\n", unit.position.x, unit.position.y, x, y, delta);
-  assert(unit.position.x > x - delta && unit.position.x < x + delta);
-  assert(unit.position.y > y - delta && unit.position.y < y + delta);
+  int assertion_result = unit.position.x > x - delta && unit.position.x < x + delta
+    && unit.position.y > y - delta && unit.position.y < y + delta;
+  if(!assertion_result)
+    printf("assert %7.1f,%7.1f to equal %7.1fx%7.1f (delta %f)\n",
+      unit.position.x, unit.position.y, x, y, delta);
+  assert(assertion_result);
 }

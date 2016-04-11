@@ -3,13 +3,17 @@
 #include "world.h"
 
 const unsigned int REALLOC_UNITS_INCREMENT = 256;
-void world_increase_unit_pool_size(World * world);
-void world_unit_update(Unit * unit, void * delta_fp);
 
 void world_initialize(World * world) {
   world->unit_count = 0;
   world->unit_pool_size = 0;
   world->units = NULL;
+}
+
+static void world_increase_unit_pool_size(World * world) {
+  world->unit_pool_size += REALLOC_UNITS_INCREMENT;
+  world->units = realloc(world->units, sizeof(WorldUnit) * world->unit_pool_size);
+  assert(world->units != NULL);
 }
 
 WorldUnit * world_unit_allocate(World * world) {
@@ -25,12 +29,12 @@ void world_unit_deallocate(World * world, WorldUnit * world_unit) {
   world->unit_count--;
 }
 
-void world_update(World * world, float delta) {
-  world_iterate_units(world, &delta, world_unit_update);
+static void world_unit_update(Unit * unit, void * delta) {
+  unit_update(unit, *((float*)delta));
 }
 
-void world_unit_update(Unit * unit, void * delta) {
-  unit_update(unit, *((float*)delta));
+void world_update(World * world, float delta) {
+  world_iterate_units(world, &delta, world_unit_update);
 }
 
 void world_iterate_units(World * world, void * arg, void (* fn)(Unit * unit, void * arg)) {
@@ -47,10 +51,4 @@ void world_iterate_units(World * world, void * arg, void (* fn)(Unit * unit, voi
 
 void world_deinitialize(World * world) {
   free(world->units);
-}
-
-void world_increase_unit_pool_size(World * world) {
-  world->unit_pool_size += REALLOC_UNITS_INCREMENT;
-  world->units = realloc(world->units, sizeof(WorldUnit) * world->unit_pool_size);
-  assert(world->units != NULL);
 }
