@@ -12,7 +12,8 @@
 
 void render();
 void setup_unit(Unit *);
-float randf();
+float rand_rangef(float min, float max);
+int rand_rangei(int min, int max);
 int event_is_window_resize(SDL_Event *, SDL_Window *);
 int event_is_quit_request(SDL_Event *);
 void update_unit_movement(Unit *, void *);
@@ -43,7 +44,7 @@ void render() {
   SDL_InitSubSystem(SDL_INIT_TIMER);
   unsigned int start_time = SDL_GetTicks();
   unsigned int last_time = start_time;
-  unsigned int last_spawn_time = last_time;
+  // unsigned int last_spawn_time = last_time;
 
   int is_quit_requested = 0;
   while(!is_quit_requested) {
@@ -87,20 +88,19 @@ void update_unit_movement(Unit * unit, void * _) {
 
 void setup_unit(Unit * unit) {
   unit_initialize(unit);
-  // unit->angular_throttle = -1 + 2 * randf();
-  // unit->throttle = .5f + .5f * randf();
-  // unit->head_throttle = -1 + 2 * randf();
-  // unit->head_direction = (-.5f + randf()) * PI2;
-  unit->direction = (-.5f + randf()) * PI2;
-
-  int team_offset = randf() * TEAM_COUNT;
+  unit->direction = rand_rangef(0, PI2);
+  int team_offset = rand_rangei(0, TEAM_COUNT);
   unit->team_id = TEAM_COLOR[team_offset];
-  unit->position.x = TEAM_SPAWN[team_offset][0] + -80.f + randf() * 160.f;
-  unit->position.y = TEAM_SPAWN[team_offset][1] + -80.f + randf() * 160.f;
+  unit->position.x = TEAM_SPAWN[team_offset][0] + rand_rangef(-80, 80);
+  unit->position.y = TEAM_SPAWN[team_offset][1] + rand_rangef(-80, 80);
 }
 
-float randf() {
-  return (float)((double)rand() / RAND_MAX);
+int rand_rangei(int min, int max) {
+  return rand_rangef(min, max);
+}
+
+float rand_rangef(float min, float max) {
+  return min + ((double)rand() / RAND_MAX) * (max - min);
 }
 
 int event_is_quit_request(SDL_Event * event) {
