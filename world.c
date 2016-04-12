@@ -1,54 +1,57 @@
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 #include "world.h"
 
-const unsigned int REALLOC_UNITS_INCREMENT = 256;
+const int REALLOC_ENTITIES_INCREMENT = 256;
 
 void world_initialize(World * world) {
-  world->unit_count = 0;
-  world->unit_pool_size = 0;
-  world->units = NULL;
+  world->entity_count = 0;
+  world->entity_pool_size = 0;
+  world->entities = NULL;
 }
 
-static void world_increase_unit_pool_size(World * world) {
-  world->unit_pool_size += REALLOC_UNITS_INCREMENT;
-  world->units = realloc(world->units, sizeof(WorldUnit) * world->unit_pool_size);
-  assert(world->units != NULL);
+static void world_increase_entity_pool_size(World * world) {
+  const size_t old_size = world->entity_pool_size;
+  world->entity_pool_size += REALLOC_ENTITIES_INCREMENT;
+  world->entities = realloc(world->entities, sizeof(Entity) * world->entity_pool_size);
+  assert(world->entities != NULL);
+  memset(world->entities + old_size, 0, sizeof(Entity) * (world->entity_pool_size - old_size));
 }
 
-WorldUnit * world_unit_allocate(World * world) {
-  if(world->unit_count >= world->unit_pool_size)
-    world_increase_unit_pool_size(world);
-  WorldUnit * world_unit = &world->units[world->unit_count++];
-  world_unit->alive = 1;
-  return world_unit;
+Entity * world_entity_allocate(World * world, EntityType type) {
+  if(world->entity_count >= world->entity_pool_size)
+    world_increase_entity_pool_size(world);
+  Entity * entity = &world->entities[world->entity_count++];
+  entity->type = type;
+  return entity;
 }
 
-void world_unit_deallocate(World * world, WorldUnit * world_unit) {
-  world_unit->alive = 0;
-  world->unit_count--;
+void world_entity_deallocate(World * world, Entity * entity) {
+  entity->type = NONE;
+  world->entity_count--;
 }
 
-static void world_unit_update(Unit * unit, void * delta) {
-  unit_update(unit, *((float*)delta));
-}
-
-void world_update(World * world, float delta) {
-  world_iterate_units(world, &delta, world_unit_update);
-}
-
-void world_iterate_units(World * world, void * arg, void (* fn)(Unit * unit, void * arg)) {
-  int unit_index = 0;
-  int world_unit_index = 0;
-  while(unit_index < world->unit_count) {
-    WorldUnit * world_unit = &world->units[world_unit_index++];
-    if(world_unit->alive) {
-      unit_index++;
-      (*fn)(&world_unit->unit, arg);
-    }
+static void world_entity_update(Entity * entity, void * delta_ptr) {
+  float delta = *((float*)delta_ptr);
+  switch(entity->type) {
+    case UNIT: unit_update(&entity->unit, delta); break;
+    case PROJECTILE: projectile_update(&entity->projectile, delta); break;
+    case NONE: break;
   }
 }
 
+void world_update(World * world, float delta) {
+  world_iterate_entities(world, &delta, world_entity_update);
+}
+
+void world_iterate_entities(World * world, void * arg, void (* fn)(Entity *, void *)) {
+  Entity * entity_end = &world->entities[world->entity_pool_size];
+  for(Entity * entity = world->entities; entity < entity_end; entity++)
+    if(entity->type != NONE)
+      (*fn)(entity, arg);
+}
+
 void world_deinitialize(World * world) {
-  free(world->units);
+  free(world->entities);
 }

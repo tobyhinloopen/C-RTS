@@ -1,6 +1,8 @@
 #include <SDL2/SDL.h>
 #include <assert.h>
+#include <math.h>
 #include "renderer.h"
+#include "world.h"
 #include "pi.h"
 
 const float RAD2DEGf = 360 / PI2;
@@ -75,6 +77,8 @@ void renderer_initialize(Renderer * renderer) {
   renderer->window = create_sdl_window();
   renderer->renderer = create_sdl_renderer(renderer->window);
 
+  SDL_SetRenderDrawBlendMode(renderer->renderer, SDL_BLENDMODE_BLEND);
+
   renderer_notify_viewport_resized(renderer);
 
   initialize_unit_texture(renderer);
@@ -100,16 +104,38 @@ void renderer_render_unit(Renderer * renderer, Unit * unit) {
     (unit->direction + unit->head_direction) * RAD2DEGf, NULL, SDL_FLIP_NONE);
 }
 
+void renderer_render_projectile(Renderer * renderer, Projectile * projectile) {
+  RendererColor color = { projectile->team_id };
+  float alpha = 255.0f + projectile->distance_remaining / 500.0f * 255.0f;
+  if(alpha > 255.0f) alpha = 255.0f;
+  else if(alpha < 0.0f) alpha = 0.0f;
+  SDL_SetRenderDrawColor(renderer->renderer, color.r, color.g, color.b, (Uint8)alpha);
+  const float x = renderer->viewport_width/2 + projectile->position.x;
+  const float y = renderer->viewport_height/2 + projectile->position.y;
+  if(projectile->distance_remaining > 0)
+    SDL_RenderDrawLine(renderer->renderer,
+      x, y, x + 16.0f * cosf(projectile->direction), y + 16.0f * sinf(projectile->direction));
+  else {
+    SDL_RenderDrawLine(renderer->renderer, x - 3.0f, y - 3.0f, x + 3.0f, y + 3.0f);
+    SDL_RenderDrawLine(renderer->renderer, x + 3.0f, y - 3.0f, x - 3.0f, y + 3.0f);
+  }
+}
+
 void renderer_notify_viewport_resized(Renderer * renderer) {
   SDL_GetWindowSize(renderer->window, &renderer->viewport_width, &renderer->viewport_height);
 }
 
-static void render_unit(Unit * unit, void * renderer) {
-  renderer_render_unit((Renderer *)renderer, unit);
+static void render_entity(Entity * entity, void * renderer_ptr) {
+  Renderer * renderer = (Renderer *)renderer_ptr;
+  switch(entity->type) {
+    case UNIT: renderer_render_unit(renderer, &entity->unit); break;
+    case PROJECTILE: renderer_render_projectile(renderer, &entity->projectile); break;
+    case NONE: break;
+  }
 }
 
 void renderer_render_world(Renderer * renderer, World * world) {
-  world_iterate_units(world, renderer, render_unit);
+  world_iterate_entities(world, renderer, render_entity);
 }
 
 void renderer_present(Renderer * renderer) {

@@ -2,24 +2,30 @@
 #define WORLD_H
 
 #include "unit.h"
+#include "projectile.h"
+
+typedef enum { NONE = 0, UNIT, PROJECTILE } EntityType;
 
 typedef struct {
-  unsigned char alive;
-  Unit unit;
-} WorldUnit;
+  EntityType type;
+  union {
+    Unit unit;
+    Projectile projectile;
+  };
+} Entity;
 
 typedef struct {
   float time;
-  WorldUnit *units;
-  unsigned int unit_count;
-  unsigned int unit_pool_size;
+  Entity * entities;
+  int entity_count;
+  int entity_pool_size;
 } World;
 
 void world_initialize(World *);
-WorldUnit * world_unit_allocate(World *);
-void world_unit_deallocate(World *, WorldUnit *);
+Entity * world_entity_allocate(World *, EntityType type);
+void world_entity_deallocate(World *, Entity *);
 void world_update(World *, float delta);
-void world_iterate_units(World *, void *, void (*)(Unit *, void *));
+void world_iterate_entities(World *, void *, void (*)(Entity *, void *));
 void world_deinitialize(World *);
 
 #endif

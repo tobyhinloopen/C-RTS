@@ -21,21 +21,26 @@ typedef struct {
   Unit * closest_unit;
 } UnitPairDistanceResult;
 
-static void unit_behavior_set_closer_unit(Unit * other_unit, void * current_result_ptr) {
-  UnitPairDistanceResult * current_result = (UnitPairDistanceResult*)current_result_ptr;
-  Unit * my_unit = current_result->my_unit;
+static void unit_behavior_set_closer_unit(Unit * other_unit, UnitPairDistanceResult * result) {
+  Unit * my_unit = result->my_unit;
   if(other_unit->team_id != my_unit->team_id) {
     float distance = vector_distance(other_unit->position, my_unit->position);
-    if(current_result->closest_unit == 0 || distance < current_result->distance) {
-      current_result->distance = distance;
-      current_result->closest_unit = other_unit;
+    if(result->closest_unit == 0 || distance < result->distance) {
+      result->distance = distance;
+      result->closest_unit = other_unit;
     }
   }
 }
 
+static void unit_behavior_find_closest_enemy_unit_callback(Entity * entity, void * current_result_ptr) {
+  if(entity->type == UNIT)
+    unit_behavior_set_closer_unit(&entity->unit, (UnitPairDistanceResult*)current_result_ptr);
+}
+
 Unit * unit_behavior_find_closest_enemy_unit(Unit * unit, World * world) {
   UnitPairDistanceResult closest_enemy_unit_result = { 0, unit, 0 };
-  world_iterate_units(world, &closest_enemy_unit_result, unit_behavior_set_closer_unit);
+  world_iterate_entities(world, &closest_enemy_unit_result,
+    unit_behavior_find_closest_enemy_unit_callback);
   return closest_enemy_unit_result.closest_unit;
 }
 
@@ -52,4 +57,14 @@ void unit_behavior_set_target_position(Unit * unit, Vector target_position, floa
     unit->angular_throttle = remainderf(
       vector_angle_between(unit->position, target_position) - unit->direction, PI2) > 0 ? 1 : -1;
   }
+}
+
+void unit_behavior_open_fire(Unit * unit) {
+  if(!unit_is_firing(unit))
+    unit->next_fire_interval = UNIT_FIRE_INTERVAL;
+}
+
+void unit_behavior_hold_fire(Unit * unit) {
+  if(unit_is_firing(unit))
+    unit->next_fire_interval = INFINITY;
 }

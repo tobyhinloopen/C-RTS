@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include "unit.h"
+#include "projectile.h"
 #include "renderer.h"
 #include "test.h"
 #include "world.h"
@@ -14,8 +15,8 @@ const int TEAM_COUNT = 4;
 const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
 const float TEAM_SPAWN[TEAM_COUNT][2] = { { -240, 240 }, { 240, 240 }, { -240, -240 }, { 240, -240 } };
 
-const int UNIT_INITIAL_SPAWN_COUNT = 10;
-const int UNIT_SPAWN_INTERVAL_MS = 100;
+const int UNIT_INITIAL_SPAWN_COUNT = 0;
+const int UNIT_SPAWN_INTERVAL_MS = 2000;
 
 static void update_unit_behavior(Unit * unit, void * world_ptr) {
   World * world = (World*)world_ptr;
@@ -23,14 +24,50 @@ static void update_unit_behavior(Unit * unit, void * world_ptr) {
   if(closest_enemy_unit) {
     unit_behavior_look_at(unit, closest_enemy_unit->position);
     unit_behavior_set_target_position(unit, closest_enemy_unit->position, -1);
+
+    float enemy_angle = vector_angle_between(unit->position, closest_enemy_unit->position);
+    float angular_diff = remainderf(enemy_angle - unit->direction - unit->head_direction, PI2);
+    if(angular_diff < 0)
+      angular_diff = - angular_diff;
+    if(angular_diff < PI2 * 0.05)
+      unit_behavior_open_fire(unit);
+    else
+      unit_behavior_hold_fire(unit);
   } else {
     unit_behavior_look_forward(unit);
     unit_behavior_stop(unit);
+    unit_behavior_hold_fire(unit);
   }
 }
 
 static float rand_rangef(float min, float max) {
   return min + ((double)rand() / RAND_MAX) * (max - min);
+}
+
+static Projectile * create_unit_projectile(Unit * unit, World * world) {
+  Projectile * projectile = &world_entity_allocate(world, PROJECTILE)->projectile;
+  projectile_initialize(projectile, unit->position,
+    unit->direction + unit->head_direction + rand_rangef(-0.02f, 0.02f), unit->team_id);
+  projectile->distance_remaining *= rand_rangef(0.9f, 1.1f);
+  return projectile;
+}
+
+static void create_unit_projectiles(Unit * unit, World * world) {
+  if(unit_is_firing(unit)) {
+    while(unit->next_fire_interval < 0) {
+      Projectile * projectile = create_unit_projectile(unit, world);
+      projectile_update(projectile, -unit->next_fire_interval);
+      unit->next_fire_interval += UNIT_FIRE_INTERVAL;
+    }
+  }
+}
+
+static void update_entity(Entity * entity, void * world_ptr) {
+  if(entity->type == UNIT) {
+    World * world = (World*)world_ptr;
+    create_unit_projectiles(&entity->unit, world);
+    update_unit_behavior(&entity->unit, world);
+  }
 }
 
 static int rand_rangei(int min, int max) {
@@ -66,7 +103,7 @@ static void render() {
   srand(time(NULL));
 
   for(int i=0; i<UNIT_INITIAL_SPAWN_COUNT; i++)
-    setup_unit(&world_unit_allocate(&world)->unit);
+    setup_unit(&world_entity_allocate(&world, UNIT)->unit);
 
   SDL_InitSubSystem(SDL_INIT_TIMER);
   unsigned int start_time = SDL_GetTicks();
@@ -87,10 +124,10 @@ static void render() {
 
     while(UNIT_SPAWN_INTERVAL_MS > 0 && last_spawn_time + UNIT_SPAWN_INTERVAL_MS <= current_time) {
       last_spawn_time += UNIT_SPAWN_INTERVAL_MS;
-      setup_unit(&world_unit_allocate(&world)->unit);
+      setup_unit(&world_entity_allocate(&world, UNIT)->unit);
     }
 
-    world_iterate_units(&world, &world, update_unit_behavior);
+    world_iterate_entities(&world, &world, update_entity);
 
     float delta = (current_time - last_time) / 1000.f;
     if(delta > 0)

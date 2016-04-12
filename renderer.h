@@ -3,6 +3,7 @@
 
 #include "world.h"
 #include "unit.h"
+#include "projectile.h"
 #include <SDL2/SDL.h>
 
 typedef struct {
@@ -19,6 +20,7 @@ void renderer_notify_viewport_resized(Renderer *);
 void renderer_clear_color(Renderer *, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 void renderer_render_world(Renderer *, World *);
 void renderer_render_unit(Renderer *, Unit *);
+void renderer_render_projectile(Renderer *, Projectile *);
 void renderer_present(Renderer *);
 void renderer_deinitialize(Renderer *);
 

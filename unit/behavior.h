@@ -10,5 +10,7 @@ void unit_behavior_stop(Unit *);
 void unit_behavior_look_at(Unit *, Vector target_position);
 void unit_behavior_look_forward(Unit *);
 void unit_behavior_set_target_position(Unit *, Vector target_position, float min_distance);
+void unit_behavior_open_fire(Unit *);
+void unit_behavior_hold_fire(Unit *);
 
 #endif
