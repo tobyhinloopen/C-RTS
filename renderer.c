@@ -3,6 +3,7 @@
 #include <math.h>
 #include "renderer.h"
 #include "world.h"
+#include "projectile.h"
 #include "pi.h"
 
 const float RAD2DEGf = 360 / PI2;
@@ -106,10 +107,8 @@ void renderer_render_unit(Renderer * renderer, Unit * unit) {
 
 void renderer_render_projectile(Renderer * renderer, Projectile * projectile) {
   RendererColor color = { projectile->team_id };
-  float alpha = 255.0f + projectile->distance_remaining / 500.0f * 255.0f;
-  if(alpha > 255.0f) alpha = 255.0f;
-  else if(alpha < 0.0f) alpha = 0.0f;
-  SDL_SetRenderDrawColor(renderer->renderer, color.r, color.g, color.b, (Uint8)alpha);
+  SDL_SetRenderDrawColor(renderer->renderer, color.r, color.g, color.b,
+    (Uint8)(projectile->decay_remaining / PROJECTILE_DECAY * 255.0f));
   const float x = renderer->viewport_width/2 + projectile->position.x;
   const float y = renderer->viewport_height/2 + projectile->position.y;
   if(projectile->distance_remaining > 0)

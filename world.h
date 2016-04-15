@@ -4,6 +4,8 @@
 #include "unit.h"
 #include "projectile.h"
 
+#define WORLD_POOL_SIZE 4096
+
 typedef enum { NONE = 0, UNIT, PROJECTILE } EntityType;
 
 typedef struct {
@@ -15,10 +17,14 @@ typedef struct {
 } Entity;
 
 typedef struct {
-  float time;
-  Entity * entities;
+  Entity entities[WORLD_POOL_SIZE];
   int entity_count;
-  int entity_pool_size;
+} EntityPool;
+
+typedef struct {
+  float time;
+  EntityPool ** entity_pools;
+  int entity_pool_count;
 } World;
 
 void world_initialize(World *);

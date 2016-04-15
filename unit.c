@@ -7,6 +7,7 @@ const float UNIT_PIXELS_PER_SECOND = 100;
 const float UNIT_RADIANS_PER_SECOND = HALF_PI;
 const float UNIT_HEAD_RADIANS_PER_SECOND = PI2;
 const float UNIT_FIRE_INTERVAL = 0.01f;
+const int UNIT_INITIAL_HEALTH = 1000;
 
 void unit_initialize(Unit * unit) {
   vector_initialize(&unit->position);
@@ -16,6 +17,7 @@ void unit_initialize(Unit * unit) {
   unit->head_direction = 0;
   unit->head_throttle = 0;
   unit->next_fire_interval = INFINITY;
+  unit->health = UNIT_INITIAL_HEALTH;
   unit->team_id = 0;
 }
 
@@ -57,4 +59,8 @@ void unit_update(Unit * unit, float delta) {
 
 int unit_is_firing(Unit * unit) {
   return isfinite(unit->next_fire_interval);
+}
+
+int unit_is_dead(Unit * unit) {
+  return unit->health <= 0;
 }
