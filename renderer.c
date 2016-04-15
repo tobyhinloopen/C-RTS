@@ -11,8 +11,12 @@ const float RAD2DEGf = 360 / PI2;
 const int INITIAL_WINDOW_WIDTH = 640;
 const int INITIAL_WINDOW_HEIGHT = 480;
 
-const int HALF_UNIT_TEXTURE_SIZE = 32;
+const int HALF_UNIT_TEXTURE_SIZE = 24;
 const int UNIT_TEXTURE_SIZE = HALF_UNIT_TEXTURE_SIZE*2;
+const float PROJECTILE_LENGTH = 16.0f;
+const float PROJECTILE_IMPACT_HALF_SIZE = 3.0f;
+const int HEALTH_BAR_WIDTH = 32;
+const int HEALTH_BAR_HEIGHT = 4;
 
 typedef void (* RenderFunction)(SDL_Renderer *, SDL_Texture *);
 typedef union { Uint32 color; struct { Uint8 b; Uint8 g; Uint8 r; }; } RendererColor;
@@ -20,7 +24,7 @@ typedef union { Uint32 color; struct { Uint8 b; Uint8 g; Uint8 r; }; } RendererC
 static SDL_Window * create_sdl_window() {
   SDL_Window * sdl_window = SDL_CreateWindow("SDL Window",
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-    INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
+    INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE|SDL_WINDOW_ALLOW_HIGHDPI);
   assert(sdl_window);
   return sdl_window;
 }
@@ -84,10 +88,33 @@ void renderer_initialize(Renderer * renderer) {
 
   initialize_unit_texture(renderer);
   initialize_unit_head_texture(renderer);
+
+  renderer->scale = 1.0f;
 }
 
 void renderer_clear_color(Renderer * renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
   sdl_renderer_clear_color(renderer->renderer, r, g, b, a);
+}
+
+static void render_health_bar(Renderer * renderer, float x, float y, float health_percentage) {
+  const int left_x = (int)x - HEALTH_BAR_WIDTH/2;
+  const int top_y = (int)y - HEALTH_BAR_HEIGHT/2;
+
+  SDL_SetRenderDrawColor(renderer->renderer, 0, 0, 0, 255);
+  const SDL_Rect outer_health_bar_rect = {
+    left_x -1, top_y - 1, HEALTH_BAR_WIDTH + 2, HEALTH_BAR_HEIGHT + 2 };
+  SDL_RenderFillRect(renderer->renderer, &outer_health_bar_rect);
+
+  if(health_percentage >= 0.6f)
+    SDL_SetRenderDrawColor(renderer->renderer, 0, 255, 0, 255);
+  else if(health_percentage >= 0.3f)
+    SDL_SetRenderDrawColor(renderer->renderer, 255, 192, 0, 255);
+  else
+    SDL_SetRenderDrawColor(renderer->renderer, 192, 0, 0, 255);
+
+  const SDL_Rect inner_health_bar_rect = {
+    left_x, top_y, HEALTH_BAR_WIDTH * health_percentage, HEALTH_BAR_HEIGHT };
+  SDL_RenderFillRect(renderer->renderer, &inner_health_bar_rect);
 }
 
 void renderer_render_unit(Renderer * renderer, Unit * unit) {
@@ -95,9 +122,9 @@ void renderer_render_unit(Renderer * renderer, Unit * unit) {
   SDL_SetTextureColorMod(renderer->unit_texture, color.r, color.g, color.b);
   SDL_SetTextureColorMod(renderer->unit_head_texture, color.r, color.g, color.b);
 
-  SDL_Rect dest_rect = {
-    unit->position.x - HALF_UNIT_TEXTURE_SIZE + renderer->viewport_width/2,
-    unit->position.y - HALF_UNIT_TEXTURE_SIZE + renderer->viewport_height/2,
+  const float x = unit->position.x + renderer->viewport_width/2/renderer->scale;
+  const float y = unit->position.y + renderer->viewport_height/2/renderer->scale;
+  SDL_Rect dest_rect = { x - HALF_UNIT_TEXTURE_SIZE, y - HALF_UNIT_TEXTURE_SIZE,
     UNIT_TEXTURE_SIZE, UNIT_TEXTURE_SIZE };
   SDL_RenderCopyEx(renderer->renderer, renderer->unit_texture, NULL, &dest_rect,
     unit->direction * RAD2DEGf, NULL, SDL_FLIP_NONE);
@@ -109,32 +136,66 @@ void renderer_render_projectile(Renderer * renderer, Projectile * projectile) {
   RendererColor color = { projectile->team_id };
   SDL_SetRenderDrawColor(renderer->renderer, color.r, color.g, color.b,
     (Uint8)(projectile->decay_remaining / PROJECTILE_DECAY * 255.0f));
-  const float x = renderer->viewport_width/2 + projectile->position.x;
-  const float y = renderer->viewport_height/2 + projectile->position.y;
+  const float x = renderer->viewport_width/2/renderer->scale + projectile->position.x;
+  const float y = renderer->viewport_height/2/renderer->scale + projectile->position.y;
   if(projectile->distance_remaining > 0)
-    SDL_RenderDrawLine(renderer->renderer,
-      x, y, x + 16.0f * cosf(projectile->direction), y + 16.0f * sinf(projectile->direction));
+    SDL_RenderDrawLine(renderer->renderer, x, y,
+      x + PROJECTILE_LENGTH * cosf(projectile->direction),
+      y + PROJECTILE_LENGTH * sinf(projectile->direction));
   else {
-    SDL_RenderDrawLine(renderer->renderer, x - 3.0f, y - 3.0f, x + 3.0f, y + 3.0f);
-    SDL_RenderDrawLine(renderer->renderer, x + 3.0f, y - 3.0f, x - 3.0f, y + 3.0f);
+    SDL_RenderDrawLine(renderer->renderer,
+      x - PROJECTILE_IMPACT_HALF_SIZE, y - PROJECTILE_IMPACT_HALF_SIZE,
+      x + PROJECTILE_IMPACT_HALF_SIZE, y + PROJECTILE_IMPACT_HALF_SIZE);
+    SDL_RenderDrawLine(renderer->renderer,
+      x + PROJECTILE_IMPACT_HALF_SIZE, y - PROJECTILE_IMPACT_HALF_SIZE,
+      x - PROJECTILE_IMPACT_HALF_SIZE, y + PROJECTILE_IMPACT_HALF_SIZE);
   }
 }
 
 void renderer_notify_viewport_resized(Renderer * renderer) {
-  SDL_GetWindowSize(renderer->window, &renderer->viewport_width, &renderer->viewport_height);
+  SDL_GetRendererOutputSize(renderer->renderer,
+    &renderer->viewport_width, &renderer->viewport_height);
+}
+
+static int is_vector_in_viewport(Renderer * renderer, Vector vector, int padding) {
+  return vector.x >= (-renderer->viewport_width/2 - padding) / renderer->scale
+    && vector.x <= (renderer->viewport_width/2 + padding) / renderer->scale
+    && vector.y >= (-renderer->viewport_height/2 - padding) / renderer->scale
+    && vector.y <= (renderer->viewport_height/2 + padding) / renderer->scale;
+}
+
+static void render_entity_overlay(Entity * entity, void * renderer_ptr) {
+  Renderer * renderer = (Renderer *)renderer_ptr;
+  if(entity->type == UNIT) {
+    Unit * unit = &entity->unit;
+    float health_percentage = unit_health_percentage(unit);
+    if(health_percentage < 1.0f) {
+      float x = unit->position.x + renderer->viewport_width/2/renderer->scale;
+      float y = unit->position.y + renderer->viewport_height/2/renderer->scale;
+      render_health_bar(renderer, x, y - HALF_UNIT_TEXTURE_SIZE, health_percentage);
+    }
+  }
 }
 
 static void render_entity(Entity * entity, void * renderer_ptr) {
   Renderer * renderer = (Renderer *)renderer_ptr;
   switch(entity->type) {
-    case UNIT: renderer_render_unit(renderer, &entity->unit); break;
-    case PROJECTILE: renderer_render_projectile(renderer, &entity->projectile); break;
+    case UNIT:
+      if(is_vector_in_viewport(renderer, entity->unit.position, HALF_UNIT_TEXTURE_SIZE))
+        renderer_render_unit(renderer, &entity->unit);
+      break;
+    case PROJECTILE:
+      if(is_vector_in_viewport(renderer, entity->projectile.position, 8))
+        renderer_render_projectile(renderer, &entity->projectile);
+      break;
     case NONE: break;
   }
 }
 
 void renderer_render_world(Renderer * renderer, World * world) {
+  SDL_RenderSetScale(renderer->renderer, renderer->scale, renderer->scale);
   world_iterate_entities(world, renderer, render_entity);
+  world_iterate_entities(world, renderer, render_entity_overlay);
 }
 
 void renderer_present(Renderer * renderer) {

@@ -13,6 +13,7 @@ typedef struct {
   SDL_Texture * unit_head_texture;
   int viewport_width;
   int viewport_height;
+  float scale;
 } Renderer;
 
 void renderer_initialize(Renderer *);

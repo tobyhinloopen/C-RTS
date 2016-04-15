@@ -2,7 +2,11 @@
 #include <assert.h>
 #include <string.h>
 #include "world.h"
-#include <stdio.h>
+
+typedef struct {
+  float delta;
+  EntityPool * entity_pool;
+} UpdateContext;
 
 static EntityPool * allocate_pool(World * world) {
   ++world->entity_pool_count;
@@ -50,18 +54,25 @@ Entity * world_entity_allocate(World * world, EntityType type) {
   return entity;
 }
 
-static void world_entity_update(Entity * entity, void * delta_ptr) {
-  float delta = *((float*)delta_ptr);
+static void deallocate_pool_entity(EntityPool * pool, Entity * entity) {
+  entity->type = NONE;
+  --pool->entity_count;
+}
+
+static void world_entity_update(Entity * entity, void * update_context_ptr) {
+  UpdateContext * context = (UpdateContext*)update_context_ptr;
+  EntityPool * pool = context->entity_pool;
+  float delta = context->delta;
   switch(entity->type) {
     case UNIT:
       if(unit_is_dead(&entity->unit))
-        entity->type = NONE;
+        deallocate_pool_entity(pool, entity);
       else
         unit_update(&entity->unit, delta);
       break;
     case PROJECTILE:
       if(projectile_is_dead(&entity->projectile))
-        entity->type = NONE;
+        deallocate_pool_entity(pool, entity);
       else
         projectile_update(&entity->projectile, delta);
       break;
@@ -83,20 +94,12 @@ void world_iterate_entities(World * world, void * arg, void (* fn)(Entity *, voi
     pool_iterate_entities(world->entity_pools[i], arg, fn);
 }
 
-static void count_pool_entities(EntityPool * pool) {
-  int count = 0;
-  for(int i = 0; i < WORLD_POOL_SIZE; ++i)
-    if(pool->entities[i].type != NONE)
-      ++count;
-  pool->entity_count = count;
-}
-
 void world_update(World * world, float delta) {
-  printf("POOL COUNT %d\n", world->entity_pool_count);
-  world_iterate_entities(world, &delta, world_entity_update);
-
-  for(int i = 0; i < world->entity_pool_count; ++i)
-    count_pool_entities(world->entity_pools[i]);
+  UpdateContext update_context = (UpdateContext){ delta };
+  for(int i = 0; i < world->entity_pool_count; ++i) {
+    update_context.entity_pool = world->entity_pools[i];
+    pool_iterate_entities(update_context.entity_pool, &update_context, world_entity_update);
+  }
 }
 
 void world_deinitialize(World * world) {

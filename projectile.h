@@ -17,6 +17,7 @@ typedef struct {
 
 void projectile_initialize(Projectile *, Vector position, float direction, int team_id);
 void projectile_update(Projectile *, float delta);
+float projectile_damage(Projectile *);
 int projectile_is_dead(Projectile *);
 
 #endif

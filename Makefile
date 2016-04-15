@@ -49,7 +49,10 @@ MAIN = main
 
 .PHONY: depend clean
 
-all:    $(MAIN)
+all: $(MAIN)
+	mkdir -p C-RTS.app/Contents/MacOS
+	cp main C-RTS.app/Contents/MacOS
+	cp resources/Info.plist C-RTS.app/Contents
 
 $(MAIN): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)
@@ -63,6 +66,7 @@ $(MAIN): $(OBJS)
 
 clean:
 	$(RM) **/*.o *.o *~ $(MAIN)
+	rm -rf C-RTS.app
 
 depend: $(SRCS)
 	makedepend $(INCLUDES) $^

@@ -6,8 +6,9 @@
 const float UNIT_PIXELS_PER_SECOND = 100;
 const float UNIT_RADIANS_PER_SECOND = HALF_PI;
 const float UNIT_HEAD_RADIANS_PER_SECOND = PI2;
-const float UNIT_FIRE_INTERVAL = 0.01f;
-const int UNIT_INITIAL_HEALTH = 1000;
+const float UNIT_FIRE_INTERVAL = 0.5f;
+const float UNIT_INITIAL_HEALTH = 1000.0f;
+const float UNIT_HEALTH_REGENERATION = 50.0f;
 
 void unit_initialize(Unit * unit) {
   vector_initialize(&unit->position);
@@ -47,6 +48,12 @@ static void unit_update_head_direction(Unit * unit, float delta) {
   unit->head_direction += unit->head_throttle * UNIT_HEAD_RADIANS_PER_SECOND * delta;
 }
 
+static void unit_update_health_regeneration(Unit * unit, float delta) {
+  unit->health += UNIT_HEALTH_REGENERATION * delta;
+  if(unit->health > UNIT_INITIAL_HEALTH)
+    unit->health = UNIT_INITIAL_HEALTH;
+}
+
 void unit_update(Unit * unit, float delta) {
   if(unit->throttle > 0 && unit->angular_throttle == 0)
     unit_update_straight_movement(unit, delta);
@@ -54,6 +61,8 @@ void unit_update(Unit * unit, float delta) {
     unit_update_angular_movement(unit, delta);
   if(unit->head_throttle != 0)
     unit_update_head_direction(unit, delta);
+  if(unit->throttle <= 1.0f && unit->health > 0.0f && unit->health < UNIT_INITIAL_HEALTH)
+    unit_update_health_regeneration(unit, delta);
   unit->next_fire_interval -= delta;
 }
 
@@ -63,4 +72,8 @@ int unit_is_firing(Unit * unit) {
 
 int unit_is_dead(Unit * unit) {
   return unit->health <= 0;
+}
+
+float unit_health_percentage(Unit * unit) {
+  return unit->health <= 0 ? 0 : unit->health / UNIT_INITIAL_HEALTH;
 }

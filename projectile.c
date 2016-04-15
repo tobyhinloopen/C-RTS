@@ -32,6 +32,10 @@ void projectile_update(Projectile * projectile, float delta) {
     projectile->decay_remaining -= delta;
 }
 
+float projectile_damage(Projectile * projectile) {
+  return 100.0f;
+}
+
 int projectile_is_dead(Projectile * projectile) {
   return projectile->decay_remaining <= 0.0f;
 }

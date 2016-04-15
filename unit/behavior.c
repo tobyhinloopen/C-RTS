@@ -1,5 +1,6 @@
 #include "behavior.h"
 #include <math.h>
+#include <stdlib.h>
 #include "../pi.h"
 
 static void unit_behavior_target_head_direction(Unit * unit, float target_head_direction) {
@@ -23,18 +24,17 @@ typedef struct {
 
 static void unit_behavior_set_closer_unit(Unit * other_unit, UnitPairDistanceResult * result) {
   Unit * my_unit = result->my_unit;
-  if(other_unit->team_id != my_unit->team_id) {
-    float distance = vector_distance(other_unit->position, my_unit->position);
-    if(result->closest_unit == 0 || distance < result->distance) {
-      result->distance = distance;
-      result->closest_unit = other_unit;
-    }
+  float distance = vector_distance(other_unit->position, my_unit->position);
+  if(result->closest_unit == 0 || distance < result->distance) {
+    result->distance = distance;
+    result->closest_unit = other_unit;
   }
 }
 
 static void unit_behavior_find_closest_enemy_unit_callback(Entity * entity, void * current_result_ptr) {
-  if(entity->type == UNIT)
-    unit_behavior_set_closer_unit(&entity->unit, (UnitPairDistanceResult*)current_result_ptr);
+  UnitPairDistanceResult * result = (UnitPairDistanceResult*)current_result_ptr;
+  if(entity->type == UNIT && entity->unit.team_id != result->my_unit->team_id)
+    unit_behavior_set_closer_unit(&entity->unit, result);
 }
 
 Unit * unit_behavior_find_closest_enemy_unit(Unit * unit, World * world) {
@@ -42,6 +42,22 @@ Unit * unit_behavior_find_closest_enemy_unit(Unit * unit, World * world) {
   world_iterate_entities(world, &closest_enemy_unit_result,
     unit_behavior_find_closest_enemy_unit_callback);
   return closest_enemy_unit_result.closest_unit;
+}
+
+static void unit_behavior_find_closest_friendly_unit_callback(Entity * entity, void * current_result_ptr) {
+  UnitPairDistanceResult * result = (UnitPairDistanceResult*)current_result_ptr;
+  if(entity->type == UNIT && &entity->unit != result->my_unit && entity->unit.team_id == result->my_unit->team_id)
+    unit_behavior_set_closer_unit(&entity->unit, result);
+}
+
+Unit * unit_behavior_find_closest_friendly_unit(Unit * unit, World * world, float max_distance) {
+  UnitPairDistanceResult closest_friendly_unit_result = { 0, unit, 0 };
+  world_iterate_entities(world, &closest_friendly_unit_result,
+    unit_behavior_find_closest_friendly_unit_callback);
+  if(closest_friendly_unit_result.distance <= max_distance)
+    return closest_friendly_unit_result.closest_unit;
+  else
+    return NULL;
 }
 
 void unit_behavior_stop(Unit * unit) {
