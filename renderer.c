@@ -89,7 +89,8 @@ void renderer_initialize(Renderer * renderer) {
   initialize_unit_texture(renderer);
   initialize_unit_head_texture(renderer);
 
-  renderer->scale = 1.0f;
+  renderer->scale = 0.5f;
+  vector_initialize(&renderer->camera);
 }
 
 void renderer_clear_color(Renderer * renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
@@ -122,9 +123,8 @@ void renderer_render_unit(Renderer * renderer, Unit * unit) {
   SDL_SetTextureColorMod(renderer->unit_texture, color.r, color.g, color.b);
   SDL_SetTextureColorMod(renderer->unit_head_texture, color.r, color.g, color.b);
 
-  const float x = unit->position.x + renderer->viewport_width/2/renderer->scale;
-  const float y = unit->position.y + renderer->viewport_height/2/renderer->scale;
-  SDL_Rect dest_rect = { x - HALF_UNIT_TEXTURE_SIZE, y - HALF_UNIT_TEXTURE_SIZE,
+  Vector point = renderer_world_to_screen(renderer, unit->position);
+  SDL_Rect dest_rect = { point.x - HALF_UNIT_TEXTURE_SIZE, point.y - HALF_UNIT_TEXTURE_SIZE,
     UNIT_TEXTURE_SIZE, UNIT_TEXTURE_SIZE };
   SDL_RenderCopyEx(renderer->renderer, renderer->unit_texture, NULL, &dest_rect,
     unit->direction * RAD2DEGf, NULL, SDL_FLIP_NONE);
@@ -136,19 +136,18 @@ void renderer_render_projectile(Renderer * renderer, Projectile * projectile) {
   RendererColor color = { projectile->team_id };
   SDL_SetRenderDrawColor(renderer->renderer, color.r, color.g, color.b,
     (Uint8)(projectile->decay_remaining / PROJECTILE_DECAY * 255.0f));
-  const float x = renderer->viewport_width/2/renderer->scale + projectile->position.x;
-  const float y = renderer->viewport_height/2/renderer->scale + projectile->position.y;
+  Vector point = renderer_world_to_screen(renderer, projectile->position);
   if(projectile->distance_remaining > 0)
-    SDL_RenderDrawLine(renderer->renderer, x, y,
-      x + PROJECTILE_LENGTH * cosf(projectile->direction),
-      y + PROJECTILE_LENGTH * sinf(projectile->direction));
+    SDL_RenderDrawLine(renderer->renderer, point.x, point.y,
+      point.x + PROJECTILE_LENGTH * cosf(projectile->direction),
+      point.y + PROJECTILE_LENGTH * sinf(projectile->direction));
   else {
     SDL_RenderDrawLine(renderer->renderer,
-      x - PROJECTILE_IMPACT_HALF_SIZE, y - PROJECTILE_IMPACT_HALF_SIZE,
-      x + PROJECTILE_IMPACT_HALF_SIZE, y + PROJECTILE_IMPACT_HALF_SIZE);
+      point.x - PROJECTILE_IMPACT_HALF_SIZE, point.y - PROJECTILE_IMPACT_HALF_SIZE,
+      point.x + PROJECTILE_IMPACT_HALF_SIZE, point.y + PROJECTILE_IMPACT_HALF_SIZE);
     SDL_RenderDrawLine(renderer->renderer,
-      x + PROJECTILE_IMPACT_HALF_SIZE, y - PROJECTILE_IMPACT_HALF_SIZE,
-      x - PROJECTILE_IMPACT_HALF_SIZE, y + PROJECTILE_IMPACT_HALF_SIZE);
+      point.x + PROJECTILE_IMPACT_HALF_SIZE, point.y - PROJECTILE_IMPACT_HALF_SIZE,
+      point.x - PROJECTILE_IMPACT_HALF_SIZE, point.y + PROJECTILE_IMPACT_HALF_SIZE);
   }
 }
 
@@ -157,11 +156,26 @@ void renderer_notify_viewport_resized(Renderer * renderer) {
     &renderer->viewport_width, &renderer->viewport_height);
 }
 
+
+Vector renderer_screen_to_world(Renderer * renderer, Vector point) {
+  return (Vector) {
+    (point.x - renderer->viewport_width/2) / renderer->scale + renderer->camera.x,
+    (point.y - renderer->viewport_height/2) / renderer->scale + renderer->camera.y
+  };
+}
+
+Vector renderer_world_to_screen(Renderer * renderer, Vector position) {
+  return (Vector) {
+    (position.x - renderer->camera.x) * renderer->scale + renderer->viewport_width/2/renderer->scale,
+    (position.y - renderer->camera.y) * renderer->scale + renderer->viewport_height/2/renderer->scale
+  };
+}
+
 static int is_vector_in_viewport(Renderer * renderer, Vector vector, int padding) {
-  return vector.x >= (-renderer->viewport_width/2 - padding) / renderer->scale
-    && vector.x <= (renderer->viewport_width/2 + padding) / renderer->scale
-    && vector.y >= (-renderer->viewport_height/2 - padding) / renderer->scale
-    && vector.y <= (renderer->viewport_height/2 + padding) / renderer->scale;
+  Vector point = renderer_world_to_screen(renderer, vector);
+  return point.x + padding >= 0.0f && point.y + padding >= 0.0f
+    && point.x - padding <= renderer->viewport_width
+    && point.y - padding <= renderer->viewport_height;
 }
 
 static void render_entity_overlay(Entity * entity, void * renderer_ptr) {
@@ -170,9 +184,9 @@ static void render_entity_overlay(Entity * entity, void * renderer_ptr) {
     Unit * unit = &entity->unit;
     float health_percentage = unit_health_percentage(unit);
     if(health_percentage < 1.0f) {
-      float x = unit->position.x + renderer->viewport_width/2/renderer->scale;
-      float y = unit->position.y + renderer->viewport_height/2/renderer->scale;
-      render_health_bar(renderer, x, y - HALF_UNIT_TEXTURE_SIZE, health_percentage);
+      Vector point = renderer_world_to_screen(renderer, unit->position);
+      point.y -= HALF_UNIT_TEXTURE_SIZE*renderer->scale;
+      render_health_bar(renderer, point.x, point.y, health_percentage);
     }
   }
 }
@@ -185,7 +199,7 @@ static void render_entity(Entity * entity, void * renderer_ptr) {
         renderer_render_unit(renderer, &entity->unit);
       break;
     case PROJECTILE:
-      if(is_vector_in_viewport(renderer, entity->projectile.position, 8))
+      if(is_vector_in_viewport(renderer, entity->projectile.position, PROJECTILE_LENGTH))
         renderer_render_projectile(renderer, &entity->projectile);
       break;
     case NONE: break;
