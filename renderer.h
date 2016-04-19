@@ -6,12 +6,11 @@
 #include "vector.h"
 #include "projectile.h"
 #include <SDL2/SDL.h>
+#include "opengl.h"
 
 typedef struct {
   SDL_Window * window;
-  SDL_Renderer * renderer;
-  SDL_Texture * unit_texture;
-  SDL_Texture * unit_head_texture;
+  SDL_GLContext gl_context;
   int viewport_width;
   int viewport_height;
   float scale;

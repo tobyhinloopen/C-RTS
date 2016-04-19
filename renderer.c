@@ -18,60 +18,15 @@ const float PROJECTILE_IMPACT_HALF_SIZE = 3.0f;
 const int HEALTH_BAR_WIDTH = 32;
 const int HEALTH_BAR_HEIGHT = 4;
 
-typedef void (* RenderFunction)(SDL_Renderer *, SDL_Texture *);
 typedef union { Uint32 color; struct { Uint8 b; Uint8 g; Uint8 r; }; } RendererColor;
 
 static SDL_Window * create_sdl_window() {
   SDL_Window * sdl_window = SDL_CreateWindow("SDL Window",
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-    INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE|SDL_WINDOW_ALLOW_HIGHDPI);
+    INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT,
+    SDL_WINDOW_RESIZABLE|SDL_WINDOW_ALLOW_HIGHDPI|SDL_WINDOW_OPENGL);
   assert(sdl_window);
   return sdl_window;
-}
-
-static SDL_Renderer * create_sdl_renderer(SDL_Window * window) {
-  SDL_Renderer * sdl_renderer = SDL_CreateRenderer(window, -1, 0);
-  assert(sdl_renderer);
-  return sdl_renderer;
-}
-
-static void sdl_renderer_clear_color(SDL_Renderer * renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
-  SDL_SetRenderDrawColor(renderer, r, g, b, a);
-  SDL_RenderClear(renderer);
-}
-
-static void initialize_texture(SDL_Renderer * renderer, SDL_Texture ** texture, RenderFunction render_fn) {
-  *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
-    SDL_TEXTUREACCESS_TARGET, UNIT_TEXTURE_SIZE, UNIT_TEXTURE_SIZE);
-  SDL_SetTextureBlendMode(*texture, SDL_BLENDMODE_BLEND);
-  SDL_SetRenderTarget(renderer, *texture);
-  sdl_renderer_clear_color(renderer, 255, 255, 255, 0);
-  render_fn(renderer, *texture);
-  SDL_SetRenderTarget(renderer, NULL);
-}
-
-static void render_unit_texture(SDL_Renderer * renderer, SDL_Texture * texture) {
-  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-  SDL_Rect rect = { HALF_UNIT_TEXTURE_SIZE-16, HALF_UNIT_TEXTURE_SIZE-12, 32, 24 };
-  SDL_RenderDrawRect(renderer, &rect);
-}
-
-static void initialize_unit_texture(Renderer * renderer) {
-  initialize_texture(renderer->renderer, &renderer->unit_texture, render_unit_texture);
-}
-
-static void render_unit_head_texture(SDL_Renderer * renderer, SDL_Texture * texture) {
-  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-  SDL_RenderDrawLine(renderer,
-    HALF_UNIT_TEXTURE_SIZE-4, HALF_UNIT_TEXTURE_SIZE-8,
-    HALF_UNIT_TEXTURE_SIZE+4, HALF_UNIT_TEXTURE_SIZE);
-  SDL_RenderDrawLine(renderer,
-    HALF_UNIT_TEXTURE_SIZE-4, HALF_UNIT_TEXTURE_SIZE+8,
-    HALF_UNIT_TEXTURE_SIZE+4, HALF_UNIT_TEXTURE_SIZE);
-}
-
-static void initialize_unit_head_texture(Renderer * renderer) {
-  initialize_texture(renderer->renderer, &renderer->unit_head_texture, render_unit_head_texture);
 }
 
 void renderer_initialize(Renderer * renderer) {
@@ -80,80 +35,136 @@ void renderer_initialize(Renderer * renderer) {
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
 
   renderer->window = create_sdl_window();
-  renderer->renderer = create_sdl_renderer(renderer->window);
+  renderer->gl_context = SDL_GL_CreateContext(renderer->window);
 
-  SDL_SetRenderDrawBlendMode(renderer->renderer, SDL_BLENDMODE_BLEND);
+  glEnable(GL_DEPTH_TEST);
 
   renderer_notify_viewport_resized(renderer);
-
-  initialize_unit_texture(renderer);
-  initialize_unit_head_texture(renderer);
 
   renderer->scale = 1.0f;
   vector_initialize(&renderer->camera);
 }
 
 void renderer_clear_color(Renderer * renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
-  sdl_renderer_clear_color(renderer->renderer, r, g, b, a);
+  glClearColor(r/255.0f, g/255.0f, b/255.0f, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
-static void render_health_bar(Renderer * renderer, float x, float y, float health_percentage) {
-  const int left_x = (int)x - HEALTH_BAR_WIDTH/2;
-  const int top_y = (int)y - HEALTH_BAR_HEIGHT/2;
+static void render_health_bar(Renderer * renderer, Unit * unit) {
+  float health_percentage = unit_health_percentage(unit);
+  if(health_percentage >= 1.0f)
+    return;
 
-  SDL_SetRenderDrawColor(renderer->renderer, 0, 0, 0, 255);
-  const SDL_Rect outer_health_bar_rect = {
-    left_x - 1, top_y - 1, HEALTH_BAR_WIDTH + 2, HEALTH_BAR_HEIGHT + 2 };
-  SDL_RenderFillRect(renderer->renderer, &outer_health_bar_rect);
+  glPushMatrix();
+  glTranslatef(-HEALTH_BAR_WIDTH/2, -HEALTH_BAR_HEIGHT/2 + 16.0f, 0.5f);
+
+  glColor3f(0.0f, 0.0f, 0.0f);
+
+  glBegin(GL_QUADS);
+
+  glVertex2f(-1.0f, -1.0f);
+  glVertex2f(HEALTH_BAR_WIDTH+1.0f, -1.0f);
+  glVertex2f(HEALTH_BAR_WIDTH+1.0f, HEALTH_BAR_HEIGHT+1.0f);
+  glVertex2f(-1.0f, HEALTH_BAR_HEIGHT+1.0f);
+
+  glEnd();
 
   if(health_percentage >= 0.6f)
-    SDL_SetRenderDrawColor(renderer->renderer, 0, 255, 0, 255);
+    glColor3f(0.0f, 1.0f, 0.0f);
   else if(health_percentage >= 0.3f)
-    SDL_SetRenderDrawColor(renderer->renderer, 255, 192, 0, 255);
+    glColor3f(1.0f, 0.75f, 0.0f);
   else
-    SDL_SetRenderDrawColor(renderer->renderer, 192, 0, 0, 255);
+    glColor3f(0.75f, 0.0f, 0.0f);
 
-  const SDL_Rect inner_health_bar_rect = {
-    left_x, top_y, HEALTH_BAR_WIDTH * health_percentage, HEALTH_BAR_HEIGHT };
-  SDL_RenderFillRect(renderer->renderer, &inner_health_bar_rect);
+  glTranslatef(0.0f, 0.0f, 0.01f);
+
+  float width = health_percentage * HEALTH_BAR_WIDTH;
+
+  glBegin(GL_QUADS);
+
+  glVertex2f(0.0f, 0.0f);
+  glVertex2f(width, 0.0f);
+  glVertex2f(width, HEALTH_BAR_HEIGHT);
+  glVertex2f(0.0f, HEALTH_BAR_HEIGHT);
+
+  glEnd();
+
+  glPopMatrix();
+}
+
+static void set_gl_team_color(int team_id) {
+  RendererColor color = { team_id };
+  glColor3f(color.r/255.0f, color.g/255.0f, color.b/255.0f);
 }
 
 void renderer_render_unit(Renderer * renderer, Unit * unit) {
-  RendererColor color = { unit->team_id };
-  SDL_SetTextureColorMod(renderer->unit_texture, color.r, color.g, color.b);
-  SDL_SetTextureColorMod(renderer->unit_head_texture, color.r, color.g, color.b);
+  glPushMatrix();
+  glTranslatef(unit->position.x, unit->position.y, 0.0f);
 
-  Vector point = renderer_world_to_screen(renderer, unit->position);
-  SDL_Rect dest_rect = { point.x - HALF_UNIT_TEXTURE_SIZE, point.y - HALF_UNIT_TEXTURE_SIZE,
-    UNIT_TEXTURE_SIZE, UNIT_TEXTURE_SIZE };
-  SDL_RenderCopyEx(renderer->renderer, renderer->unit_texture, NULL, &dest_rect,
-    unit->direction * RAD2DEGf, NULL, SDL_FLIP_NONE);
-  SDL_RenderCopyEx(renderer->renderer, renderer->unit_head_texture, NULL, &dest_rect,
-    (unit->direction + unit->head_direction) * RAD2DEGf, NULL, SDL_FLIP_NONE);
+  render_health_bar(renderer, unit);
+  set_gl_team_color(unit->team_id);
+
+  glRotatef(unit->direction * RAD2DEGf, 0.0f, 0.0f, 1.0f);
+
+  glBegin(GL_LINE_LOOP);
+
+  glVertex2f(-16.0f, -12.0f);
+  glVertex2f( 16.0f, -12.0f);
+  glVertex2f( 16.0f,  12.0f);
+  glVertex2f(-16.0f,  12.0f);
+
+  glEnd();
+
+  glRotatef(unit->head_direction * RAD2DEGf, 0.0f, 0.0f, 1.0f);
+
+  glBegin(GL_LINE_STRIP);
+
+  glVertex2f(-4.0f, -8.0f);
+  glVertex2f( 4.0f,  0.0f);
+  glVertex2f(-4.0f,  8.0f);
+
+  glEnd();
+  glPopMatrix();
 }
 
 void renderer_render_projectile(Renderer * renderer, Projectile * projectile) {
-  RendererColor color = { projectile->team_id };
-  SDL_SetRenderDrawColor(renderer->renderer, color.r, color.g, color.b,
-    (Uint8)(projectile->decay_remaining / PROJECTILE_DECAY * 255.0f));
-  Vector point = renderer_world_to_screen(renderer, projectile->position);
-  if(projectile->distance_remaining > 0)
-    SDL_RenderDrawLine(renderer->renderer, point.x, point.y,
-      point.x + PROJECTILE_LENGTH * cosf(projectile->direction),
-      point.y + PROJECTILE_LENGTH * sinf(projectile->direction));
-  else {
-    SDL_RenderDrawLine(renderer->renderer,
-      point.x - PROJECTILE_IMPACT_HALF_SIZE, point.y - PROJECTILE_IMPACT_HALF_SIZE,
-      point.x + PROJECTILE_IMPACT_HALF_SIZE, point.y + PROJECTILE_IMPACT_HALF_SIZE);
-    SDL_RenderDrawLine(renderer->renderer,
-      point.x + PROJECTILE_IMPACT_HALF_SIZE, point.y - PROJECTILE_IMPACT_HALF_SIZE,
-      point.x - PROJECTILE_IMPACT_HALF_SIZE, point.y + PROJECTILE_IMPACT_HALF_SIZE);
+  set_gl_team_color(projectile->team_id);
+
+  glPushMatrix();
+  glTranslatef(projectile->position.x, projectile->position.y, 0.1f);
+
+
+  if(projectile->distance_remaining > 0) {
+    glRotatef(projectile->direction * RAD2DEGf, 0.0f, 0.0f, 1.0f);
+    glBegin(GL_LINES);
+
+    glVertex2f(0.0f, 0.0f);
+    glVertex2f(PROJECTILE_LENGTH, 0.0f);
+
+    glEnd();
+  } else {
+    glBegin(GL_LINES);
+
+    glVertex2f(-PROJECTILE_IMPACT_HALF_SIZE, -PROJECTILE_IMPACT_HALF_SIZE);
+    glVertex2f( PROJECTILE_IMPACT_HALF_SIZE,  PROJECTILE_IMPACT_HALF_SIZE);
+    glVertex2f( PROJECTILE_IMPACT_HALF_SIZE, -PROJECTILE_IMPACT_HALF_SIZE);
+    glVertex2f(-PROJECTILE_IMPACT_HALF_SIZE,  PROJECTILE_IMPACT_HALF_SIZE);
+
+    glEnd();
   }
+
+  glPopMatrix();
 }
 
 void renderer_notify_viewport_resized(Renderer * renderer) {
-  SDL_GetRendererOutputSize(renderer->renderer,
-    &renderer->viewport_width, &renderer->viewport_height);
+  SDL_GL_GetDrawableSize(renderer->window, &renderer->viewport_width, &renderer->viewport_height);
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+
+  double x = renderer->viewport_width/2;
+  double y = renderer->viewport_height/2;
+  glOrtho(-x, x, -y, y, -1.0f, 1.0f);
 }
 
 
@@ -178,20 +189,6 @@ static int is_vector_in_viewport(Renderer * renderer, Vector vector, int padding
     && point.y - padding <= renderer->viewport_height;
 }
 
-static void render_entity_overlay(Entity * entity, void * renderer_ptr) {
-  Renderer * renderer = (Renderer *)renderer_ptr;
-  if(entity->type == UNIT
-  && is_vector_in_viewport(renderer, entity->unit.position, HALF_UNIT_TEXTURE_SIZE)) {
-    Unit * unit = &entity->unit;
-    float health_percentage = unit_health_percentage(unit);
-    if(health_percentage < 1.0f) {
-      Vector point = renderer_world_to_screen(renderer, unit->position);
-      point.y -= HALF_UNIT_TEXTURE_SIZE*renderer->scale;
-      render_health_bar(renderer, point.x, point.y, health_percentage);
-    }
-  }
-}
-
 static void render_entity(Entity * entity, void * renderer_ptr) {
   Renderer * renderer = (Renderer *)renderer_ptr;
   switch(entity->type) {
@@ -208,19 +205,19 @@ static void render_entity(Entity * entity, void * renderer_ptr) {
 }
 
 void renderer_render_world(Renderer * renderer, World * world) {
-  //SDL_RenderSetScale(renderer->renderer, renderer->scale, renderer->scale);
+  glMatrixMode(GL_MODELVIEW);
+  glScalef(renderer->scale, renderer->scale, 1.0f);
+  glTranslatef(-renderer->camera.x, -renderer->camera.y, 0.0f);
+
   world_iterate_entities(world, renderer, render_entity);
-  world_iterate_entities(world, renderer, render_entity_overlay);
 }
 
 void renderer_present(Renderer * renderer) {
-  SDL_RenderPresent(renderer->renderer);
+  SDL_GL_SwapWindow(renderer->window);
 }
 
 void renderer_deinitialize(Renderer * renderer) {
-  SDL_DestroyTexture(renderer->unit_head_texture);
-  SDL_DestroyTexture(renderer->unit_texture);
-  SDL_DestroyRenderer(renderer->renderer);
+  SDL_GL_DeleteContext(renderer->gl_context);
   SDL_DestroyWindow(renderer->window);
   SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }

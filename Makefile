@@ -23,7 +23,7 @@ LFLAGS = -lm
 # define any libraries to link into executable:
 #   if I want to link in libraries (libx.so or libx.a) I use the -llibname
 #   option, something like (this will link in libmylib.so and libm.so:
-LIBS = -framework SDL2
+LIBS = -framework SDL2 -framework OpenGL
 
 # define the C source files
 SRCS = $(wildcard **/*.c *.c)
