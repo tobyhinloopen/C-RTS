@@ -206,6 +206,7 @@ static void render_entity(Entity * entity, void * renderer_ptr) {
 
 void renderer_render_world(Renderer * renderer, World * world) {
   glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
   glScalef(renderer->scale, renderer->scale, 1.0f);
   glTranslatef(-renderer->camera.x, -renderer->camera.y, 0.0f);
 
