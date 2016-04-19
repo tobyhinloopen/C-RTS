@@ -89,7 +89,7 @@ void renderer_initialize(Renderer * renderer) {
   initialize_unit_texture(renderer);
   initialize_unit_head_texture(renderer);
 
-  renderer->scale = 0.5f;
+  renderer->scale = 1.0f;
   vector_initialize(&renderer->camera);
 }
 
@@ -103,7 +103,7 @@ static void render_health_bar(Renderer * renderer, float x, float y, float healt
 
   SDL_SetRenderDrawColor(renderer->renderer, 0, 0, 0, 255);
   const SDL_Rect outer_health_bar_rect = {
-    left_x -1, top_y - 1, HEALTH_BAR_WIDTH + 2, HEALTH_BAR_HEIGHT + 2 };
+    left_x - 1, top_y - 1, HEALTH_BAR_WIDTH + 2, HEALTH_BAR_HEIGHT + 2 };
   SDL_RenderFillRect(renderer->renderer, &outer_health_bar_rect);
 
   if(health_percentage >= 0.6f)
@@ -166,8 +166,8 @@ Vector renderer_screen_to_world(Renderer * renderer, Vector point) {
 
 Vector renderer_world_to_screen(Renderer * renderer, Vector position) {
   return (Vector) {
-    (position.x - renderer->camera.x) * renderer->scale + renderer->viewport_width/2/renderer->scale,
-    (position.y - renderer->camera.y) * renderer->scale + renderer->viewport_height/2/renderer->scale
+    (position.x - renderer->camera.x) * renderer->scale + renderer->viewport_width/2,
+    (position.y - renderer->camera.y) * renderer->scale + renderer->viewport_height/2
   };
 }
 
@@ -180,7 +180,8 @@ static int is_vector_in_viewport(Renderer * renderer, Vector vector, int padding
 
 static void render_entity_overlay(Entity * entity, void * renderer_ptr) {
   Renderer * renderer = (Renderer *)renderer_ptr;
-  if(entity->type == UNIT) {
+  if(entity->type == UNIT
+  && is_vector_in_viewport(renderer, entity->unit.position, HALF_UNIT_TEXTURE_SIZE)) {
     Unit * unit = &entity->unit;
     float health_percentage = unit_health_percentage(unit);
     if(health_percentage < 1.0f) {
@@ -207,7 +208,7 @@ static void render_entity(Entity * entity, void * renderer_ptr) {
 }
 
 void renderer_render_world(Renderer * renderer, World * world) {
-  SDL_RenderSetScale(renderer->renderer, renderer->scale, renderer->scale);
+  //SDL_RenderSetScale(renderer->renderer, renderer->scale, renderer->scale);
   world_iterate_entities(world, renderer, render_entity);
   world_iterate_entities(world, renderer, render_entity_overlay);
 }
