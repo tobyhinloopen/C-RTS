@@ -38,15 +38,19 @@ void renderer_initialize(Renderer * renderer) {
   renderer->gl_context = SDL_GL_CreateContext(renderer->window);
 
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_LINE_SMOOTH);
+  glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
   renderer_notify_viewport_resized(renderer);
 
-  renderer->scale = 1.0f;
+  renderer->scale = 0.5f;
   vector_initialize(&renderer->camera);
 }
 
-void renderer_clear_color(Renderer * renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
-  glClearColor(r/255.0f, g/255.0f, b/255.0f, 1.0f);
+void renderer_clear_color(Renderer * renderer, float r, float g, float b) {
+  glClearColor(r, g, b, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
@@ -62,10 +66,11 @@ static void render_health_bar(Renderer * renderer, Unit * unit) {
 
   glBegin(GL_QUADS);
 
-  glVertex2f(-1.0f, -1.0f);
-  glVertex2f(HEALTH_BAR_WIDTH+1.0f, -1.0f);
-  glVertex2f(HEALTH_BAR_WIDTH+1.0f, HEALTH_BAR_HEIGHT+1.0f);
-  glVertex2f(-1.0f, HEALTH_BAR_HEIGHT+1.0f);
+  const float border = 1.0f / renderer->scale;
+  glVertex2f(-border, -border);
+  glVertex2f(HEALTH_BAR_WIDTH + border, -border);
+  glVertex2f(HEALTH_BAR_WIDTH + border, HEALTH_BAR_HEIGHT + border);
+  glVertex2f(-border, HEALTH_BAR_HEIGHT + border);
 
   glEnd();
 
@@ -78,13 +83,12 @@ static void render_health_bar(Renderer * renderer, Unit * unit) {
 
   glTranslatef(0.0f, 0.0f, 0.01f);
 
-  float width = health_percentage * HEALTH_BAR_WIDTH;
-
   glBegin(GL_QUADS);
 
+  float target_health_bar_width = health_percentage * HEALTH_BAR_WIDTH;
   glVertex2f(0.0f, 0.0f);
-  glVertex2f(width, 0.0f);
-  glVertex2f(width, HEALTH_BAR_HEIGHT);
+  glVertex2f(target_health_bar_width, 0.0f);
+  glVertex2f(target_health_bar_width, HEALTH_BAR_HEIGHT);
   glVertex2f(0.0f, HEALTH_BAR_HEIGHT);
 
   glEnd();
@@ -92,9 +96,13 @@ static void render_health_bar(Renderer * renderer, Unit * unit) {
   glPopMatrix();
 }
 
-static void set_gl_team_color(int team_id) {
+static void set_gl_team_color_alpha(int team_id, unsigned char alpha) {
   RendererColor color = { team_id };
-  glColor3f(color.r/255.0f, color.g/255.0f, color.b/255.0f);
+  glColor4ub(color.r, color.g, color.b, alpha);
+}
+
+static void set_gl_team_color(int team_id) {
+  set_gl_team_color_alpha(team_id, 255);
 }
 
 void renderer_render_unit(Renderer * renderer, Unit * unit) {
@@ -128,11 +136,11 @@ void renderer_render_unit(Renderer * renderer, Unit * unit) {
 }
 
 void renderer_render_projectile(Renderer * renderer, Projectile * projectile) {
-  set_gl_team_color(projectile->team_id);
+  set_gl_team_color_alpha(projectile->team_id,
+    (unsigned char)(projectile->decay_remaining / PROJECTILE_DECAY * 255.0f));
 
   glPushMatrix();
   glTranslatef(projectile->position.x, projectile->position.y, 0.1f);
-
 
   if(projectile->distance_remaining > 0) {
     glRotatef(projectile->direction * RAD2DEGf, 0.0f, 0.0f, 1.0f);

@@ -187,7 +187,7 @@ static void render() {
     if(delta > 0)
       world_update(&world, delta);
 
-    renderer_clear_color(&renderer, 255, 255, 255, 255);
+    renderer_clear_color(&renderer, 1.0f, 1.0f, 1.0f);
     renderer_render_world(&renderer, &world);
     renderer_present(&renderer);
 
