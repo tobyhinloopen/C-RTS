@@ -18,7 +18,13 @@ const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
 const int UNIT_INITIAL_SPAWN_COUNT = 0;
 const int UNIT_SPAWN_INTERVAL_MS = 2000;
 const int UNIT_SPAWN_MAX_GROUP_SIZE = 8;
-const float CAMERA_SPEED = 256.0;
+const float CAMERA_SPEED = 256.0f;
+const float CAMERA_ZOOM_SPEED = 0.5f;
+
+typedef struct {
+  Vector position;
+  float zoom;
+} CameraMovement;
 
 static void update_unit_behavior(Unit * unit, void * world_ptr) {
   World * world = (World*)world_ptr;
@@ -140,34 +146,44 @@ static int event_is_quit_request(SDL_Event * event) {
   return event->type == SDL_QUIT;
 }
 
-static Vector camera_movement_from_keyboard_event(SDL_Event * event) {
-  Vector camera_movement = (Vector){ 0, 0 };
+static CameraMovement camera_movement_from_keyboard_event(SDL_Event * event) {
+  CameraMovement camera_movement = (CameraMovement){ (Vector){ 0.0f, 0.0f }, 0.0f };
   SDL_KeyboardEvent key_event = event->key;
   if(!key_event.repeat) {
     switch(key_event.keysym.sym) {
       case SDLK_d:
       case SDLK_RIGHT:
-      camera_movement.x = 1.0f;
+      camera_movement.position.x = 1.0f;
       break;
 
       case SDLK_a:
       case SDLK_LEFT:
-      camera_movement.x = -1.0f;
+      camera_movement.position.x = -1.0f;
       break;
 
       case SDLK_w:
       case SDLK_UP:
-      camera_movement.y = 1.0f;
+      camera_movement.position.y = 1.0f;
       break;
 
       case SDLK_s:
       case SDLK_DOWN:
-      camera_movement.y = -1.0f;
+      camera_movement.position.y = -1.0f;
+      break;
+
+      case SDLK_q:
+      camera_movement.zoom = -1.0f;
+      break;
+
+      case SDLK_e:
+      camera_movement.zoom = 1.0f;
       break;
     }
 
-    if(key_event.type == SDL_KEYUP)
-      vector_multiply_scalar(&camera_movement, -1.0f);
+    if(key_event.type == SDL_KEYUP) {
+      camera_movement.zoom *= -1.0f;
+      vector_multiply_scalar(&camera_movement.position, -1.0f);
+    }
   }
   return camera_movement;
 }
@@ -178,9 +194,10 @@ static int event_is_window_resize(SDL_Event * event, SDL_Window * window) {
     && event->window.windowID == SDL_GetWindowID(window);
 }
 
-static void update_renderer_camera(Renderer * renderer, Vector camera_movement, float delta) {
-  vector_multiply_scalar(&camera_movement, delta * CAMERA_SPEED / renderer->scale);
-  vector_add(&renderer->camera, camera_movement);
+static void update_renderer_camera(Renderer * renderer, CameraMovement camera_movement, float delta) {
+  vector_multiply_scalar(&camera_movement.position, delta * CAMERA_SPEED / renderer->scale);
+  vector_add(&renderer->camera, camera_movement.position);
+  renderer->scale *= 1.0f + camera_movement.zoom * CAMERA_ZOOM_SPEED * delta;
 }
 
 static void render() {
@@ -198,7 +215,7 @@ static void render() {
   unsigned int last_spawn_time = last_time;
 
   int is_quit_requested = 0;
-  Vector camera_movement = (Vector) {};
+  CameraMovement camera_movement = (CameraMovement) { (Vector) { 0.0f, 0.0f }, 0.0f };
 
   while(!is_quit_requested) {
     SDL_Event event;
@@ -207,8 +224,11 @@ static void render() {
         is_quit_requested = 1;
       else if(event_is_window_resize(&event, renderer.window))
         renderer_notify_viewport_resized(&renderer);
-      else if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
-        vector_add(&camera_movement, camera_movement_from_keyboard_event(&event));
+      else if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
+        CameraMovement event_camera_movement = camera_movement_from_keyboard_event(&event);
+        camera_movement.zoom += event_camera_movement.zoom;
+        vector_add(&camera_movement.position, event_camera_movement.position);
+      }
     }
 
     unsigned int current_time = SDL_GetTicks();
