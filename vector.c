@@ -29,6 +29,11 @@ void vector_multiply(Vector * vector, Vector other) {
   vector->y *= other.y;
 }
 
+void vector_multiply_scalar(Vector * vector, float scalar) {
+  vector->x *= scalar;
+  vector->y *= scalar;
+}
+
 float vector_distance(Vector a, Vector b) {
   float dx = a.x - b.x;
   float dy = a.y - b.y;
