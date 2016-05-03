@@ -3,7 +3,7 @@
 
 #include "world.h"
 #include "unit.h"
-#include "vector.h"
+#include "vector3.h"
 #include "projectile.h"
 #include <SDL2/SDL.h>
 #include "opengl.h"
@@ -13,8 +13,7 @@ typedef struct {
   SDL_GLContext gl_context;
   int viewport_width;
   int viewport_height;
-  float scale;
-  Vector camera;
+  Vector3 camera;
 } Renderer;
 
 void renderer_initialize(Renderer *);

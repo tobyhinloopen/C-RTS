@@ -44,14 +44,16 @@ void renderer_initialize(Renderer * renderer) {
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
   renderer_notify_viewport_resized(renderer);
-
-  renderer->scale = 0.5f;
-  vector_initialize(&renderer->camera);
+  renderer->camera = (Vector3) { 0.0f, 0.0f, 0.0f };
 }
 
 void renderer_clear_color(Renderer * renderer, float r, float g, float b) {
   glClearColor(r, g, b, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+}
+
+static float renderer_scale(Renderer * renderer) {
+  return 1.0f / (1.0f + renderer->camera.z);
 }
 
 static void render_health_bar(Renderer * renderer, Unit * unit) {
@@ -66,7 +68,7 @@ static void render_health_bar(Renderer * renderer, Unit * unit) {
 
   glBegin(GL_QUADS);
 
-  const float border = 1.0f / renderer->scale;
+  const float border = 1.0f / renderer_scale(renderer);
   glVertex2f(-border, -border);
   glVertex2f(HEALTH_BAR_WIDTH + border, -border);
   glVertex2f(HEALTH_BAR_WIDTH + border, HEALTH_BAR_HEIGHT + border);
@@ -177,16 +179,18 @@ void renderer_notify_viewport_resized(Renderer * renderer) {
 
 
 Vector renderer_screen_to_world(Renderer * renderer, Vector point) {
+  const float scale = renderer_scale(renderer);
   return (Vector) {
-    (point.x - renderer->viewport_width/2) / renderer->scale + renderer->camera.x,
-    (point.y - renderer->viewport_height/2) / renderer->scale + renderer->camera.y
+    (point.x - renderer->viewport_width/2) / scale + renderer->camera.x,
+    (point.y - renderer->viewport_height/2) / scale + renderer->camera.y
   };
 }
 
 Vector renderer_world_to_screen(Renderer * renderer, Vector position) {
+  const float scale = renderer_scale(renderer);
   return (Vector) {
-    (position.x - renderer->camera.x) * renderer->scale + renderer->viewport_width/2,
-    (position.y - renderer->camera.y) * renderer->scale + renderer->viewport_height/2
+    (position.x - renderer->camera.x) * scale + renderer->viewport_width/2,
+    (position.y - renderer->camera.y) * scale + renderer->viewport_height/2
   };
 }
 
@@ -215,7 +219,8 @@ static void render_entity(Entity * entity, void * renderer_ptr) {
 void renderer_render_world(Renderer * renderer, World * world) {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  glScalef(renderer->scale, renderer->scale, 1.0f);
+  const float scale = renderer_scale(renderer);
+  glScalef(scale, scale, 1.0f);
   glTranslatef(-renderer->camera.x, -renderer->camera.y, 0.0f);
 
   world_iterate_entities(world, renderer, render_entity);

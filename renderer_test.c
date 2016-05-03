@@ -15,13 +15,12 @@ static void test_renderer_world_to_screen() {
   Renderer renderer;
   renderer.viewport_width = 200;
   renderer.viewport_height = 100;
-  renderer.scale = 1.0f;
-  renderer.camera = (Vector) { 0.0f, 0.0f };
+  renderer.camera = (Vector3) { 0.0f, 0.0f, 0.0f };
 
   Vector position = (Vector) { 2.0f, 3.0f };
   assert_vector_equal((Vector) { 102.0f, 53.0f }, renderer_world_to_screen(&renderer, position));
 
-  renderer.scale = 0.5f;
+  renderer.camera = (Vector3) { 0.0f, 0.0f, 1.0f };
 
   assert_vector_equal((Vector) { 101.0f, 51.5f }, renderer_world_to_screen(&renderer, position));
 }

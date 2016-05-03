@@ -9,6 +9,8 @@
 #include "world.h"
 #include "pi.h"
 #include "vector.h"
+#include "camera.h"
+#include "vector3.h"
 #include "unit/behavior.h"
 #include <math.h>
 
@@ -18,13 +20,6 @@ const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
 const int UNIT_SPAWN_INTERVAL_MS = 20;
 const int UNIT_SPAWN_MAX_GROUP_SIZE = 8;
 const int UNIT_MAX_SPAWN_COUNT = 400;
-const float CAMERA_SPEED = 512.0f;
-const float CAMERA_ZOOM_SPEED = 0.5f;
-
-typedef struct {
-  Vector position;
-  float zoom;
-} CameraMovement;
 
 static void update_unit_behavior(Unit * unit, void * world_ptr) {
   World * world = (World*)world_ptr;
@@ -56,7 +51,8 @@ static float rand_rangef(float min, float max) {
 
 static float rand_rangef_pow2(float min, float max) {
   const float magnitude = (max - min)/2;
-  const float result = rand_rangef(-magnitude*magnitude, magnitude*magnitude);
+  const float magnitude_sq = magnitude * magnitude;
+  const float result = rand_rangef(-magnitude_sq, magnitude_sq);
   return sqrtf(result < 0.0f ? -result : result) * (result < 0.0f ? -1.0f : 1.0f);
 }
 
@@ -132,58 +128,10 @@ static int world_count_units(World * world) {
   return count;
 }
 
-static CameraMovement camera_movement_from_keyboard_event(SDL_Event * event) {
-  CameraMovement camera_movement = (CameraMovement){ (Vector){ 0.0f, 0.0f }, 0.0f };
-  SDL_KeyboardEvent key_event = event->key;
-  if(!key_event.repeat) {
-    switch(key_event.keysym.sym) {
-      case SDLK_d:
-      case SDLK_RIGHT:
-      camera_movement.position.x = 1.0f;
-      break;
-
-      case SDLK_a:
-      case SDLK_LEFT:
-      camera_movement.position.x = -1.0f;
-      break;
-
-      case SDLK_w:
-      case SDLK_UP:
-      camera_movement.position.y = 1.0f;
-      break;
-
-      case SDLK_s:
-      case SDLK_DOWN:
-      camera_movement.position.y = -1.0f;
-      break;
-
-      case SDLK_q:
-      camera_movement.zoom = -1.0f;
-      break;
-
-      case SDLK_e:
-      camera_movement.zoom = 1.0f;
-      break;
-    }
-
-    if(key_event.type == SDL_KEYUP) {
-      camera_movement.zoom *= -1.0f;
-      vector_multiply_scalar(&camera_movement.position, -1.0f);
-    }
-  }
-  return camera_movement;
-}
-
 static int event_is_window_resize(SDL_Event * event, SDL_Window * window) {
   return event->type == SDL_WINDOWEVENT
     && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED
     && event->window.windowID == SDL_GetWindowID(window);
-}
-
-static void update_renderer_camera(Renderer * renderer, CameraMovement camera_movement, float delta) {
-  vector_multiply_scalar(&camera_movement.position, delta * CAMERA_SPEED / renderer->scale);
-  vector_add(&renderer->camera, camera_movement.position);
-  renderer->scale *= 1.0f + camera_movement.zoom * CAMERA_ZOOM_SPEED * delta;
 }
 
 static void render() {
@@ -201,7 +149,7 @@ static void render() {
   unsigned int last_spawn_time = last_time;
 
   int is_quit_requested = 0;
-  CameraMovement camera_movement = (CameraMovement) { (Vector) { 0.0f, 0.0f }, 0.0f };
+  Vector3 camera_movement = (Vector3) { 0.0f, 0.0f, 0.0f };
 
   while(!is_quit_requested) {
     SDL_Event event;
@@ -210,11 +158,8 @@ static void render() {
         is_quit_requested = 1;
       else if(event_is_window_resize(&event, renderer.window))
         renderer_notify_viewport_resized(&renderer);
-      else if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
-        CameraMovement event_camera_movement = camera_movement_from_keyboard_event(&event);
-        camera_movement.zoom += event_camera_movement.zoom;
-        vector_add(&camera_movement.position, event_camera_movement.position);
-      }
+      else if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
+        vector3_add(&camera_movement, camera_movement_from_keyboard_event(&event.key));
     }
 
     unsigned int current_time = SDL_GetTicks();
@@ -236,7 +181,7 @@ static void render() {
     float delta = (current_time - last_time) / 1000.f;
 
     if(delta > 0) {
-      update_renderer_camera(&renderer, camera_movement, delta);
+      camera_update(&renderer.camera, camera_movement, delta);
       world_update(&world, delta);
     }
 
