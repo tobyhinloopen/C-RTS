@@ -8,7 +8,7 @@ const float UNIT_RADIANS_PER_SECOND = HALF_PI;
 const float UNIT_HEAD_RADIANS_PER_SECOND = PI2;
 const float UNIT_FIRE_INTERVAL = 0.5f;
 const float UNIT_INITIAL_HEALTH = 1000.0f;
-const float UNIT_HEALTH_REGENERATION = 50.0f;
+const float UNIT_HEALTH_REGENERATION = 10.0f;
 
 void unit_initialize(Unit * unit) {
   vector_initialize(&unit->position);

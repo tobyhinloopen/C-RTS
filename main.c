@@ -15,10 +15,10 @@
 const int TEAM_COUNT = 4;
 const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
 
-const int UNIT_INITIAL_SPAWN_COUNT = 0;
-const int UNIT_SPAWN_INTERVAL_MS = 2000;
+const int UNIT_SPAWN_INTERVAL_MS = 20;
 const int UNIT_SPAWN_MAX_GROUP_SIZE = 8;
-const float CAMERA_SPEED = 256.0f;
+const int UNIT_MAX_SPAWN_COUNT = 400;
+const float CAMERA_SPEED = 512.0f;
 const float CAMERA_ZOOM_SPEED = 0.5f;
 
 typedef struct {
@@ -28,52 +28,26 @@ typedef struct {
 
 static void update_unit_behavior(Unit * unit, void * world_ptr) {
   World * world = (World*)world_ptr;
-  Unit * closest_enemy_unit;
-  Unit * closest_friendly_unit;
-  int is_moving_behavior_set = 0;
-  if((closest_friendly_unit = unit_behavior_find_closest_friendly_unit(unit, world, 32.0f)) != NULL) {
-    Vector move_away_target = closest_friendly_unit->position;
-    vector_subtract(&move_away_target, unit->position);
-    vector_rotate(&move_away_target, PI);
-    vector_add(&move_away_target, unit->position);
-    unit_behavior_set_target_position(unit, move_away_target, 0.0f);
-    is_moving_behavior_set = 1;
-  }
-  if((closest_enemy_unit = unit_behavior_find_closest_enemy_unit(unit, world)) != NULL) {
-    if(closest_friendly_unit == NULL) {
-      if(unit_health_percentage(unit) > 0.5f) {
-        unit_behavior_set_target_position(unit, closest_enemy_unit->position, 120.0f);
-      } else {
-        Vector flee_target = closest_enemy_unit->position;
-        vector_subtract(&flee_target, unit->position);
-        vector_rotate(&flee_target, HALF_PI);
-        vector_add(&flee_target, unit->position);
-        unit_behavior_set_target_position(unit, flee_target, 0.0f);
-      }
-      is_moving_behavior_set = 1;
-    }
+  Unit * closest_enemy_unit = unit_behavior_find_closest_enemy_unit(unit, world);
+  Unit * closest_friendly_unit = unit_behavior_find_closest_friendly_unit(unit, world, 32.0f);
 
-    if(unit_health_percentage(unit) > 0.2f
-    || vector_distance(unit->position, closest_enemy_unit->position) > 480.0f) {
-      unit_behavior_look_at(unit, closest_enemy_unit->position);
-      float enemy_angle = vector_angle_between(unit->position, closest_enemy_unit->position);
-      float angular_diff = remainderf(enemy_angle - unit->direction - unit->head_direction, PI2);
-      if(angular_diff < 0)
-        angular_diff = - angular_diff;
-      if(angular_diff < PI2 * 0.05)
-        unit_behavior_open_fire(unit);
-      else
-        unit_behavior_hold_fire(unit);
-    } else {
-      unit_behavior_look_forward(unit);
-      unit_behavior_hold_fire(unit);
-      unit->throttle = 1.3f;
-    }
-  } else {
-    unit_behavior_look_forward(unit);
-    unit_behavior_stop(unit);
-    unit_behavior_hold_fire(unit);
-  }
+  float unit_health = unit_health_percentage(unit);
+
+  if(closest_friendly_unit != NULL)
+    unit_behavior_move_away_from(unit, closest_friendly_unit->position);
+  else if(closest_enemy_unit != NULL && unit_health >= 0.5f)
+    unit_behavior_set_target_position(unit, closest_enemy_unit->position, 120.0f);
+  else if(closest_enemy_unit != NULL)
+    unit_behavior_evasive_flee_from(unit, closest_enemy_unit->position);
+  else
+    unit_behavior_movement_stop(unit);
+
+  if(closest_enemy_unit == NULL)
+    unit_behavior_head_stop(unit);
+  else if(unit_health < 0.2f && vector_distance(unit->position, closest_enemy_unit->position) < 480.0f)
+    unit_behavior_overdrive(unit);
+  else
+    unit_behavior_head_engage_position(unit, closest_enemy_unit->position);
 }
 
 static float rand_rangef(float min, float max) {
@@ -144,6 +118,18 @@ static void setup_unit(Unit * unit, int team_offset, float x, float y) {
 
 static int event_is_quit_request(SDL_Event * event) {
   return event->type == SDL_QUIT;
+}
+
+static void increment_for_unit_entity(Entity * entity, void * count_ptr) {
+  int * count = (int*)count_ptr;
+  if(entity->type == UNIT)
+    (*count)++;
+}
+
+static int world_count_units(World * world) {
+  int count = 0;
+  world_iterate_entities(world, &count, increment_for_unit_entity);
+  return count;
 }
 
 static CameraMovement camera_movement_from_keyboard_event(SDL_Event * event) {
@@ -232,6 +218,7 @@ static void render() {
     }
 
     unsigned int current_time = SDL_GetTicks();
+    int world_unit_count = world_count_units(&world);
 
     while(UNIT_SPAWN_INTERVAL_MS > 0 && last_spawn_time + UNIT_SPAWN_INTERVAL_MS <= current_time) {
       last_spawn_time += UNIT_SPAWN_INTERVAL_MS;
@@ -239,14 +226,14 @@ static void render() {
       float x = rand_rangef_pow2(-640.0f, 640.0f);
       float y = rand_rangef_pow2(-640.0f, 640.0f);
       for(int unit_count = rand_rangei(1, UNIT_SPAWN_MAX_GROUP_SIZE); unit_count >= 0; --unit_count)
-        setup_unit(&world_entity_allocate(&world, UNIT)->unit, team_offset, x, y);
+        if(world_unit_count++ < UNIT_MAX_SPAWN_COUNT)
+          setup_unit(&world_entity_allocate(&world, UNIT)->unit, team_offset, x, y);
     }
 
     world_iterate_entities(&world, &world, update_projectile_entity);
     world_iterate_entities(&world, &world, update_unit_entity);
 
     float delta = (current_time - last_time) / 1000.f;
-
 
     if(delta > 0) {
       update_renderer_camera(&renderer, camera_movement, delta);
