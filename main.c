@@ -13,13 +13,16 @@
 #include "vector3.h"
 #include "unit/behavior.h"
 #include <math.h>
+#include <time.h>
 
 const int TEAM_COUNT = 4;
 const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
 
 const int UNIT_SPAWN_INTERVAL_MS = 20;
-const int UNIT_SPAWN_MAX_GROUP_SIZE = 8;
-const int UNIT_MAX_SPAWN_COUNT = 400;
+const int UNIT_SPAWN_MAX_GROUP_SIZE = 32;
+const int UNIT_MAX_SPAWN_COUNT = 1000;
+const float UNIT_MIN_FIRING_DISTANCE = -1.0f;
+const int UNIT_PERF_COUNT = 10;
 
 static void update_unit_behavior(Unit * unit, void * world_ptr) {
   World * world = (World*)world_ptr;
@@ -31,7 +34,7 @@ static void update_unit_behavior(Unit * unit, void * world_ptr) {
   if(closest_friendly_unit != NULL)
     unit_behavior_move_away_from(unit, closest_friendly_unit->position);
   else if(closest_enemy_unit != NULL && unit_health >= 0.5f)
-    unit_behavior_set_target_position(unit, closest_enemy_unit->position, 120.0f);
+    unit_behavior_set_target_position(unit, closest_enemy_unit->position, UNIT_MIN_FIRING_DISTANCE);
   else if(closest_enemy_unit != NULL)
     unit_behavior_evasive_flee_from(unit, closest_enemy_unit->position);
   else
@@ -151,6 +154,9 @@ static void render() {
   int is_quit_requested = 0;
   Vector3 camera_movement = (Vector3) { 0.0f, 0.0f, 0.0f };
 
+  int iterate_count = 0;
+  clock_t clock_total = 0;
+
   while(!is_quit_requested) {
     SDL_Event event;
     while(SDL_PollEvent(&event)) {
@@ -175,8 +181,18 @@ static void render() {
           setup_unit(&world_entity_allocate(&world, UNIT)->unit, team_offset, x, y);
     }
 
-    world_iterate_entities(&world, &world, update_projectile_entity);
+    //world_iterate_entities(&world, &world, update_projectile_entity);
+
+    clock_t start_clock = clock();
     world_iterate_entities(&world, &world, update_unit_entity);
+    clock_total += clock() - start_clock;
+    ++iterate_count;
+
+    if(iterate_count >= UNIT_PERF_COUNT) {
+      printf("%.2fms/iteration (per %d)\n", ((double)clock_total)/iterate_count/CLOCKS_PER_SEC*1000.0, UNIT_PERF_COUNT);
+      iterate_count = 0;
+      clock_total = 0;
+    }
 
     float delta = (current_time - last_time) / 1000.f;
 

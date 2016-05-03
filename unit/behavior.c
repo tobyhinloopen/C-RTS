@@ -124,8 +124,8 @@ void unit_behavior_set_target_position(Unit * unit, Vector target_position, floa
 }
 
 void unit_behavior_open_fire(Unit * unit) {
-  if(!unit_is_firing(unit))
-    unit->next_fire_interval = UNIT_FIRE_INTERVAL;
+  // if(!unit_is_firing(unit))
+  //   unit->next_fire_interval = UNIT_FIRE_INTERVAL;
 }
 
 void unit_behavior_hold_fire(Unit * unit) {
