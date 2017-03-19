@@ -72,54 +72,57 @@ depend: $(SRCS)
 	makedepend $(INCLUDES) $^
 # DO NOT DELETE
 
+mod/event.o: mod/event.h game_module.h game.h world.h unit.h vector.h
+mod/event.o: projectile.h renderer.h vector3.h /usr/local/include/SDL2/SDL.h
+mod/event.o: /usr/local/include/SDL2/SDL_main.h
+mod/event.o: /usr/local/include/SDL2/SDL_stdinc.h
+mod/event.o: /usr/local/include/SDL2/SDL_config.h
+mod/event.o: /usr/local/include/SDL2/SDL_platform.h
+mod/event.o: /usr/local/include/SDL2/begin_code.h
+mod/event.o: /usr/local/include/SDL2/close_code.h
+mod/event.o: /usr/local/include/SDL2/SDL_assert.h
+mod/event.o: /usr/local/include/SDL2/SDL_atomic.h
+mod/event.o: /usr/local/include/SDL2/SDL_audio.h
+mod/event.o: /usr/local/include/SDL2/SDL_error.h
+mod/event.o: /usr/local/include/SDL2/SDL_endian.h
+mod/event.o: /usr/local/include/SDL2/SDL_mutex.h
+mod/event.o: /usr/local/include/SDL2/SDL_thread.h
+mod/event.o: /usr/local/include/SDL2/SDL_rwops.h
+mod/event.o: /usr/local/include/SDL2/SDL_clipboard.h
+mod/event.o: /usr/local/include/SDL2/SDL_cpuinfo.h
+mod/event.o: /usr/local/include/SDL2/SDL_events.h
+mod/event.o: /usr/local/include/SDL2/SDL_video.h
+mod/event.o: /usr/local/include/SDL2/SDL_pixels.h
+mod/event.o: /usr/local/include/SDL2/SDL_rect.h
+mod/event.o: /usr/local/include/SDL2/SDL_surface.h
+mod/event.o: /usr/local/include/SDL2/SDL_blendmode.h
+mod/event.o: /usr/local/include/SDL2/SDL_keyboard.h
+mod/event.o: /usr/local/include/SDL2/SDL_keycode.h
+mod/event.o: /usr/local/include/SDL2/SDL_scancode.h
+mod/event.o: /usr/local/include/SDL2/SDL_mouse.h
+mod/event.o: /usr/local/include/SDL2/SDL_joystick.h
+mod/event.o: /usr/local/include/SDL2/SDL_gamecontroller.h
+mod/event.o: /usr/local/include/SDL2/SDL_quit.h
+mod/event.o: /usr/local/include/SDL2/SDL_gesture.h
+mod/event.o: /usr/local/include/SDL2/SDL_touch.h
+mod/event.o: /usr/local/include/SDL2/SDL_filesystem.h
+mod/event.o: /usr/local/include/SDL2/SDL_haptic.h
+mod/event.o: /usr/local/include/SDL2/SDL_hints.h
+mod/event.o: /usr/local/include/SDL2/SDL_loadso.h
+mod/event.o: /usr/local/include/SDL2/SDL_log.h
+mod/event.o: /usr/local/include/SDL2/SDL_messagebox.h
+mod/event.o: /usr/local/include/SDL2/SDL_power.h
+mod/event.o: /usr/local/include/SDL2/SDL_render.h
+mod/event.o: /usr/local/include/SDL2/SDL_system.h
+mod/event.o: /usr/local/include/SDL2/SDL_timer.h
+mod/event.o: /usr/local/include/SDL2/SDL_version.h opengl.h renderer.h
+mod/event.o: vector3.h camera.h /usr/local/include/SDL2/sdl.h
 unit/behavior.o: unit/behavior.h vector.h unit.h vector.h world.h unit.h
 unit/behavior.o: projectile.h pi.h
 unit/behavior_test.o: unit/behavior_test.h unit/behavior.h vector.h unit.h
 unit/behavior_test.o: vector.h world.h unit.h projectile.h pi.h
-camera.o: camera.h vector3.h /usr/local/include/SDL2/SDL.h
-camera.o: /usr/local/include/SDL2/SDL_main.h
-camera.o: /usr/local/include/SDL2/SDL_stdinc.h
-camera.o: /usr/local/include/SDL2/SDL_config.h
-camera.o: /usr/local/include/SDL2/SDL_platform.h
-camera.o: /usr/local/include/SDL2/begin_code.h
-camera.o: /usr/local/include/SDL2/close_code.h
-camera.o: /usr/local/include/SDL2/SDL_assert.h
-camera.o: /usr/local/include/SDL2/SDL_atomic.h
-camera.o: /usr/local/include/SDL2/SDL_audio.h
-camera.o: /usr/local/include/SDL2/SDL_error.h
-camera.o: /usr/local/include/SDL2/SDL_endian.h
-camera.o: /usr/local/include/SDL2/SDL_mutex.h
-camera.o: /usr/local/include/SDL2/SDL_thread.h
-camera.o: /usr/local/include/SDL2/SDL_rwops.h
-camera.o: /usr/local/include/SDL2/SDL_clipboard.h
-camera.o: /usr/local/include/SDL2/SDL_cpuinfo.h
-camera.o: /usr/local/include/SDL2/SDL_events.h
-camera.o: /usr/local/include/SDL2/SDL_video.h
-camera.o: /usr/local/include/SDL2/SDL_pixels.h
-camera.o: /usr/local/include/SDL2/SDL_rect.h
-camera.o: /usr/local/include/SDL2/SDL_surface.h
-camera.o: /usr/local/include/SDL2/SDL_blendmode.h
-camera.o: /usr/local/include/SDL2/SDL_keyboard.h
-camera.o: /usr/local/include/SDL2/SDL_keycode.h
-camera.o: /usr/local/include/SDL2/SDL_scancode.h
-camera.o: /usr/local/include/SDL2/SDL_mouse.h
-camera.o: /usr/local/include/SDL2/SDL_joystick.h
-camera.o: /usr/local/include/SDL2/SDL_gamecontroller.h
-camera.o: /usr/local/include/SDL2/SDL_quit.h
-camera.o: /usr/local/include/SDL2/SDL_gesture.h
-camera.o: /usr/local/include/SDL2/SDL_touch.h
-camera.o: /usr/local/include/SDL2/SDL_filesystem.h
-camera.o: /usr/local/include/SDL2/SDL_haptic.h
-camera.o: /usr/local/include/SDL2/SDL_hints.h
-camera.o: /usr/local/include/SDL2/SDL_loadso.h
-camera.o: /usr/local/include/SDL2/SDL_log.h
-camera.o: /usr/local/include/SDL2/SDL_messagebox.h
-camera.o: /usr/local/include/SDL2/SDL_power.h
-camera.o: /usr/local/include/SDL2/SDL_render.h
-camera.o: /usr/local/include/SDL2/SDL_system.h
-camera.o: /usr/local/include/SDL2/SDL_timer.h
-camera.o: /usr/local/include/SDL2/SDL_version.h
-game.o: game.h world.h unit.h projectile.h vector.h renderer.h vector3.h
+camera.o: camera.h vector3.h
+game.o: game.h world.h unit.h vector.h projectile.h renderer.h vector3.h
 game.o: /usr/local/include/SDL2/SDL.h /usr/local/include/SDL2/SDL_main.h
 game.o: /usr/local/include/SDL2/SDL_stdinc.h
 game.o: /usr/local/include/SDL2/SDL_config.h
@@ -162,8 +165,8 @@ game.o: /usr/local/include/SDL2/SDL_render.h
 game.o: /usr/local/include/SDL2/SDL_system.h
 game.o: /usr/local/include/SDL2/SDL_timer.h
 game.o: /usr/local/include/SDL2/SDL_version.h opengl.h camera.h test.h pi.h
-game.o: unit/behavior.h vector.h unit.h world.h
-main.o: test.h game.h world.h unit.h projectile.h vector.h renderer.h
+game.o: unit/behavior.h vector.h unit.h world.h mod/event.h game_module.h
+main.o: test.h game.h world.h unit.h vector.h projectile.h renderer.h
 main.o: vector3.h /usr/local/include/SDL2/SDL.h
 main.o: /usr/local/include/SDL2/SDL_main.h
 main.o: /usr/local/include/SDL2/SDL_stdinc.h
@@ -250,9 +253,9 @@ renderer.o: /usr/local/include/SDL2/SDL_render.h
 renderer.o: /usr/local/include/SDL2/SDL_system.h
 renderer.o: /usr/local/include/SDL2/SDL_timer.h
 renderer.o: /usr/local/include/SDL2/SDL_version.h renderer.h world.h unit.h
-renderer.o: projectile.h vector.h vector3.h opengl.h pi.h
-renderer_test.o: renderer_test.h renderer.h world.h unit.h projectile.h
-renderer_test.o: vector.h vector3.h /usr/local/include/SDL2/SDL.h
+renderer.o: vector.h projectile.h vector3.h opengl.h pi.h
+renderer_test.o: renderer_test.h renderer.h world.h unit.h vector.h
+renderer_test.o: projectile.h vector3.h /usr/local/include/SDL2/SDL.h
 renderer_test.o: /usr/local/include/SDL2/SDL_main.h
 renderer_test.o: /usr/local/include/SDL2/SDL_stdinc.h
 renderer_test.o: /usr/local/include/SDL2/SDL_config.h
@@ -298,9 +301,9 @@ renderer_test.o: /usr/local/include/SDL2/SDL_version.h opengl.h
 test.o: test.h unit_test.h world_test.h vector_test.h unit/behavior_test.h
 test.o: renderer_test.h
 unit.o: unit.h vector.h pi.h
-unit_test.o: unit_test.h unit.h pi.h
+unit_test.o: unit_test.h unit.h vector.h pi.h
 vector.o: vector.h pi.h
 vector3.o: vector3.h
 vector_test.o: vector_test.h vector.h pi.h
-world.o: world.h unit.h projectile.h vector.h
-world_test.o: world_test.h world.h unit.h projectile.h vector.h
+world.o: world.h unit.h vector.h projectile.h
+world_test.o: world_test.h world.h unit.h vector.h projectile.h

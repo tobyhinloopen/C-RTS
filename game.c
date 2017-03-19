@@ -15,6 +15,7 @@
 #include "vector3.h"
 #include "unit/behavior.h"
 #include <math.h>
+#include "mod/event.h"
 
 const int TEAM_COUNT = 4;
 const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
@@ -139,12 +140,6 @@ static void increment_for_unit_entity(Entity * entity, void * count_ptr) {
     (*count)++;
 }
 
-static int event_is_window_resize(SDL_Event * event, SDL_Window * window) {
-  return event->type == SDL_WINDOWEVENT
-    && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED
-    && event->window.windowID == SDL_GetWindowID(window);
-}
-
 static int world_count_units(World * world) {
   int count = 0;
   world_iterate_entities(world, &count, increment_for_unit_entity);
@@ -167,17 +162,12 @@ static void game_spawn_next_unit_group(Game * game) {
 }
 
 void game_update(Game * game) {
-  SDL_Event event;
-  while(SDL_PollEvent(&event)) {
-    if(event.type == SDL_QUIT)
-      game->is_quit_requested = 1;
-    else if(event_is_window_resize(&event, game->renderer.window))
-      renderer_notify_viewport_resized(&game->renderer);
-    else if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
-      vector3_add(&game->camera_movement, camera_movement_from_keyboard_event(&event.key));
-  }
-
   unsigned int current_time = SDL_GetTicks();
+  unsigned int delta_i = current_time - game->last_time;
+
+  GameModule game_module;
+  mod_event(&game_module);
+  game_module.update(game, delta_i);
 
   while(is_game_unit_spawn_interval_passed(game, current_time))
     game_spawn_next_unit_group(game);
@@ -185,7 +175,7 @@ void game_update(Game * game) {
   world_iterate_entities(&game->world, &game->world, update_projectile_entity);
   world_iterate_entities(&game->world, &game->world, update_unit_entity);
 
-  float delta = (current_time - game->last_time) / 1000.f;
+  float delta = delta_i / 1000.f;
   if(delta > 0) {
     camera_update(&game->renderer.camera, game->camera_movement, delta);
     world_update(&game->world, delta);
