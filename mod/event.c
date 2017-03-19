@@ -1,11 +1,11 @@
 #include "event.h"
 
-#include "../renderer.h"
 #include "../vector3.h"
 #include "../camera.h"
 #include <SDL2/sdl.h>
 
 static void mod_event_initialize(Game * game) {
+  game->is_quit_requested = 0;
 }
 
 static void mod_event_tick(Game * game) {
@@ -64,7 +64,7 @@ static void mod_event_update(Game * game, unsigned int delta) {
     if(event.type == SDL_QUIT)
       game->is_quit_requested = 1;
     else if(event_is_window_resize(&event, game->renderer.window))
-      renderer_notify_viewport_resized(&game->renderer);
+      game->is_window_resized = 1;
     else if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
       vector3_add(&game->camera_movement, camera_movement_from_keyboard_event(&event.key));
   }

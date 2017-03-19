@@ -3,19 +3,16 @@
 #include <SDL2/SDL.h>
 #include <time.h>
 #include <stdlib.h>
-#include "camera.h"
 #include "unit.h"
 #include "projectile.h"
-#include "renderer.h"
 #include "test.h"
 #include "world.h"
 #include "pi.h"
 #include "vector.h"
-#include "camera.h"
 #include "vector3.h"
 #include "unit/behavior.h"
 #include <math.h>
-#include "mod/event.h"
+#include <assert.h>
 
 const int TEAM_COUNT = 4;
 const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
@@ -24,11 +21,15 @@ const int UNIT_SPAWN_INTERVAL_MS = 20;
 const int UNIT_SPAWN_MAX_GROUP_SIZE = 8;
 const int UNIT_MAX_SPAWN_COUNT = 400;
 
-void game_initialize(Game * game) {
-  game->is_quit_requested = 0;
+void game_initialize(Game * game, size_t mod_capacity) {
+  game->modules = malloc(sizeof(GameModule) * mod_capacity);
+  game->modules_count = 0;
+  game->modules_capacity = mod_capacity;
+
+  game->is_quit_requested = 1;
+  game->is_window_resized = 0;
   game->camera_movement = (Vector3) { 0.0f, 0.0f, 0.0f };
 
-  renderer_initialize(&game->renderer);
   world_initialize(&game->world);
 
   SDL_InitSubSystem(SDL_INIT_TIMER);
@@ -39,8 +40,12 @@ void game_initialize(Game * game) {
   srand(time(NULL));
 }
 
-int game_is_quit_requested(Game * game) {
-  return game->is_quit_requested;
+void game_add_module(Game * game, void (*mod_fn)(GameModule *)) {
+  assert(game->modules_count < game->modules_capacity);
+
+  GameModule * game_module = &game->modules[game->modules_count++];
+  mod_fn(game_module);
+  game_module->initialize(game);
 }
 
 static void update_unit_behavior(Unit * unit, void * world_ptr) {
@@ -163,11 +168,7 @@ static void game_spawn_next_unit_group(Game * game) {
 
 void game_update(Game * game) {
   unsigned int current_time = SDL_GetTicks();
-  unsigned int delta_i = current_time - game->last_time;
-
-  GameModule game_module;
-  mod_event(&game_module);
-  game_module.update(game, delta_i);
+  unsigned int delta = current_time - game->last_time;
 
   while(is_game_unit_spawn_interval_passed(game, current_time))
     game_spawn_next_unit_group(game);
@@ -175,15 +176,8 @@ void game_update(Game * game) {
   world_iterate_entities(&game->world, &game->world, update_projectile_entity);
   world_iterate_entities(&game->world, &game->world, update_unit_entity);
 
-  float delta = delta_i / 1000.f;
-  if(delta > 0) {
-    camera_update(&game->renderer.camera, game->camera_movement, delta);
-    world_update(&game->world, delta);
-  }
-
-  renderer_clear_color(&game->renderer, 1.0f, 1.0f, 1.0f);
-  renderer_render_world(&game->renderer, &game->world);
-  renderer_present(&game->renderer);
+  for(size_t i = 0; i < game->modules_count; i++)
+    game->modules[i].update(game, delta);
 
   game->last_time = current_time;
 }
@@ -191,5 +185,9 @@ void game_update(Game * game) {
 void game_deinitialize(Game * game) {
   SDL_QuitSubSystem(SDL_INIT_TIMER);
   world_deinitialize(&game->world);
-  renderer_deinitialize(&game->renderer);
+
+  for(size_t i = 0; i < game->modules_count; i++)
+    game->modules[i].deinitialize(game);
+
+  free(game->modules);
 }
