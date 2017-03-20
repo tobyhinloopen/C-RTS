@@ -117,6 +117,7 @@ mod/event.o: /usr/local/include/SDL2/SDL_system.h
 mod/event.o: /usr/local/include/SDL2/SDL_timer.h
 mod/event.o: /usr/local/include/SDL2/SDL_version.h opengl.h vector3.h
 mod/event.o: camera.h /usr/local/include/SDL2/sdl.h
+mod/projectile_unit_impact.o: projectile.h vector.h
 mod/random_spawn.o: mod/random_spawn.h game.h world.h unit.h vector.h
 mod/random_spawn.o: projectile.h renderer.h vector3.h
 mod/random_spawn.o: /usr/local/include/SDL2/SDL.h

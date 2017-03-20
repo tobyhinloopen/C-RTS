@@ -27,7 +27,7 @@ void game_initialize(Game * game, size_t mod_capacity) {
   game->start_time = SDL_GetTicks();
   game->current_time = game->start_time;
   game->last_time = game->start_time;
-  game->last_spawn_time = game->start_time;
+  game->last_spawn_time = 0;
 }
 
 static void noop_game(Game * game) {}
@@ -93,24 +93,6 @@ static void create_unit_projectiles(Unit * unit, World * world) {
   }
 }
 
-static void destroy_unit_touching_projectile(Entity * entity, void * projectile_ptr) {
-  Unit * unit = &entity->unit;
-  Projectile * projectile = (Projectile*)projectile_ptr;
-  if(entity->type == UNIT
-  && unit->team_id != projectile->team_id
-  && projectile->distance_remaining > 0
-  && vector_distance(projectile->position, unit->position) < 12.0f) {
-    unit->health -= projectile_damage(projectile);
-    projectile->distance_remaining = 0;
-  }
-}
-
-static void update_projectile_entity(Entity * entity, void * world_ptr) {
-  if(entity->type == PROJECTILE) {
-    world_iterate_entities((World*)world_ptr, &entity->projectile, destroy_unit_touching_projectile);
-  }
-}
-
 static void update_unit_entity(Entity * entity, void * world_ptr) {
   if(entity->type == UNIT) {
     World * world = (World*)world_ptr;
@@ -123,7 +105,6 @@ void game_update(Game * game) {
   game->current_time = SDL_GetTicks();
   game->delta = game->current_time - game->last_time;
 
-  world_iterate_entities(&game->world, &game->world, update_projectile_entity);
   world_iterate_entities(&game->world, &game->world, update_unit_entity);
 
   for(size_t i = 0; i < game->modules_count; i++)

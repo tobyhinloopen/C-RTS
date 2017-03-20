@@ -6,9 +6,15 @@
 const int TEAM_COUNT = 4;
 const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
 
-const int UNIT_SPAWN_INTERVAL_MS = 20;
-const int UNIT_SPAWN_MAX_GROUP_SIZE = 8;
+const int UNIT_SPAWN_INTERVAL_MS = 1000;
+const int UNIT_SPAWN_MAX_GROUP_SIZE = 4;
 const int UNIT_MAX_SPAWN_COUNT = 400;
+const int UNIT_INITIAL_SPAWN_GROUP_COUNT = 8;
+
+const float RANGE_X = 1280.0f;
+const float RANGE_Y = 1280.0f;
+const float JITTER_X = 80.0f;
+const float JITTER_Y = 80.0f;
 
 static int is_game_unit_spawn_interval_passed(Game * game, unsigned int current_time) {
   return UNIT_SPAWN_INTERVAL_MS > 0 && game->last_spawn_time + UNIT_SPAWN_INTERVAL_MS <= current_time;
@@ -30,19 +36,25 @@ static void setup_unit(Unit * unit, int team_offset, float x, float y) {
   unit_initialize(unit);
   unit->direction = rand_rangef(0, PI2);
   unit->team_id = TEAM_COLOR[team_offset];
-  unit->position.x = x + rand_rangef_pow2(-80.0f, 80.0f);
-  unit->position.y = y + rand_rangef_pow2(-80.0f, 80.0f);
+  unit->position.x = x + rand_rangef_pow2(-JITTER_X, JITTER_X);
+  unit->position.y = y + rand_rangef_pow2(-JITTER_Y, JITTER_Y);
 }
 
 static void game_spawn_next_unit_group(Game * game) {
   game->last_spawn_time += UNIT_SPAWN_INTERVAL_MS;
   int team_offset = rand_rangei(0, TEAM_COUNT);
-  float x = rand_rangef_pow2(-640.0f, 640.0f);
-  float y = rand_rangef_pow2(-640.0f, 640.0f);
+  float x = rand_rangef_pow2(-RANGE_X, RANGE_X);
+  float y = rand_rangef_pow2(-RANGE_Y, RANGE_Y);
   int world_unit_count = world_count_units(&game->world);
   for(int unit_count = rand_rangei(1, UNIT_SPAWN_MAX_GROUP_SIZE); unit_count >= 0; --unit_count)
     if(world_unit_count++ < UNIT_MAX_SPAWN_COUNT)
       setup_unit(&world_entity_allocate(&game->world, UNIT)->unit, team_offset, x, y);
+}
+
+static void mod_random_spawn_initialize(Game * game) {
+  for(int i=0; i<UNIT_INITIAL_SPAWN_GROUP_COUNT; ++i)
+    game_spawn_next_unit_group(game);
+  game->last_spawn_time = game->start_time;
 }
 
 static void mod_random_spawn_update(Game * game, unsigned int delta) {
@@ -51,5 +63,6 @@ static void mod_random_spawn_update(Game * game, unsigned int delta) {
 }
 
 void mod_random_spawn(GameModule * mod) {
+  mod->initialize = mod_random_spawn_initialize;
   mod->update = mod_random_spawn_update;
 }

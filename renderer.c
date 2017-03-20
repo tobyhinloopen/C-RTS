@@ -44,7 +44,7 @@ void renderer_initialize(Renderer * renderer) {
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
   renderer_notify_viewport_resized(renderer);
-  renderer->camera = (Vector3) { 0.0f, 0.0f, 0.0f };
+  renderer->camera = (Vector3) { 0.0f, 0.0f, 2.0f };
 }
 
 void renderer_clear_color(Renderer * renderer, float r, float g, float b) {
