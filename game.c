@@ -1,25 +1,14 @@
 #include "game.h"
 
 #include <SDL2/SDL.h>
-#include <time.h>
-#include <stdlib.h>
 #include "unit.h"
 #include "projectile.h"
-#include "test.h"
 #include "world.h"
-#include "pi.h"
 #include "vector.h"
 #include "vector3.h"
 #include "unit/behavior.h"
-#include <math.h>
 #include <assert.h>
-
-const int TEAM_COUNT = 4;
-const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
-
-const int UNIT_SPAWN_INTERVAL_MS = 20;
-const int UNIT_SPAWN_MAX_GROUP_SIZE = 8;
-const int UNIT_MAX_SPAWN_COUNT = 400;
+#include "rand_range.h"
 
 void game_initialize(Game * game, size_t mod_capacity) {
   game->modules = malloc(sizeof(GameModule) * mod_capacity);
@@ -33,11 +22,12 @@ void game_initialize(Game * game, size_t mod_capacity) {
   world_initialize(&game->world);
 
   SDL_InitSubSystem(SDL_INIT_TIMER);
-  game->start_time = SDL_GetTicks();
-  game->last_time = game->start_time;
-  game->last_spawn_time = game->last_time;
 
-  srand(time(NULL));
+  game->delta = 0;
+  game->start_time = SDL_GetTicks();
+  game->current_time = game->start_time;
+  game->last_time = game->start_time;
+  game->last_spawn_time = game->start_time;
 }
 
 void game_add_module(Game * game, void (*mod_fn)(GameModule *)) {
@@ -70,17 +60,6 @@ static void update_unit_behavior(Unit * unit, void * world_ptr) {
     unit_behavior_overdrive(unit);
   else
     unit_behavior_head_engage_position(unit, closest_enemy_unit->position);
-}
-
-static float rand_rangef(float min, float max) {
-  return min + ((double)rand() / RAND_MAX) * (max - min);
-}
-
-static float rand_rangef_pow2(float min, float max) {
-  const float magnitude = (max - min)/2;
-  const float magnitude_sq = magnitude * magnitude;
-  const float result = rand_rangef(-magnitude_sq, magnitude_sq);
-  return sqrtf(result < 0.0f ? -result : result) * (result < 0.0f ? -1.0f : 1.0f);
 }
 
 static Projectile * create_unit_projectile(Unit * unit, World * world) {
@@ -127,59 +106,17 @@ static void update_unit_entity(Entity * entity, void * world_ptr) {
   }
 }
 
-static int rand_rangei(int min, int max) {
-  return rand_rangef(min, max);
-}
-
-static void setup_unit(Unit * unit, int team_offset, float x, float y) {
-  unit_initialize(unit);
-  unit->direction = rand_rangef(0, PI2);
-  unit->team_id = TEAM_COLOR[team_offset];
-  unit->position.x = x + rand_rangef_pow2(-80.0f, 80.0f);
-  unit->position.y = y + rand_rangef_pow2(-80.0f, 80.0f);
-}
-
-static void increment_for_unit_entity(Entity * entity, void * count_ptr) {
-  int * count = (int*)count_ptr;
-  if(entity->type == UNIT)
-    (*count)++;
-}
-
-static int world_count_units(World * world) {
-  int count = 0;
-  world_iterate_entities(world, &count, increment_for_unit_entity);
-  return count;
-}
-
-static int is_game_unit_spawn_interval_passed(Game * game, unsigned int current_time) {
-  return UNIT_SPAWN_INTERVAL_MS > 0 && game->last_spawn_time + UNIT_SPAWN_INTERVAL_MS <= current_time;
-}
-
-static void game_spawn_next_unit_group(Game * game) {
-  game->last_spawn_time += UNIT_SPAWN_INTERVAL_MS;
-  int team_offset = rand_rangei(0, TEAM_COUNT);
-  float x = rand_rangef_pow2(-640.0f, 640.0f);
-  float y = rand_rangef_pow2(-640.0f, 640.0f);
-  int world_unit_count = world_count_units(&game->world);
-  for(int unit_count = rand_rangei(1, UNIT_SPAWN_MAX_GROUP_SIZE); unit_count >= 0; --unit_count)
-    if(world_unit_count++ < UNIT_MAX_SPAWN_COUNT)
-      setup_unit(&world_entity_allocate(&game->world, UNIT)->unit, team_offset, x, y);
-}
-
 void game_update(Game * game) {
-  unsigned int current_time = SDL_GetTicks();
-  unsigned int delta = current_time - game->last_time;
-
-  while(is_game_unit_spawn_interval_passed(game, current_time))
-    game_spawn_next_unit_group(game);
+  game->current_time = SDL_GetTicks();
+  game->delta = game->current_time - game->last_time;
 
   world_iterate_entities(&game->world, &game->world, update_projectile_entity);
   world_iterate_entities(&game->world, &game->world, update_unit_entity);
 
   for(size_t i = 0; i < game->modules_count; i++)
-    game->modules[i].update(game, delta);
+    game->modules[i].update(game, game->delta);
 
-  game->last_time = current_time;
+  game->last_time = game->current_time;
 }
 
 void game_deinitialize(Game * game) {

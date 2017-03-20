@@ -117,6 +117,52 @@ mod/event.o: /usr/local/include/SDL2/SDL_system.h
 mod/event.o: /usr/local/include/SDL2/SDL_timer.h
 mod/event.o: /usr/local/include/SDL2/SDL_version.h opengl.h vector3.h
 mod/event.o: camera.h /usr/local/include/SDL2/sdl.h
+mod/random_spawn.o: mod/random_spawn.h game.h world.h unit.h vector.h
+mod/random_spawn.o: projectile.h renderer.h vector3.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_main.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_stdinc.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_config.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_platform.h
+mod/random_spawn.o: /usr/local/include/SDL2/begin_code.h
+mod/random_spawn.o: /usr/local/include/SDL2/close_code.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_assert.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_atomic.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_audio.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_error.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_endian.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_mutex.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_thread.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_rwops.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_clipboard.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_cpuinfo.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_events.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_video.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_pixels.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_rect.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_surface.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_blendmode.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_keyboard.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_keycode.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_scancode.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_mouse.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_joystick.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_gamecontroller.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_quit.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_gesture.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_touch.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_filesystem.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_haptic.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_hints.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_loadso.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_log.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_messagebox.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_power.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_render.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_system.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_timer.h
+mod/random_spawn.o: /usr/local/include/SDL2/SDL_version.h opengl.h pi.h
+mod/random_spawn.o: rand_range.h
 mod/render.o: mod/render.h game.h world.h unit.h vector.h projectile.h
 mod/render.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
 mod/render.o: /usr/local/include/SDL2/SDL_main.h
@@ -209,8 +255,8 @@ game.o: /usr/local/include/SDL2/SDL_power.h
 game.o: /usr/local/include/SDL2/SDL_render.h
 game.o: /usr/local/include/SDL2/SDL_system.h
 game.o: /usr/local/include/SDL2/SDL_timer.h
-game.o: /usr/local/include/SDL2/SDL_version.h opengl.h test.h pi.h
-game.o: unit/behavior.h vector.h unit.h world.h
+game.o: /usr/local/include/SDL2/SDL_version.h opengl.h unit/behavior.h
+game.o: vector.h unit.h world.h rand_range.h
 main.o: test.h game.h world.h unit.h vector.h projectile.h renderer.h
 main.o: vector3.h /usr/local/include/SDL2/SDL.h
 main.o: /usr/local/include/SDL2/SDL_main.h
@@ -255,8 +301,9 @@ main.o: /usr/local/include/SDL2/SDL_render.h
 main.o: /usr/local/include/SDL2/SDL_system.h
 main.o: /usr/local/include/SDL2/SDL_timer.h
 main.o: /usr/local/include/SDL2/SDL_version.h opengl.h mod/event.h game.h
-main.o: mod/render.h
+main.o: mod/random_spawn.h mod/render.h
 projectile.o: projectile.h vector.h
+rand_range.o: rand_range.h
 renderer.o: /usr/local/include/SDL2/SDL.h /usr/local/include/SDL2/SDL_main.h
 renderer.o: /usr/local/include/SDL2/SDL_stdinc.h
 renderer.o: /usr/local/include/SDL2/SDL_config.h

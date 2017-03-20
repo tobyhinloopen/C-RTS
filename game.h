@@ -13,9 +13,13 @@ struct Game {
   int is_window_resized;
   Renderer renderer;
   World world;
+
   unsigned int start_time;
+  unsigned int current_time;
+  unsigned int delta;
   unsigned int last_time;
   unsigned int last_spawn_time;
+
   Vector3 camera_movement;
   struct GameModule * modules;
   size_t modules_count;
