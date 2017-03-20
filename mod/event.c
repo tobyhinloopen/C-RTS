@@ -8,9 +8,6 @@ static void mod_event_initialize(Game * game) {
   game->is_quit_requested = 0;
 }
 
-static void mod_event_tick(Game * game) {
-}
-
 static int event_is_window_resize(SDL_Event * event, SDL_Window * window) {
   return event->type == SDL_WINDOWEVENT
     && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED
@@ -70,12 +67,7 @@ static void mod_event_update(Game * game, unsigned int delta) {
   }
 }
 
-static void mod_event_deinitialize(Game * game) {
-}
-
 void mod_event(GameModule * mod) {
   mod->initialize = mod_event_initialize;
-  mod->tick = mod_event_tick;
   mod->update = mod_event_update;
-  mod->deinitialize = mod_event_deinitialize;
 }

@@ -50,13 +50,6 @@ static void mod_random_spawn_update(Game * game, unsigned int delta) {
     game_spawn_next_unit_group(game);
 }
 
-static void mod_random_spawn_initialize(Game * game) {}
-static void mod_random_spawn_tick(Game * game) {}
-static void mod_random_spawn_deinitialize(Game * game) {}
-
 void mod_random_spawn(GameModule * mod) {
-  mod->initialize = mod_random_spawn_initialize;
-  mod->tick = mod_random_spawn_tick;
   mod->update = mod_random_spawn_update;
-  mod->deinitialize = mod_random_spawn_deinitialize;
 }

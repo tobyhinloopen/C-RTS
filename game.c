@@ -30,12 +30,25 @@ void game_initialize(Game * game, size_t mod_capacity) {
   game->last_spawn_time = game->start_time;
 }
 
+static void noop_game(Game * game) {}
+static void noop_game_delta(Game * game, unsigned int delta) {}
+
+static void game_clear_module(GameModule * mod) {
+  mod->initialize = noop_game;
+  mod->tick = noop_game;
+  mod->update = noop_game_delta;
+  mod->deinitialize = noop_game;
+}
+
+static void game_initialize_module(GameModule * mod, Game * game, void (*mod_fn)(GameModule *)) {
+  game_clear_module(mod);
+  mod_fn(mod);
+  mod->initialize(game);
+}
+
 void game_add_module(Game * game, void (*mod_fn)(GameModule *)) {
   assert(game->modules_count < game->modules_capacity);
-
-  GameModule * game_module = &game->modules[game->modules_count++];
-  mod_fn(game_module);
-  game_module->initialize(game);
+  game_initialize_module(&game->modules[game->modules_count++], game, mod_fn);
 }
 
 static void update_unit_behavior(Unit * unit, void * world_ptr) {

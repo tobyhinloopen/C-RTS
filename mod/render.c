@@ -7,9 +7,6 @@ static void mod_render_initialize(Game * game) {
   renderer_initialize(&game->renderer);
 }
 
-static void mod_render_tick(Game * game) {
-}
-
 static void handle_window_resize(Game * game) {
   if(game->is_window_resized) {
     renderer_notify_viewport_resized(&game->renderer);
@@ -36,7 +33,6 @@ static void mod_render_deinitialize(Game * game) {
 
 void mod_render(GameModule * mod) {
   mod->initialize = mod_render_initialize;
-  mod->tick = mod_render_tick;
   mod->update = mod_render_update;
   mod->deinitialize = mod_render_deinitialize;
 }
