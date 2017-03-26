@@ -15,5 +15,6 @@ void vector_multiply_scalar(Vector *, float scalar);
 float vector_distance(Vector a, Vector b);
 float vector_angle(Vector);
 float vector_angle_between(Vector a, Vector b);
+Vector vector_create(float x, float y);
 
 #endif

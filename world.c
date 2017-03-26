@@ -106,4 +106,5 @@ void world_deinitialize(World * world) {
   for(int i = 0; i < world->entity_pool_count; ++i)
     free(world->entity_pools[i]);
   free(world->entity_pools);
+  world->entity_pools = NULL;
 }

@@ -48,3 +48,10 @@ float vector_angle_between(Vector a, Vector b) {
   vector_subtract(&b, a);
   return vector_angle(b);
 }
+
+Vector vector_create(float x, float y) {
+  Vector vector;
+  vector.x = x;
+  vector.y = y;
+  return vector;
+}

@@ -4,6 +4,7 @@
 #include "vector_test.h"
 #include "unit/behavior_test.h"
 #include "renderer_test.h"
+#include "shape_test.h"
 
 void test() {
   test_unit();
@@ -11,4 +12,5 @@ void test() {
   test_vector();
   test_unit_behavior();
   test_renderer();
+  test_shape();
 }

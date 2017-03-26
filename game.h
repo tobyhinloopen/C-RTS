@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "world.h"
+#include "map.h"
 #include "renderer.h"
 #include "vector3.h"
 
@@ -13,6 +14,7 @@ struct Game {
   int is_window_resized;
   Renderer renderer;
   World world;
+  Map map;
 
   unsigned int start_time;
   unsigned int current_time;
@@ -33,7 +35,7 @@ struct GameModule {
   void (* deinitialize)(Game * game);
 };
 
-void game_initialize(Game * game, size_t mod_capacity);
+void game_initialize(Game * game, int spawn_points_count, int shapes_count, float map_width, float map_height, size_t mod_capacity);
 void game_add_module(Game * game, void (*mod_fn)(GameModule *));
 void game_update(Game * game);
 void game_deinitialize(Game * game);

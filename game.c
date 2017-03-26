@@ -10,7 +10,7 @@
 #include <assert.h>
 #include "rand_range.h"
 
-void game_initialize(Game * game, size_t mod_capacity) {
+void game_initialize(Game * game, int spawn_points_count, int shapes_count, float map_width, float map_height, size_t mod_capacity) {
   game->modules = malloc(sizeof(GameModule) * mod_capacity);
   game->modules_count = 0;
   game->modules_capacity = mod_capacity;
@@ -18,6 +18,10 @@ void game_initialize(Game * game, size_t mod_capacity) {
   game->is_quit_requested = 1;
   game->is_window_resized = 0;
   game->camera_movement = (Vector3) { 0.0f, 0.0f, 0.0f };
+
+  map_initialize(&game->map, spawn_points_count, shapes_count);
+  game->map.size.x = map_width;
+  game->map.size.x = map_height;
 
   world_initialize(&game->world);
 
@@ -114,11 +118,14 @@ void game_update(Game * game) {
 }
 
 void game_deinitialize(Game * game) {
-  SDL_QuitSubSystem(SDL_INIT_TIMER);
-  world_deinitialize(&game->world);
 
   for(size_t i = 0; i < game->modules_count; i++)
     game->modules[i].deinitialize(game);
 
+  SDL_QuitSubSystem(SDL_INIT_TIMER);
+  world_deinitialize(&game->world);
+  map_deinitialize(&game->map);
+
   free(game->modules);
+  game->modules = NULL;
 }
