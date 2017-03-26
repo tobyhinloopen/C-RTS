@@ -2,14 +2,12 @@
 
 #include "../pi.h"
 #include "../rand_range.h"
-
-const int TEAM_COUNT = 4;
-const int TEAM_COLOR[TEAM_COUNT] = { 0xFF0000, 0x00CC00, 0x4444FF, 0xCC8800 };
+#include "../team_id.h"
 
 const int UNIT_SPAWN_INTERVAL_MS = 1000;
 const int UNIT_SPAWN_MAX_GROUP_SIZE = 4;
 const int UNIT_MAX_SPAWN_COUNT = 400;
-const int UNIT_INITIAL_SPAWN_GROUP_COUNT = 8;
+const int UNIT_INITIAL_SPAWN_GROUP_COUNT = 4;
 
 const float RANGE_X = 1280.0f;
 const float RANGE_Y = 1280.0f;

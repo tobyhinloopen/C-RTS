@@ -65,16 +65,22 @@ static void world_entity_update(Entity * entity, void * update_context_ptr) {
   float delta = context->delta;
   switch(entity->type) {
     case UNIT:
-      if(unit_is_dead(&entity->unit))
+      if (unit_is_dead(&entity->unit))
         deallocate_pool_entity(pool, entity);
       else
         unit_update(&entity->unit, delta);
       break;
     case PROJECTILE:
-      if(projectile_is_dead(&entity->projectile))
+      if (projectile_is_dead(&entity->projectile))
         deallocate_pool_entity(pool, entity);
       else
         projectile_update(&entity->projectile, delta);
+      break;
+    case FACTORY:
+      if (factory_is_dead(&entity->factory))
+        deallocate_pool_entity(pool, entity);
+      else
+        factory_update(&entity->factory, delta);
       break;
     case NONE:
       break;

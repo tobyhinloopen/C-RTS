@@ -8,10 +8,14 @@
 #include "mod/event.h"
 #include "mod/projectile_unit_impact.h"
 #include "mod/random_spawn.h"
+#include "mod/factory_spawn.h"
 #include "mod/render.h"
 
-float SIZE_X = 2048;
-float SIZE_Y = 2048;
+const float SIZE_X = 2048;
+const float SIZE_Y = 2048;
+const int SPAWN_POINTS_COUNT = 4;
+const int MOD_COUNT = 5;
+const int SHAPE_COUNT = 1;
 
 int main(int argc, char **argv) {
   srand(time(NULL));
@@ -19,7 +23,7 @@ int main(int argc, char **argv) {
   test();
 
   Game game;
-  game_initialize(&game, 4, 1, SIZE_X, SIZE_Y, 4);
+  game_initialize(&game, SPAWN_POINTS_COUNT, SHAPE_COUNT, SIZE_X, SIZE_Y, MOD_COUNT);
 
   game.map.spawn_points[0] = vector_create(SIZE_X * 0.2, SIZE_Y * 0.2);
   game.map.spawn_points[1] = vector_create(SIZE_X * 0.8, SIZE_Y * 0.2);
@@ -37,7 +41,8 @@ int main(int argc, char **argv) {
 
   game_add_module(&game, mod_event);
   game_add_module(&game, mod_projectile_unit_impact);
-  game_add_module(&game, mod_random_spawn);
+  game_add_module(&game, mod_factory_spawn);
+  // game_add_module(&game, mod_random_spawn);
   game_add_module(&game, mod_render);
 
   while(!game.is_quit_requested)

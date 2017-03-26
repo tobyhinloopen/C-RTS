@@ -60,6 +60,37 @@ Unit * unit_behavior_find_closest_friendly_unit(Unit * unit, World * world, floa
     return NULL;
 }
 
+typedef struct {
+  float distance;
+  Unit * unit;
+  Factory * factory;
+} UnitFactoryDistanceResult;
+
+static void unit_behavior_set_closer_factory(Factory * other_factory, UnitFactoryDistanceResult * result) {
+  Unit * unit = result->unit;
+  float distance = vector_distance(other_factory->position, unit->position);
+  if(result->factory == NULL || distance < result->distance) {
+    result->distance = distance;
+    result->factory = other_factory;
+  }
+}
+
+static void unit_behavior_find_closest_friendly_factory_callback(Entity * entity, void * current_result_ptr) {
+  UnitFactoryDistanceResult * result = (UnitFactoryDistanceResult *)current_result_ptr;
+  if(entity->type == FACTORY && entity->factory.team_id == result->unit->team_id)
+    unit_behavior_set_closer_factory(&entity->factory, result);
+}
+
+Factory * unit_behavior_find_closest_friendly_factory(Unit * unit, World * world, float max_distance) {
+  UnitFactoryDistanceResult closest_friendly_factory_result = { 0, unit, NULL };
+  world_iterate_entities(world, &closest_friendly_factory_result,
+    unit_behavior_find_closest_friendly_factory_callback);
+  if(closest_friendly_factory_result.distance <= max_distance)
+    return closest_friendly_factory_result.factory;
+  else
+    return NULL;
+}
+
 void unit_behavior_movement_stop(Unit * unit) {
   unit->throttle = 0;
   unit->angular_throttle = 0;

@@ -12,11 +12,11 @@ const int INITIAL_WINDOW_WIDTH = 640;
 const int INITIAL_WINDOW_HEIGHT = 480;
 
 const int HALF_UNIT_TEXTURE_SIZE = 24;
-const int UNIT_TEXTURE_SIZE = HALF_UNIT_TEXTURE_SIZE*2;
 const float PROJECTILE_LENGTH = 16.0f;
 const float PROJECTILE_IMPACT_HALF_SIZE = 3.0f;
 const int HEALTH_BAR_WIDTH = 32;
 const int HEALTH_BAR_HEIGHT = 4;
+const int HALF_FACTORY_TEXTURE_SIZE = 48;
 
 typedef union { Uint32 color; struct { Uint8 b; Uint8 g; Uint8 r; }; } RendererColor;
 
@@ -56,8 +56,7 @@ static float renderer_scale(Renderer * renderer) {
   return 1.0f / (1.0f + renderer->camera.z);
 }
 
-static void render_health_bar(Renderer * renderer, Unit * unit) {
-  float health_percentage = unit_health_percentage(unit);
+static void render_health_bar(Renderer * renderer, float health_percentage) {
   if(health_percentage >= 1.0f)
     return;
 
@@ -111,7 +110,7 @@ void renderer_render_unit(Renderer * renderer, Unit * unit) {
   glPushMatrix();
   glTranslatef(unit->position.x, unit->position.y, 0.0f);
 
-  render_health_bar(renderer, unit);
+  render_health_bar(renderer, unit_health_percentage(unit));
   set_gl_team_color(unit->team_id);
 
   glRotatef(unit->direction * RAD2DEGf, 0.0f, 0.0f, 1.0f);
@@ -166,6 +165,42 @@ void renderer_render_projectile(Renderer * renderer, Projectile * projectile) {
   glPopMatrix();
 }
 
+void renderer_render_factory(Renderer * renderer, Factory * factory) {
+  glPushMatrix();
+  glTranslatef(factory->position.x, factory->position.y, 0.0f);
+
+  render_health_bar(renderer, factory_health_percentage(factory));
+  set_gl_team_color(factory->team_id);
+
+  glRotatef(factory->direction * RAD2DEGf, 0.0f, 0.0f, 1.0f);
+
+  glBegin(GL_LINE_LOOP);
+
+  glVertex2f(-28.0f, -24.0f);
+  glVertex2f( 28.0f, -24.0f);
+  glVertex2f( 28.0f, -18.0f);
+  glVertex2f(-22.0f, -18.0f);
+  glVertex2f(-22.0f,  18.0f);
+  glVertex2f( 28.0f,  18.0f);
+  glVertex2f( 28.0f,  24.0f);
+  glVertex2f(-28.0f,  24.0f);
+
+  glEnd();
+
+  glBegin(GL_LINE_LOOP);
+
+  float build_percentage = factory_build_percentage(factory);
+
+  glVertex2f(-16.0f * build_percentage, -12.0f * build_percentage);
+  glVertex2f( 16.0f * build_percentage, -12.0f * build_percentage);
+  glVertex2f( 16.0f * build_percentage,  12.0f * build_percentage);
+  glVertex2f(-16.0f * build_percentage,  12.0f * build_percentage);
+
+  glEnd();
+
+  glPopMatrix();
+}
+
 void renderer_notify_viewport_resized(Renderer * renderer) {
   SDL_GL_GetDrawableSize(renderer->window, &renderer->viewport_width, &renderer->viewport_height);
 
@@ -211,6 +246,10 @@ static void render_entity(Entity * entity, void * renderer_ptr) {
     case PROJECTILE:
       if(is_vector_in_viewport(renderer, entity->projectile.position, PROJECTILE_LENGTH))
         renderer_render_projectile(renderer, &entity->projectile);
+      break;
+    case FACTORY:
+      if(is_vector_in_viewport(renderer, entity->factory.position, HALF_FACTORY_TEXTURE_SIZE))
+        renderer_render_factory(renderer, &entity->factory);
       break;
     case NONE: break;
   }

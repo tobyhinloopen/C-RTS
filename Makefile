@@ -72,9 +72,9 @@ depend: $(SRCS)
 	makedepend $(INCLUDES) $^
 # DO NOT DELETE
 
-mod/event.o: mod/event.h game.h world.h unit.h vector.h projectile.h map.h
-mod/event.o: shape.h renderer.h vector3.h /usr/local/include/SDL2/SDL.h
-mod/event.o: /usr/local/include/SDL2/SDL_main.h
+mod/event.o: mod/event.h game.h world.h unit.h vector.h projectile.h
+mod/event.o: factory.h map.h shape.h renderer.h vector3.h
+mod/event.o: /usr/local/include/SDL2/SDL.h /usr/local/include/SDL2/SDL_main.h
 mod/event.o: /usr/local/include/SDL2/SDL_stdinc.h
 mod/event.o: /usr/local/include/SDL2/SDL_config.h
 mod/event.o: /usr/local/include/SDL2/SDL_platform.h
@@ -117,9 +117,55 @@ mod/event.o: /usr/local/include/SDL2/SDL_system.h
 mod/event.o: /usr/local/include/SDL2/SDL_timer.h
 mod/event.o: /usr/local/include/SDL2/SDL_version.h opengl.h vector3.h
 mod/event.o: camera.h /usr/local/include/SDL2/sdl.h
+mod/factory_spawn.o: mod/factory_spawn.h game.h world.h unit.h vector.h
+mod/factory_spawn.o: projectile.h factory.h map.h shape.h renderer.h
+mod/factory_spawn.o: vector3.h /usr/local/include/SDL2/SDL.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_main.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_stdinc.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_config.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_platform.h
+mod/factory_spawn.o: /usr/local/include/SDL2/begin_code.h
+mod/factory_spawn.o: /usr/local/include/SDL2/close_code.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_assert.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_atomic.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_audio.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_error.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_endian.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_mutex.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_thread.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_rwops.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_clipboard.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_cpuinfo.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_events.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_video.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_pixels.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_rect.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_surface.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_blendmode.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_keyboard.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_keycode.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_scancode.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_mouse.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_joystick.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_gamecontroller.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_quit.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_gesture.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_touch.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_filesystem.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_haptic.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_hints.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_loadso.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_log.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_messagebox.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_power.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_render.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_system.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_timer.h
+mod/factory_spawn.o: /usr/local/include/SDL2/SDL_version.h opengl.h world.h
+mod/factory_spawn.o: team_id.h
 mod/projectile_unit_impact.o: mod/projectile_unit_impact.h game.h world.h
-mod/projectile_unit_impact.o: unit.h vector.h projectile.h map.h shape.h
-mod/projectile_unit_impact.o: renderer.h vector3.h
+mod/projectile_unit_impact.o: unit.h vector.h projectile.h factory.h map.h
+mod/projectile_unit_impact.o: shape.h renderer.h vector3.h
 mod/projectile_unit_impact.o: /usr/local/include/SDL2/SDL.h
 mod/projectile_unit_impact.o: /usr/local/include/SDL2/SDL_main.h
 mod/projectile_unit_impact.o: /usr/local/include/SDL2/SDL_stdinc.h
@@ -165,7 +211,7 @@ mod/projectile_unit_impact.o: /usr/local/include/SDL2/SDL_timer.h
 mod/projectile_unit_impact.o: /usr/local/include/SDL2/SDL_version.h opengl.h
 mod/projectile_unit_impact.o: world.h
 mod/random_spawn.o: mod/random_spawn.h game.h world.h unit.h vector.h
-mod/random_spawn.o: projectile.h map.h shape.h renderer.h vector3.h
+mod/random_spawn.o: projectile.h factory.h map.h shape.h renderer.h vector3.h
 mod/random_spawn.o: /usr/local/include/SDL2/SDL.h
 mod/random_spawn.o: /usr/local/include/SDL2/SDL_main.h
 mod/random_spawn.o: /usr/local/include/SDL2/SDL_stdinc.h
@@ -209,9 +255,10 @@ mod/random_spawn.o: /usr/local/include/SDL2/SDL_render.h
 mod/random_spawn.o: /usr/local/include/SDL2/SDL_system.h
 mod/random_spawn.o: /usr/local/include/SDL2/SDL_timer.h
 mod/random_spawn.o: /usr/local/include/SDL2/SDL_version.h opengl.h pi.h
-mod/random_spawn.o: rand_range.h
-mod/render.o: mod/render.h game.h world.h unit.h vector.h projectile.h map.h
-mod/render.o: shape.h renderer.h vector3.h /usr/local/include/SDL2/SDL.h
+mod/random_spawn.o: rand_range.h team_id.h
+mod/render.o: mod/render.h game.h world.h unit.h vector.h projectile.h
+mod/render.o: factory.h map.h shape.h renderer.h vector3.h
+mod/render.o: /usr/local/include/SDL2/SDL.h
 mod/render.o: /usr/local/include/SDL2/SDL_main.h
 mod/render.o: /usr/local/include/SDL2/SDL_stdinc.h
 mod/render.o: /usr/local/include/SDL2/SDL_config.h
@@ -259,8 +306,10 @@ unit/behavior.o: unit/behavior.h vector.h unit.h vector.h world.h pi.h
 unit/behavior_test.o: unit/behavior_test.h unit/behavior.h vector.h unit.h
 unit/behavior_test.o: vector.h world.h pi.h
 camera.o: camera.h vector3.h
-game.o: game.h world.h unit.h vector.h projectile.h map.h shape.h renderer.h
-game.o: vector3.h /usr/local/include/SDL2/SDL.h
+factory.o: factory.h vector.h unit.h
+factory_test.o: factory_test.h factory.h vector.h unit.h
+game.o: game.h world.h unit.h vector.h projectile.h factory.h map.h shape.h
+game.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
 game.o: /usr/local/include/SDL2/SDL_main.h
 game.o: /usr/local/include/SDL2/SDL_stdinc.h
 game.o: /usr/local/include/SDL2/SDL_config.h
@@ -304,8 +353,8 @@ game.o: /usr/local/include/SDL2/SDL_system.h
 game.o: /usr/local/include/SDL2/SDL_timer.h
 game.o: /usr/local/include/SDL2/SDL_version.h opengl.h unit/behavior.h
 game.o: vector.h unit.h world.h rand_range.h
-main.o: test.h game.h world.h unit.h vector.h projectile.h map.h shape.h
-main.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
+main.o: test.h game.h world.h unit.h vector.h projectile.h factory.h map.h
+main.o: shape.h renderer.h vector3.h /usr/local/include/SDL2/SDL.h
 main.o: /usr/local/include/SDL2/SDL_main.h
 main.o: /usr/local/include/SDL2/SDL_stdinc.h
 main.o: /usr/local/include/SDL2/SDL_config.h
@@ -348,7 +397,8 @@ main.o: /usr/local/include/SDL2/SDL_render.h
 main.o: /usr/local/include/SDL2/SDL_system.h
 main.o: /usr/local/include/SDL2/SDL_timer.h
 main.o: /usr/local/include/SDL2/SDL_version.h opengl.h mod/event.h game.h
-main.o: mod/projectile_unit_impact.h mod/random_spawn.h mod/render.h
+main.o: mod/projectile_unit_impact.h mod/random_spawn.h mod/factory_spawn.h
+main.o: mod/render.h
 map.o: map.h vector.h shape.h
 projectile.o: projectile.h vector.h
 rand_range.o: rand_range.h
@@ -394,9 +444,10 @@ renderer.o: /usr/local/include/SDL2/SDL_render.h
 renderer.o: /usr/local/include/SDL2/SDL_system.h
 renderer.o: /usr/local/include/SDL2/SDL_timer.h
 renderer.o: /usr/local/include/SDL2/SDL_version.h renderer.h world.h unit.h
-renderer.o: vector.h projectile.h vector3.h opengl.h pi.h
+renderer.o: vector.h projectile.h factory.h vector3.h opengl.h pi.h
 renderer_test.o: renderer_test.h renderer.h world.h unit.h vector.h
-renderer_test.o: projectile.h vector3.h /usr/local/include/SDL2/SDL.h
+renderer_test.o: projectile.h factory.h vector3.h
+renderer_test.o: /usr/local/include/SDL2/SDL.h
 renderer_test.o: /usr/local/include/SDL2/SDL_main.h
 renderer_test.o: /usr/local/include/SDL2/SDL_stdinc.h
 renderer_test.o: /usr/local/include/SDL2/SDL_config.h
@@ -441,12 +492,13 @@ renderer_test.o: /usr/local/include/SDL2/SDL_timer.h
 renderer_test.o: /usr/local/include/SDL2/SDL_version.h opengl.h
 shape.o: shape.h vector.h
 shape_test.o: shape_test.h shape.h vector.h
+team_id.o: team_id.h
 test.o: test.h unit_test.h world_test.h vector_test.h unit/behavior_test.h
-test.o: renderer_test.h shape_test.h
+test.o: renderer_test.h shape_test.h factory_test.h
 unit.o: unit.h vector.h pi.h
 unit_test.o: unit_test.h unit.h vector.h pi.h
 vector.o: vector.h pi.h
 vector3.o: vector3.h
 vector_test.o: vector_test.h vector.h pi.h
-world.o: world.h unit.h vector.h projectile.h
-world_test.o: world_test.h world.h unit.h vector.h projectile.h
+world.o: world.h unit.h vector.h projectile.h factory.h
+world_test.o: world_test.h world.h unit.h vector.h projectile.h factory.h

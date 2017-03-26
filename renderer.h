@@ -23,6 +23,7 @@ Vector renderer_world_to_screen(Renderer *, Vector);
 void renderer_clear_color(Renderer *, float r, float g, float b);
 void renderer_render_world(Renderer *, World *);
 void renderer_render_unit(Renderer *, Unit *);
+void renderer_render_factory(Renderer *, Factory *);
 void renderer_render_projectile(Renderer *, Projectile *);
 void renderer_present(Renderer *);
 void renderer_deinitialize(Renderer *);

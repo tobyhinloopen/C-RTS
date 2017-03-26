@@ -7,6 +7,7 @@
 
 Unit * unit_behavior_find_closest_enemy_unit(Unit *, World *);
 Unit * unit_behavior_find_closest_friendly_unit(Unit *, World *, float max_distance);
+Factory * unit_behavior_find_closest_friendly_factory(Unit *, World *, float max_distance);
 void unit_behavior_movement_stop(Unit * unit);
 void unit_behavior_head_stop(Unit *);
 void unit_behavior_look_at(Unit *, Vector target_position);

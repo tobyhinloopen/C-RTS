@@ -59,10 +59,13 @@ static void update_unit_behavior(Unit * unit, void * world_ptr) {
   World * world = (World*)world_ptr;
   Unit * closest_enemy_unit = unit_behavior_find_closest_enemy_unit(unit, world);
   Unit * closest_friendly_unit = unit_behavior_find_closest_friendly_unit(unit, world, 32.0f);
+  Factory * closest_friendly_factory = unit_behavior_find_closest_friendly_factory(unit, world, 32.0f);
 
   float unit_health = unit_health_percentage(unit);
 
-  if(closest_friendly_unit != NULL)
+  if(closest_friendly_factory != NULL)
+    unit_behavior_move_away_from(unit, closest_friendly_factory->position);
+  else if(closest_friendly_unit != NULL)
     unit_behavior_move_away_from(unit, closest_friendly_unit->position);
   else if(closest_enemy_unit != NULL && unit_health >= 0.5f)
     unit_behavior_set_target_position(unit, closest_enemy_unit->position, 120.0f);
@@ -118,7 +121,6 @@ void game_update(Game * game) {
 }
 
 void game_deinitialize(Game * game) {
-
   for(size_t i = 0; i < game->modules_count; i++)
     game->modules[i].deinitialize(game);
 
