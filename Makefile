@@ -72,6 +72,51 @@ depend: $(SRCS)
 	makedepend $(INCLUDES) $^
 # DO NOT DELETE
 
+mod/camera_update.o: mod/camera_update.h game.h world.h unit.h vector.h
+mod/camera_update.o: projectile.h factory.h map.h shape.h renderer.h
+mod/camera_update.o: vector3.h /usr/local/include/SDL2/SDL.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_main.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_stdinc.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_config.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_platform.h
+mod/camera_update.o: /usr/local/include/SDL2/begin_code.h
+mod/camera_update.o: /usr/local/include/SDL2/close_code.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_assert.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_atomic.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_audio.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_error.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_endian.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_mutex.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_thread.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_rwops.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_clipboard.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_cpuinfo.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_events.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_video.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_pixels.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_rect.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_surface.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_blendmode.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_keyboard.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_keycode.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_scancode.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_mouse.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_joystick.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_gamecontroller.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_quit.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_gesture.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_touch.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_filesystem.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_haptic.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_hints.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_loadso.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_log.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_messagebox.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_power.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_render.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_system.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_timer.h
+mod/camera_update.o: /usr/local/include/SDL2/SDL_version.h opengl.h camera.h
 mod/event.o: mod/event.h game.h world.h unit.h vector.h projectile.h
 mod/event.o: factory.h map.h shape.h renderer.h vector3.h
 mod/event.o: /usr/local/include/SDL2/SDL.h /usr/local/include/SDL2/SDL_main.h
@@ -302,6 +347,51 @@ mod/render.o: /usr/local/include/SDL2/SDL_system.h
 mod/render.o: /usr/local/include/SDL2/SDL_timer.h
 mod/render.o: /usr/local/include/SDL2/SDL_version.h opengl.h renderer.h
 mod/render.o: camera.h
+mod/world_update.o: mod/world_update.h game.h world.h unit.h vector.h
+mod/world_update.o: projectile.h factory.h map.h shape.h renderer.h vector3.h
+mod/world_update.o: /usr/local/include/SDL2/SDL.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_main.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_stdinc.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_config.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_platform.h
+mod/world_update.o: /usr/local/include/SDL2/begin_code.h
+mod/world_update.o: /usr/local/include/SDL2/close_code.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_assert.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_atomic.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_audio.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_error.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_endian.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_mutex.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_thread.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_rwops.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_clipboard.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_cpuinfo.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_events.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_video.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_pixels.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_rect.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_surface.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_blendmode.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_keyboard.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_keycode.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_scancode.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_mouse.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_joystick.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_gamecontroller.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_quit.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_gesture.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_touch.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_filesystem.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_haptic.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_hints.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_loadso.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_log.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_messagebox.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_power.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_render.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_system.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_timer.h
+mod/world_update.o: /usr/local/include/SDL2/SDL_version.h opengl.h world.h
 unit/behavior.o: unit/behavior.h vector.h unit.h vector.h world.h pi.h
 unit/behavior_test.o: unit/behavior_test.h unit/behavior.h vector.h unit.h
 unit/behavior_test.o: vector.h world.h pi.h
@@ -398,7 +488,7 @@ main.o: /usr/local/include/SDL2/SDL_system.h
 main.o: /usr/local/include/SDL2/SDL_timer.h
 main.o: /usr/local/include/SDL2/SDL_version.h opengl.h mod/event.h game.h
 main.o: mod/projectile_unit_impact.h mod/random_spawn.h mod/factory_spawn.h
-main.o: mod/render.h
+main.o: mod/world_update.h mod/camera_update.h mod/render.h
 map.o: map.h vector.h shape.h
 projectile.o: projectile.h vector.h
 rand_range.o: rand_range.h

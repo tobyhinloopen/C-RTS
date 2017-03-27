@@ -15,12 +15,6 @@ static void handle_window_resize(Game * game) {
 }
 
 static void mod_render_update(Game * game, unsigned int delta_i) {
-  float delta = delta_i / 1000.f;
-  if(delta > 0) {
-    camera_update(&game->renderer.camera, game->camera_movement, delta);
-    world_update(&game->world, delta);
-  }
-
   handle_window_resize(game);
   renderer_clear_color(&game->renderer, 1.0f, 1.0f, 1.0f);
   renderer_render_world(&game->renderer, &game->world);

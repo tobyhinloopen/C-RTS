@@ -36,7 +36,7 @@ struct GameModule {
 };
 
 void game_initialize(Game * game, int spawn_points_count, int shapes_count, float map_width, float map_height, size_t mod_capacity);
-void game_add_module(Game * game, void (*mod_fn)(GameModule *));
+void game_add_module(Game * game, void (* mod_fn)(GameModule *));
 void game_update(Game * game);
 void game_deinitialize(Game * game);
 

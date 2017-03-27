@@ -21,7 +21,7 @@ void game_initialize(Game * game, int spawn_points_count, int shapes_count, floa
 
   map_initialize(&game->map, spawn_points_count, shapes_count);
   game->map.size.x = map_width;
-  game->map.size.x = map_height;
+  game->map.size.y = map_height;
 
   world_initialize(&game->world);
 

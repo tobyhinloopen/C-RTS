@@ -9,12 +9,14 @@
 #include "mod/projectile_unit_impact.h"
 #include "mod/random_spawn.h"
 #include "mod/factory_spawn.h"
+#include "mod/world_update.h"
+#include "mod/camera_update.h"
 #include "mod/render.h"
 
 const float SIZE_X = 2048;
 const float SIZE_Y = 2048;
 const int SPAWN_POINTS_COUNT = 4;
-const int MOD_COUNT = 5;
+const int MOD_COUNT = 6;
 const int SHAPE_COUNT = 1;
 
 int main(int argc, char **argv) {
@@ -43,7 +45,12 @@ int main(int argc, char **argv) {
   game_add_module(&game, mod_projectile_unit_impact);
   game_add_module(&game, mod_factory_spawn);
   // game_add_module(&game, mod_random_spawn);
+  game_add_module(&game, mod_world_update);
+  game_add_module(&game, mod_camera_update);
   game_add_module(&game, mod_render);
+
+  game.renderer.camera.x = SIZE_X / 2;
+  game.renderer.camera.y = SIZE_Y / 2;
 
   while(!game.is_quit_requested)
     game_update(&game);
