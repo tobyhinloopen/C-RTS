@@ -56,7 +56,12 @@ void game_add_module(Game * game, void (*mod_fn)(GameModule *)) {
 }
 
 void game_update(Game * game) {
-  game->current_time = SDL_GetTicks();
+  game_update_time(game, SDL_GetTicks());
+}
+
+void game_update_time(Game * game, unsigned int current_time) {
+  assert(current_time >= game->current_time);
+  game->current_time = current_time;
   game->delta = game->current_time - game->last_time;
 
   for(size_t i = 0; i < game->modules_count; i++)
