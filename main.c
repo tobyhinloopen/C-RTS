@@ -6,7 +6,9 @@
 #include <time.h>
 
 #include "mod/event.h"
+#include "mod/unit_projectile_spawn.h"
 #include "mod/projectile_unit_impact.h"
+#include "mod/unit_behavior.h"
 #include "mod/random_spawn.h"
 #include "mod/factory_spawn.h"
 #include "mod/world_update.h"
@@ -16,7 +18,7 @@
 const float SIZE_X = 2048;
 const float SIZE_Y = 2048;
 const int SPAWN_POINTS_COUNT = 4;
-const int MOD_COUNT = 6;
+const int MOD_COUNT = 8;
 const int SHAPE_COUNT = 1;
 
 int main(int argc, char **argv) {
@@ -42,7 +44,9 @@ int main(int argc, char **argv) {
   shape_initialize(shape);
 
   game_add_module(&game, mod_event);
+  game_add_module(&game, mod_unit_projectile_spawn);
   game_add_module(&game, mod_projectile_unit_impact);
+  game_add_module(&game, mod_unit_behavior);
   game_add_module(&game, mod_factory_spawn);
   // game_add_module(&game, mod_random_spawn);
   game_add_module(&game, mod_world_update);

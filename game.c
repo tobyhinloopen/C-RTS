@@ -55,64 +55,9 @@ void game_add_module(Game * game, void (*mod_fn)(GameModule *)) {
   game_initialize_module(&game->modules[game->modules_count++], game, mod_fn);
 }
 
-static void update_unit_behavior(Unit * unit, void * world_ptr) {
-  World * world = (World*)world_ptr;
-  Unit * closest_enemy_unit = unit_behavior_find_closest_enemy_unit(unit, world);
-  Unit * closest_friendly_unit = unit_behavior_find_closest_friendly_unit(unit, world, 32.0f);
-  Factory * closest_friendly_factory = unit_behavior_find_closest_friendly_factory(unit, world, 32.0f);
-
-  float unit_health = unit_health_percentage(unit);
-
-  if(closest_friendly_factory != NULL)
-    unit_behavior_move_away_from(unit, closest_friendly_factory->position);
-  else if(closest_friendly_unit != NULL)
-    unit_behavior_move_away_from(unit, closest_friendly_unit->position);
-  else if(closest_enemy_unit != NULL && unit_health >= 0.5f)
-    unit_behavior_set_target_position(unit, closest_enemy_unit->position, 120.0f);
-  else if(closest_enemy_unit != NULL)
-    unit_behavior_evasive_flee_from(unit, closest_enemy_unit->position);
-  else
-    unit_behavior_movement_stop(unit);
-
-  if(closest_enemy_unit == NULL)
-    unit_behavior_head_stop(unit);
-  else if(unit_health < 0.2f && vector_distance(unit->position, closest_enemy_unit->position) < 480.0f)
-    unit_behavior_overdrive(unit);
-  else
-    unit_behavior_head_engage_position(unit, closest_enemy_unit->position);
-}
-
-static Projectile * create_unit_projectile(Unit * unit, World * world) {
-  Projectile * projectile = &world_entity_allocate(world, PROJECTILE)->projectile;
-  projectile_initialize(projectile, unit->position,
-    unit->direction + unit->head_direction + rand_rangef(-0.02f, 0.02f), unit->team_id);
-  projectile->distance_remaining *= rand_rangef(0.9f, 1.1f);
-  return projectile;
-}
-
-static void create_unit_projectiles(Unit * unit, World * world) {
-  if(unit_is_firing(unit)) {
-    while(unit->next_fire_interval < 0) {
-      Projectile * projectile = create_unit_projectile(unit, world);
-      projectile_update(projectile, -unit->next_fire_interval);
-      unit->next_fire_interval += UNIT_FIRE_INTERVAL;
-    }
-  }
-}
-
-static void update_unit_entity(Entity * entity, void * world_ptr) {
-  if(entity->type == UNIT) {
-    World * world = (World*)world_ptr;
-    create_unit_projectiles(&entity->unit, world);
-    update_unit_behavior(&entity->unit, world);
-  }
-}
-
 void game_update(Game * game) {
   game->current_time = SDL_GetTicks();
   game->delta = game->current_time - game->last_time;
-
-  world_iterate_entities(&game->world, &game->world, update_unit_entity);
 
   for(size_t i = 0; i < game->modules_count; i++)
     game->modules[i].update(game, game->delta);
