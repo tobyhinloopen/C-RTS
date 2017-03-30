@@ -2,7 +2,7 @@
 
 #include "../vector3.h"
 #include "../camera.h"
-#include <SDL2/sdl.h>
+#include <SDL2/SDL.h>
 
 static void mod_event_initialize(Game * game) {
   game->is_quit_requested = 0;

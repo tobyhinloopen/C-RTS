@@ -106,7 +106,7 @@ static void set_gl_team_color(int team_id) {
   set_gl_team_color_alpha(team_id, 255);
 }
 
-void renderer_render_unit(Renderer * renderer, Unit * unit) {
+static void renderer_render_unit(Renderer * renderer, Unit * unit) {
   glPushMatrix();
   glTranslatef(unit->position.x, unit->position.y, 0.0f);
 
@@ -136,7 +136,7 @@ void renderer_render_unit(Renderer * renderer, Unit * unit) {
   glPopMatrix();
 }
 
-void renderer_render_projectile(Renderer * renderer, Projectile * projectile) {
+static void renderer_render_projectile(Renderer * renderer, Projectile * projectile) {
   set_gl_team_color_alpha(projectile->team_id,
     (unsigned char)(projectile->decay_remaining / PROJECTILE_DECAY * 255.0f));
 
@@ -165,7 +165,7 @@ void renderer_render_projectile(Renderer * renderer, Projectile * projectile) {
   glPopMatrix();
 }
 
-void renderer_render_factory(Renderer * renderer, Factory * factory) {
+static void renderer_render_factory(Renderer * renderer, Factory * factory) {
   glPushMatrix();
   glTranslatef(factory->position.x, factory->position.y, 0.0f);
 
