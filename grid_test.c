@@ -26,5 +26,8 @@ void test_grid() {
   grid_iterate_items(&grid, (GridXY){ 8, 8 }, NULL, assert_int_44);
   assert(assert_int_44_count == 2);
 
+  grid_iterate_items(&grid, (GridXY){ 7, 8 }, NULL, assert_int_44);
+  assert(assert_int_44_count == 2);
+
   grid_deinitialize(&grid);
 }

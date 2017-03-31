@@ -8,16 +8,25 @@ void mod_grid_initialize(Game * game) {
 }
 
 static void world_entity_grid_insert(Entity * entity, void * grid_ptr) {
+  Vector posf;
+
   if (entity->type == UNIT) {
-    Grid * grid = (Grid *)grid_ptr;
+    posf = entity->unit.position;
+  } else if(entity->type == FACTORY) {
+    posf = entity->factory.position;
+  }
+
+  if (entity->type == UNIT || entity->type == FACTORY) {
     GridXY pos;
-    pos.x = 48 + entity->unit.position.x / 64.f;
-    pos.y = 48 + entity->unit.position.y / 64.f;
-    grid_put(grid, pos, &entity->unit);
+    pos.x = 48 + posf.x / 64.f;
+    pos.y = 48 + posf.y / 64.f;
+    // printf("Insert %s at %.2f,%.2f (%d,%d)\n", entity->type == UNIT ? "unit" : "factory", posf.x, posf.y, pos.x, pos.y);
+    grid_put((Grid *)grid_ptr, pos, entity);
   }
 }
 
 void mod_grid_update(Game * game, unsigned int delta) {
+  // printf("UPDATE\n");
   grid_clear(&game->grid);
   world_iterate_entities(&game->world, &game->grid, world_entity_grid_insert);
 }

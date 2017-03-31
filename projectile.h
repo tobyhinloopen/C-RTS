@@ -13,6 +13,7 @@ typedef struct {
   int team_id;
   float distance_remaining;
   float decay_remaining;
+  unsigned int hit_count;
 } Projectile;
 
 void projectile_initialize(Projectile *, Vector position, float direction, int team_id);

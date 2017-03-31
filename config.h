@@ -1,0 +1,11 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define CONFIG_TEST_ENABLED
+#define CONFIG_BENCHMARK_ENABLED
+//#define CONFIG_GAME_ENABLED
+
+#define CONFIG_GRID_ENABLED
+// #define CONFIG_GRID_CHECK
+
+#endif

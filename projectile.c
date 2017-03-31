@@ -7,6 +7,7 @@ const float PROJECTILE_DECAY = 1.0f;
 
 void projectile_initialize(Projectile * projectile, Vector position, float direction, int team_id) {
   projectile->position = position;
+  projectile->hit_count = 0;
   projectile->direction = direction;
   projectile->team_id = team_id;
   projectile->distance_remaining = PROJECTILE_RANGE;
