@@ -1,7 +1,7 @@
 #include "unit_behavior.h"
 #include "../unit/behavior.h"
 
-static void update_unit_behavior(Unit * unit, World * world) {
+static void update_unit_behavior(Unit * unit, Game * game) {
   Unit * closest_enemy_unit = unit_behavior_find_closest_enemy_unit(unit, world);
   Unit * closest_friendly_unit = unit_behavior_find_closest_friendly_unit(unit, world, 32.0f);
   Factory * closest_friendly_factory = unit_behavior_find_closest_friendly_factory(unit, world, 32.0f);
@@ -27,10 +27,9 @@ static void update_unit_behavior(Unit * unit, World * world) {
     unit_behavior_head_engage_position(unit, closest_enemy_unit->position);
 }
 
-static void update_entity_unit_behavior(Entity * entity, void * world_ptr) {
+static void update_entity_unit_behavior(Entity * entity, void * game_ptr) {
   if(entity->type == UNIT) {
-    World * world = (World*)world_ptr;
-    update_unit_behavior(&entity->unit, world);
+    update_unit_behavior(&entity->unit, (Game *)game_ptr);
   }
 }
 

@@ -5,7 +5,6 @@
 #include "projectile.h"
 #include "factory.h"
 
-// #define WORLD_POOL_SIZE 32768
 #define WORLD_POOL_SIZE 16
 
 typedef enum { NONE = 0, UNIT, PROJECTILE, FACTORY } EntityType;

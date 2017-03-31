@@ -5,6 +5,7 @@
 #include "map.h"
 #include "renderer.h"
 #include "vector3.h"
+#include "grid.h"
 
 typedef struct Game Game;
 typedef struct GameModule GameModule;
@@ -15,6 +16,7 @@ struct Game {
   Renderer renderer;
   World world;
   Map map;
+  Grid grid;
 
   unsigned int start_time;
   unsigned int current_time;

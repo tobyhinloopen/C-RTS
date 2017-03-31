@@ -10,5 +10,4 @@ void benchmark_game(Game * game, unsigned int interval_ms, unsigned int duration
     game_update_time(game, game->start_time + delta);
 
   SDL_GL_SetSwapInterval(swap_interval);
-  assert(!game->is_quit_requested);
 }

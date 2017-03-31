@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "mod/grid.h"
 #include "mod/event.h"
 #include "mod/unit_projectile_spawn.h"
 #include "mod/projectile_unit_impact.h"
@@ -18,7 +19,7 @@
 const float SIZE_X = 2048;
 const float SIZE_Y = 2048;
 const int SPAWN_POINTS_COUNT = 4;
-const int MOD_COUNT = 8;
+const int MOD_COUNT = 9;
 const int SHAPE_COUNT = 1;
 
 const unsigned int BENCHMARK_INTERVAL_MS = 0x0000F;
@@ -42,6 +43,7 @@ static void make_game(Game * game) {
   shape_initialize(shape);
 
   game_add_module(game, mod_event);
+  game_add_module(game, mod_grid);
   game_add_module(game, mod_unit_projectile_spawn);
   game_add_module(game, mod_projectile_unit_impact);
   game_add_module(game, mod_unit_behavior);
@@ -63,6 +65,8 @@ static void benchmark() {
   double duration_s = (double)(clock() - start_time) / CLOCKS_PER_SEC;
   game_deinitialize(&game);
   int frames_count = BENCHMARK_DURATION_MS / BENCHMARK_INTERVAL_MS;
+  if(game.is_quit_requested)
+    printf("Note: Benchmark was aborted!\n");
   printf("Benchmark: %.2fs (%.2f FPS)\n", duration_s, frames_count / duration_s);
 }
 

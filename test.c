@@ -9,6 +9,7 @@
 #include "renderer_test.h"
 #include "shape_test.h"
 #include "factory_test.h"
+#include "grid_test.h"
 
 void test() {
   test_unit();
@@ -31,4 +32,7 @@ void test() {
 
   test_factory();
   printf("test_factory OK\n");
+
+  test_grid();
+  printf("test_grid OK\n");
 }
