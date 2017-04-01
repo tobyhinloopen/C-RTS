@@ -33,7 +33,7 @@
 
 const float SIZE_X = 2048;
 const float SIZE_Y = 2048;
-const int SPAWN_POINTS_COUNT = 4;
+const int SPAWN_POINTS_COUNT = 16;
 const int MOD_COUNT = 9;
 const int SHAPE_COUNT = 1;
 
@@ -48,6 +48,19 @@ static void make_game(Game * game) {
   game->map.spawn_points[1] = vector_create(SIZE_X * 0.8, SIZE_Y * 0.2);
   game->map.spawn_points[2] = vector_create(SIZE_X * 0.8, SIZE_Y * 0.8);
   game->map.spawn_points[3] = vector_create(SIZE_X * 0.2, SIZE_Y * 0.8);
+  game->map.spawn_points[4] = vector_create(SIZE_X * 0.3, SIZE_Y * 0.2);
+  game->map.spawn_points[5] = vector_create(SIZE_X * 0.7, SIZE_Y * 0.2);
+  game->map.spawn_points[6] = vector_create(SIZE_X * 0.7, SIZE_Y * 0.8);
+  game->map.spawn_points[7] = vector_create(SIZE_X * 0.3, SIZE_Y * 0.8);
+
+  game->map.spawn_points[ 8] = vector_create(SIZE_X * 0.2, SIZE_Y * 0.3);
+  game->map.spawn_points[ 9] = vector_create(SIZE_X * 0.8, SIZE_Y * 0.3);
+  game->map.spawn_points[10] = vector_create(SIZE_X * 0.8, SIZE_Y * 0.7);
+  game->map.spawn_points[11] = vector_create(SIZE_X * 0.2, SIZE_Y * 0.7);
+  game->map.spawn_points[12] = vector_create(SIZE_X * 0.3, SIZE_Y * 0.3);
+  game->map.spawn_points[13] = vector_create(SIZE_X * 0.7, SIZE_Y * 0.3);
+  game->map.spawn_points[14] = vector_create(SIZE_X * 0.7, SIZE_Y * 0.7);
+  game->map.spawn_points[15] = vector_create(SIZE_X * 0.3, SIZE_Y * 0.7);
 
   Shape * shape = &game->map.shapes[0];
   shape_alloc(shape, 5);
