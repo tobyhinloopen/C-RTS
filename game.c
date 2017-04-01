@@ -38,21 +38,29 @@ static void noop_game(Game * game) {}
 static void noop_game_delta(Game * game, unsigned int delta) {}
 
 static void game_clear_module(GameModule * mod) {
+  mod->duration_initialize = 0;
+  mod->duration_deinitialize = 0;
+  mod->duration_update_index = 0;
+  memset(&mod->duration_update, 0, sizeof(mod->duration_update));
   mod->initialize = noop_game;
   mod->tick = noop_game;
   mod->update = noop_game_delta;
   mod->deinitialize = noop_game;
 }
 
-static void game_initialize_module(GameModule * mod, Game * game, void (*mod_fn)(GameModule *)) {
+static void game_initialize_module(GameModule * mod, Game * game, char * name, void (*mod_fn)(GameModule *)) {
   game_clear_module(mod);
+  mod->name = name;
   mod_fn(mod);
+
+  clock_t start = clock();
   mod->initialize(game);
+  mod->duration_initialize = clock() - start;
 }
 
-void game_add_module(Game * game, void (*mod_fn)(GameModule *)) {
+void game_add_module(Game * game, char * name, void (*mod_fn)(GameModule *)) {
   assert(game->modules_count < game->modules_capacity);
-  game_initialize_module(&game->modules[game->modules_count++], game, mod_fn);
+  game_initialize_module(&game->modules[game->modules_count++], game, name, mod_fn);
 }
 
 void game_update(Game * game) {
@@ -64,15 +72,26 @@ void game_update_time(Game * game, unsigned int current_time) {
   game->current_time = current_time;
   game->delta = game->current_time - game->last_time;
 
-  for(size_t i = 0; i < game->modules_count; i++)
-    game->modules[i].update(game, game->delta);
+  for(size_t i = 0; i < game->modules_count; i++) {
+    GameModule * mod = &game->modules[i];
+
+    clock_t start = clock();
+    mod->update(game, game->delta);
+    mod->duration_update[mod->duration_update_index++] = clock() - start;
+    mod->duration_update_index %= GAME_MODULE_DURATION_LENGTH;
+  }
 
   game->last_time = game->current_time;
 }
 
 void game_deinitialize(Game * game) {
-  for(size_t i = 0; i < game->modules_count; i++)
-    game->modules[i].deinitialize(game);
+  for(size_t i = 0; i < game->modules_count; i++) {
+    GameModule * mod = &game->modules[i];
+
+    clock_t start = clock();
+    mod->deinitialize(game);
+    mod->duration_deinitialize = clock() - start;
+  }
 
   SDL_QuitSubSystem(SDL_INIT_TIMER);
   world_deinitialize(&game->world);

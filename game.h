@@ -6,6 +6,9 @@
 #include "renderer.h"
 #include "vector3.h"
 #include "grid.h"
+#include <time.h>
+
+#define GAME_MODULE_DURATION_LENGTH 32
 
 typedef struct Game Game;
 typedef struct GameModule GameModule;
@@ -31,6 +34,11 @@ struct Game {
 };
 
 struct GameModule {
+  char * name;
+  clock_t duration_initialize;
+  clock_t duration_deinitialize;
+  clock_t duration_update [GAME_MODULE_DURATION_LENGTH];
+  int duration_update_index;
   void (* initialize)(Game * game);
   void (* tick)(Game * game);
   void (* update)(Game * game, unsigned int delta_since_tick);
@@ -38,7 +46,7 @@ struct GameModule {
 };
 
 void game_initialize(Game * game, int spawn_points_count, int shapes_count, float map_width, float map_height, size_t mod_capacity);
-void game_add_module(Game * game, void (* mod_fn)(GameModule *));
+void game_add_module(Game * game, char * name, void (* mod_fn)(GameModule *));
 void game_update(Game * game);
 void game_update_time(Game * game, unsigned int current_time);
 void game_deinitialize(Game * game);
