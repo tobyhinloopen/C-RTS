@@ -8,8 +8,8 @@
 
 const float RAD2DEGf = 360 / PI2;
 
-const int INITIAL_WINDOW_WIDTH = 1280;
-const int INITIAL_WINDOW_HEIGHT = 1024;
+const int INITIAL_WINDOW_WIDTH = 1808;
+const int INITIAL_WINDOW_HEIGHT = 942;
 
 const int HALF_UNIT_TEXTURE_SIZE = 24;
 const float PROJECTILE_LENGTH = 16.0f;

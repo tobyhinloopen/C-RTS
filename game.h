@@ -6,6 +6,7 @@
 #include "renderer.h"
 #include "vector3.h"
 #include "grid.h"
+#include "scalable_grid.h"
 #include <time.h>
 
 #define GAME_MODULE_DURATION_LENGTH 32
@@ -20,6 +21,7 @@ struct Game {
   World world;
   Map map;
   Grid grid;
+  ScalableGrid scalable_grid;
 
   unsigned int start_time;
   unsigned int current_time;

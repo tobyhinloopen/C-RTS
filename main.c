@@ -15,6 +15,9 @@
 #ifdef CONFIG_GRID_ENABLED
 #include "mod/grid.h"
 #endif
+#ifdef CONFIG_SCALABLE_GRID_ENABLED
+#include "mod/scalable_grid.h"
+#endif
 #include "mod/event.h"
 #include "mod/unit_projectile_spawn.h"
 #include "mod/projectile_unit_impact.h"
@@ -38,11 +41,11 @@
 const float SIZE_X = 2048;
 const float SIZE_Y = 2048;
 const int SPAWN_POINTS_COUNT = 64;
-const int MOD_COUNT = 10;
+const int MOD_COUNT = 11;
 const int SHAPE_COUNT = 1;
 
 const unsigned int BENCHMARK_INTERVAL_MS = 0x0000F;
-const unsigned int BENCHMARK_DURATION_MS = 0x00FFF;
+const unsigned int BENCHMARK_DURATION_MS = 0x03FFF;
 
 #ifdef CONFIG_MAKE_GAME
 #include "team_id.h"
@@ -80,6 +83,9 @@ static void make_game(Game * game) {
   game_add_module(game, "mod_event", mod_event);
 #ifdef CONFIG_GRID_ENABLED
   game_add_module(game, "mod_grid", mod_grid);
+#endif
+#ifdef CONFIG_SCALABLE_GRID_ENABLED
+  game_add_module(game, "mod_scalable_grid", mod_scalable_grid);
 #endif
   game_add_module(game, "mod_unit_projectile_spawn", mod_unit_projectile_spawn);
   game_add_module(game, "mod_projectile_unit_impact", mod_projectile_unit_impact);

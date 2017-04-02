@@ -38,8 +38,8 @@ void grid_clear(Grid * grid) {
 
 static GridItem ** grid_get_ptr(Grid * grid, GridXY pos) {
 #ifndef NDEBUG
-  if(pos.x > grid->quick_access_size_x || pos.y > grid->quick_access_size_y) {
-    printf("Tried to access pos %u,%u while grid is limited to %u,%u\n", pos.x, pos.y, grid->quick_access_size_x, grid->quick_access_size_y);
+  if(pos.x < 0 || pos.y < 0 || pos.x >= grid->quick_access_size_x || pos.y >= grid->quick_access_size_y) {
+    printf("Tried to access pos %i,%i while grid is limited to %i,%i\n", pos.x, pos.y, grid->quick_access_size_x, grid->quick_access_size_y);
     assert(0);
   }
 #endif

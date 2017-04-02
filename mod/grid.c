@@ -4,7 +4,7 @@
 void mod_grid_initialize(Game * game) {
   grid_initialize(&game->grid);
   grid_set_size(&game->grid, (GridXY){ 128, 128 });
-  grid_set_capacity(&game->grid, 32768);
+  grid_set_capacity(&game->grid, 4096);
 }
 
 static void world_entity_grid_insert(Entity * entity, void * grid_ptr) {
@@ -17,21 +17,16 @@ static void world_entity_grid_insert(Entity * entity, void * grid_ptr) {
   }
 
   if (entity->type == UNIT || entity->type == FACTORY) {
-    GridXY pos;
-    pos.x = 48 + posf.x / 64.f;
-    pos.y = 48 + posf.y / 64.f;
-    // printf("Insert %s at %.2f,%.2f (%d,%d)\n", entity->type == UNIT ? "unit" : "factory", posf.x, posf.y, pos.x, pos.y);
-    grid_put((Grid *)grid_ptr, pos, entity);
+    grid_put((Grid *)grid_ptr, (GridXY){48 + posf.x / 64.f, 48 + posf.y / 64.f}, entity);
   }
 }
 
-void mod_grid_update(Game * game, unsigned int delta) {
-  // printf("UPDATE\n");
+static void mod_grid_update(Game * game, unsigned int delta) {
   grid_clear(&game->grid);
   world_iterate_entities(&game->world, &game->grid, world_entity_grid_insert);
 }
 
-void mod_grid_deinitialize(Game * game) {
+static void mod_grid_deinitialize(Game * game) {
   grid_deinitialize(&game->grid);
 }
 

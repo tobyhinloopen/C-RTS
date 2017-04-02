@@ -6,9 +6,6 @@ The grid is designed to be able to quickly access items by their approximate pos
 by deviding all possible position within a space into rectangles. Every rectangle contains a
 reference to the first item of a linked-list of all items in that square (or NULL if the square is
 empty)
-
-The grid-related functions accept float coordinates. These coordinates are transformed by scale and
-offset. Flooring the resulting coordinate is the destination square.
 */
 
 typedef struct GridItem GridItem;
@@ -28,11 +25,11 @@ typedef struct {
 } Grid;
 
 typedef struct {
-  unsigned int x;
-  unsigned int y;
+  int x;
+  int y;
 } GridXY;
 
-// Initializes a grid of size 0x0 with 0 capacity. Set a size, transform & capacity before using it.
+// Initializes a grid of size 0x0 with 0 capacity. Set a size & capacity before using it.
 void grid_initialize(Grid *);
 
 // Resize the grid. This resizes the allocated memory. This silently invalidates the grid content.
