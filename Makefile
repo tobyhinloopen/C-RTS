@@ -635,6 +635,8 @@ game.o: /usr/local/include/SDL2/SDL_version.h opengl.h grid.h scalable_grid.h
 game.o: unit/behavior.h vector.h unit.h world.h rand_range.h
 grid.o: grid.h
 grid_test.o: grid_test.h grid.h
+kdtree.o: kdtree.h vector.h
+kdtree_test.o: kdtree_test.h kdtree.h vector.h
 main.o: game.h world.h unit.h vector.h projectile.h factory.h map.h shape.h
 main.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
 main.o: /usr/local/include/SDL2/SDL_main.h
@@ -779,7 +781,7 @@ shape.o: shape.h vector.h
 shape_test.o: shape_test.h shape.h vector.h
 team_id.o: team_id.h vector.h
 test.o: test.h unit_test.h world_test.h vector_test.h unit/behavior_test.h
-test.o: renderer_test.h shape_test.h factory_test.h grid_test.h
+test.o: renderer_test.h shape_test.h factory_test.h grid_test.h kdtree_test.h
 unit.o: unit.h vector.h pi.h
 unit_test.o: unit_test.h unit.h vector.h pi.h
 vector.o: vector.h pi.h

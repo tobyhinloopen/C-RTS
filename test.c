@@ -8,6 +8,9 @@
 #include "shape_test.h"
 #include "factory_test.h"
 #include "grid_test.h"
+#include "kdtree_test.h"
+
+#include <stdio.h>
 
 void test() {
   test_unit();
@@ -18,4 +21,6 @@ void test() {
   test_shape();
   test_factory();
   test_grid();
+  test_kdtree();
+  printf("TEST OK\n");
 }
