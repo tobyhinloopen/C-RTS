@@ -43,7 +43,7 @@
 
 const float SIZE_X = 2048;
 const float SIZE_Y = 2048;
-const int SPAWN_POINTS_COUNT = 32;
+const int SPAWN_POINTS_COUNT = 120;
 const int MOD_COUNT = 11;
 const int SHAPE_COUNT = 1;
 
@@ -52,7 +52,7 @@ const unsigned int BENCHMARK_DURATION_MS = 0x0FFFF;
 
 #define SPAWN_OFFSET 0.2
 #define SPAWN_DISTANCE 0.1
-#define FACTORY_ROWS 2
+#define FACTORY_ROWS 3
 
 #ifdef CONFIG_MAKE_GAME
 #include "team_id.h"
