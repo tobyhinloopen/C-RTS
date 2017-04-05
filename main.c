@@ -44,15 +44,16 @@
 
 const float SIZE_X = 2048;
 const float SIZE_Y = 2048;
-const int SPAWN_POINTS_COUNT = 64;
+const int SPAWN_POINTS_COUNT = 32;
 const int MOD_COUNT = 11;
 const int SHAPE_COUNT = 1;
 
 const unsigned int BENCHMARK_INTERVAL_MS = 0x0000F;
-const unsigned int BENCHMARK_DURATION_MS = 0x2FFFF;
+const unsigned int BENCHMARK_DURATION_MS = 0x0FFFF;
 
-#define SPAWN_OFFSET 0.2
+#define SPAWN_OFFSET 0.1
 #define SPAWN_DISTANCE 0.1
+#define FACTORY_ROWS 1
 
 #ifdef CONFIG_MAKE_GAME
 #include "team_id.h"
@@ -62,8 +63,8 @@ static void make_game(Game * game) {
 
   for (int i = 0; i < SPAWN_POINTS_COUNT; i++) {
     int xy_offset = (i / 4);
-    int x_offset = xy_offset / 2;
-    int y_offset = xy_offset % 2;
+    int x_offset = xy_offset / FACTORY_ROWS;
+    int y_offset = xy_offset % FACTORY_ROWS;
 
     Vector spawn = {SPAWN_OFFSET, SPAWN_OFFSET};
     spawn.x += SPAWN_DISTANCE * x_offset;

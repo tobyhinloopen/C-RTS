@@ -57,47 +57,6 @@ static float renderer_scale(Renderer * renderer) {
   return 1.0f / (1.0f + renderer->camera.z);
 }
 
-static void render_health_bar(Renderer * renderer, float health_percentage) {
-  if(health_percentage >= 1.0f)
-    return;
-
-  glPushMatrix();
-  glTranslatef(-HEALTH_BAR_WIDTH/2, -HEALTH_BAR_HEIGHT/2 + 16.0f, 0.5f);
-
-  glColor3f(0.0f, 0.0f, 0.0f);
-
-  glBegin(GL_QUADS);
-
-  const float border = 1.0f / renderer_scale(renderer);
-  glVertex2f(-border, -border);
-  glVertex2f(HEALTH_BAR_WIDTH + border, -border);
-  glVertex2f(HEALTH_BAR_WIDTH + border, HEALTH_BAR_HEIGHT + border);
-  glVertex2f(-border, HEALTH_BAR_HEIGHT + border);
-
-  glEnd();
-
-  if(health_percentage >= 0.6f)
-    glColor3f(0.0f, 1.0f, 0.0f);
-  else if(health_percentage >= 0.3f)
-    glColor3f(1.0f, 0.75f, 0.0f);
-  else
-    glColor3f(0.75f, 0.0f, 0.0f);
-
-  glTranslatef(0.0f, 0.0f, 0.01f);
-
-  glBegin(GL_QUADS);
-
-  float target_health_bar_width = health_percentage * HEALTH_BAR_WIDTH;
-  glVertex2f(0.0f, 0.0f);
-  glVertex2f(target_health_bar_width, 0.0f);
-  glVertex2f(target_health_bar_width, HEALTH_BAR_HEIGHT);
-  glVertex2f(0.0f, HEALTH_BAR_HEIGHT);
-
-  glEnd();
-
-  glPopMatrix();
-}
-
 static void set_gl_team_color_alpha(int team_id, unsigned char alpha) {
   RendererColor color = { TEAM_COLOR[team_id] };
   glColor4ub(color.r, color.g, color.b, alpha);
@@ -111,7 +70,6 @@ static void renderer_render_unit(Renderer * renderer, Unit * unit) {
   glPushMatrix();
   glTranslatef(unit->position.x, unit->position.y, 0.0f);
 
-  render_health_bar(renderer, unit_health_percentage(unit));
   set_gl_team_color(unit->team_id);
 
   glRotatef(unit->direction * RAD2DEGf, 0.0f, 0.0f, 1.0f);
@@ -122,6 +80,15 @@ static void renderer_render_unit(Renderer * renderer, Unit * unit) {
   glVertex2f( 16.0f, -12.0f);
   glVertex2f( 16.0f,  12.0f);
   glVertex2f(-16.0f,  12.0f);
+
+  glEnd();
+
+  float health = unit_health_percentage(unit);
+
+  glBegin(GL_LINES);
+
+  glVertex2f(-20.0f, -12.0f);
+  glVertex2f(-20.0f, -12.0f + 24.0f * health);
 
   glEnd();
 
@@ -170,7 +137,6 @@ static void renderer_render_factory(Renderer * renderer, Factory * factory) {
   glPushMatrix();
   glTranslatef(factory->position.x, factory->position.y, 0.0f);
 
-  render_health_bar(renderer, factory_health_percentage(factory));
   set_gl_team_color(factory->team_id);
 
   glRotatef(factory->direction * RAD2DEGf, 0.0f, 0.0f, 1.0f);
@@ -185,6 +151,15 @@ static void renderer_render_factory(Renderer * renderer, Factory * factory) {
   glVertex2f( 28.0f,  18.0f);
   glVertex2f( 28.0f,  24.0f);
   glVertex2f(-28.0f,  24.0f);
+
+  glEnd();
+
+  float health = factory_health_percentage(factory);
+
+  glBegin(GL_LINES);
+
+  glVertex2f(-32.0f, -24.0f);
+  glVertex2f(-32.0f, -24.0f + 48.0f * health);
 
   glEnd();
 
