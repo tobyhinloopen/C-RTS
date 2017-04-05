@@ -24,12 +24,19 @@ typedef struct {
   KDTreeNode * nodes;
 } KDTree;
 
+typedef struct {
+  void * ref;
+  float distance;
+} KDTreeFindResult;
+
 void kdtree_initialize(KDTree *);
 void kdtree_set_capacity(KDTree *, size_t);
 void kdtree_clear(KDTree *);
 void kdtree_add(KDTree *, Vector, void *);
 void kdtree_build(KDTree *);
 void * kdtree_find(KDTree *, Vector);
+KDTreeFindResult kdtree_find_distance(KDTree *, Vector);
+void kdtree_debug_print(KDTree *, void * param, void (* print_fn)(void * ref, void * param)) ;
 void kdtree_deinitialize(KDTree *);
 
 #endif

@@ -18,6 +18,10 @@
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
 #include "mod/scalable_grid.h"
 #endif
+#ifdef CONFIG_KDTREE_ENABLED
+#include "mod/kdtree.h"
+#endif
+#include "mod/event.h"
 #include "mod/event.h"
 #include "mod/unit_projectile_spawn.h"
 #include "mod/projectile_unit_impact.h"
@@ -45,7 +49,7 @@ const int MOD_COUNT = 11;
 const int SHAPE_COUNT = 1;
 
 const unsigned int BENCHMARK_INTERVAL_MS = 0x0000F;
-const unsigned int BENCHMARK_DURATION_MS = 0x03FFF;
+const unsigned int BENCHMARK_DURATION_MS = 0x0FFFF;
 
 #ifdef CONFIG_MAKE_GAME
 #include "team_id.h"
@@ -86,6 +90,9 @@ static void make_game(Game * game) {
 #endif
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
   game_add_module(game, "mod_scalable_grid", mod_scalable_grid);
+#endif
+#ifdef CONFIG_KDTREE_ENABLED
+  game_add_module(game, "mod_kdtree", mod_kdtree);
 #endif
   game_add_module(game, "mod_unit_projectile_spawn", mod_unit_projectile_spawn);
   game_add_module(game, "mod_projectile_unit_impact", mod_projectile_unit_impact);

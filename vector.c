@@ -34,10 +34,14 @@ void vector_multiply_scalar(Vector * vector, float scalar) {
   vector->y *= scalar;
 }
 
-float vector_distance(Vector a, Vector b) {
+float vector_sq_distance(Vector a, Vector b) {
   float dx = a.x - b.x;
   float dy = a.y - b.y;
-  return sqrtf(dx * dx + dy * dy);
+  return dx * dx + dy * dy;
+}
+
+float vector_distance(Vector a, Vector b) {
+  return sqrtf(vector_sq_distance(a, b));
 }
 
 float vector_angle(Vector vector) {

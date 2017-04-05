@@ -10,7 +10,7 @@ static void mod_factory_spawn_initialize(Game * game) {
     Factory * factory = &world_entity_allocate(&game->world, FACTORY)->factory;
     factory_initialize(factory);
     factory->position = spawn_point;
-    factory->team_id = TEAM_COLOR[i%TEAM_COUNT];
+    factory->team_id = i%TEAM_COUNT;
     factory->direction = PI + HALF_PI * TEAM_SPAWN[i%TEAM_COUNT].y;
     factory_start_building(factory);
   }

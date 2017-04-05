@@ -33,7 +33,7 @@ static int world_count_units(World * world) {
 static void setup_unit(Unit * unit, int team_offset, float x, float y) {
   unit_initialize(unit);
   unit->direction = rand_rangef(0, PI2);
-  unit->team_id = TEAM_COLOR[team_offset];
+  unit->team_id = team_offset;
   unit->position.x = x + rand_rangef_pow2(-JITTER_X, JITTER_X);
   unit->position.y = y + rand_rangef_pow2(-JITTER_Y, JITTER_Y);
 }

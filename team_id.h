@@ -3,7 +3,8 @@
 
 #include "vector.h"
 
-extern const int TEAM_COUNT;
+#define TEAM_COUNT 4
+
 extern const int TEAM_COLOR[];
 extern const Vector TEAM_SPAWN[];
 

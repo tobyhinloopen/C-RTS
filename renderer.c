@@ -5,11 +5,12 @@
 #include "world.h"
 #include "projectile.h"
 #include "pi.h"
+#include "team_id.h"
 
 const float RAD2DEGf = 360 / PI2;
 
-const int INITIAL_WINDOW_WIDTH = 1808;
-const int INITIAL_WINDOW_HEIGHT = 942;
+const int INITIAL_WINDOW_WIDTH = 960;
+const int INITIAL_WINDOW_HEIGHT = 540;
 
 const int HALF_UNIT_TEXTURE_SIZE = 24;
 const float PROJECTILE_LENGTH = 16.0f;
@@ -98,7 +99,7 @@ static void render_health_bar(Renderer * renderer, float health_percentage) {
 }
 
 static void set_gl_team_color_alpha(int team_id, unsigned char alpha) {
-  RendererColor color = { team_id };
+  RendererColor color = { TEAM_COLOR[team_id] };
   glColor4ub(color.r, color.g, color.b, alpha);
 }
 

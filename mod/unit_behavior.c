@@ -1,18 +1,18 @@
 #include "unit_behavior.h"
 #include "../unit/behavior.h"
 #include "../config.h"
+#include <math.h>
 
 #ifdef CONFIG_GRID_ENABLED
 #define ANY_GRID_ENABLED
-#else
+#endif
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
 #define ANY_GRID_ENABLED
-#endif
 #endif
 
 #ifdef ANY_GRID_ENABLED
 #include "../grid.h"
-#include <math.h>
+#include <stdio.h>
 
 typedef struct {
   Unit * my_unit;
@@ -25,7 +25,6 @@ typedef struct {
 
 #ifdef CONFIG_GRID_CHECK
 #include <assert.h>
-#include <stdio.h>
 #endif
 
 static void update_closest_friendly_result(
@@ -62,6 +61,7 @@ void * result_ptr
 }
 #endif
 
+#ifndef CONFIG_KDTREE_ENEMY_SEARCH
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
 typedef struct {
   int team_id;
@@ -79,11 +79,66 @@ static void update_enemy_unit_result(void * entity_ptr, float distance, void * r
   }
 }
 #endif
+#endif
+
+#ifdef CONFIG_KDTREE_ENEMY_SEARCH
+#include "../kdtree.h"
+
+Unit * kdtree_search_closest_enemy_unit(Game * game, Vector position, int team_id) {
+  Unit * closest_enemy_unit = NULL;
+  float closest_enemy_unit_distance = INFINITY;
+  for (int i = 0; i < TEAM_COUNT; i++) {
+    if (i != team_id) {
+      KDTreeFindResult result = kdtree_find_distance(&game->kdtree[i], position);
+      if (result.distance < closest_enemy_unit_distance) {
+        closest_enemy_unit = (Unit *)result.ref;
+        closest_enemy_unit_distance = result.distance;
+      }
+    }
+  }
+  return closest_enemy_unit;
+}
+#endif
+
+#ifdef CONFIG_KDTREE_ENEMY_SEARCH
+#ifdef CONFIG_KDTREE_ENEMY_SEARCH_CHECK
+#include <assert.h>
+
+void print_unit_debug(void * other_unit_ptr, void * own_unit_ptr) {
+  Unit * other_unit = (Unit *)other_unit_ptr;
+  Unit * own_unit = (Unit *)own_unit_ptr;
+  printf("d: %4.1f", vector_distance(other_unit->position, own_unit->position));
+}
+
+#endif
+#endif
 
 static void update_unit_behavior(Unit * unit, Game * game) {
+#ifdef CONFIG_KDTREE_ENEMY_SEARCH
+  Unit * closest_enemy_unit = kdtree_search_closest_enemy_unit(game, unit->position, unit->team_id);
+#ifdef CONFIG_KDTREE_ENEMY_SEARCH_CHECK
+  World * world = &game->world;
+  Unit * check_enemy_unit = unit_behavior_find_closest_enemy_unit(unit, world);
+  if (check_enemy_unit != closest_enemy_unit) {
+    float actual_distance = vector_distance(closest_enemy_unit->position, unit->position);
+    float expected_distance = vector_distance(check_enemy_unit->position, unit->position);
+    printf("Found: %p (%f, %i), Expected: %p (%f, %i)\n",
+      closest_enemy_unit, actual_distance, closest_enemy_unit->team_id, check_enemy_unit, expected_distance, check_enemy_unit->team_id);
+    printf("Found Team ID: %i; Own Unit Position: %4.1f,%4.1f\n", closest_enemy_unit->team_id, unit->position.x, unit->position.y);
+    kdtree_debug_print(&game->kdtree[closest_enemy_unit->team_id], unit, print_unit_debug);
+    if (closest_enemy_unit->team_id != check_enemy_unit->team_id) {
+      printf("Expected TEAM ID: %i\n", check_enemy_unit->team_id);
+      kdtree_debug_print(&game->kdtree[check_enemy_unit->team_id], unit, print_unit_debug);
+    }
+
+    kdtree_find_distance(&game->kdtree[check_enemy_unit->team_id], unit->position);
+    assert(0);
+  }
+#endif
+#else
   World * world = &game->world;
 #ifdef CONFIG_SCALABLE_GRID_QUICK_SHORT_RANGE_ENEMY_SEARCH
-  ClosestEnemyUnitResult enemy_unit_result = {unit->team_id, INFINITY, NULL};
+  ClosestEnemyUnitResult enemy_unit_result = {unit->team_id, FP_INFINITE, NULL};
   scalable_grid_iterate_items(&game->scalable_grid, unit->position, CONFIG_SCALABLE_GRID_QUICK_SHORT_RANGE_ENEMY_SEARCH, &enemy_unit_result, update_enemy_unit_result);
   Unit * closest_enemy_unit = enemy_unit_result.unit;
 #else
@@ -91,6 +146,7 @@ static void update_unit_behavior(Unit * unit, Game * game) {
 #endif
   if (closest_enemy_unit == NULL)
     closest_enemy_unit = unit_behavior_find_closest_enemy_unit(unit, world);
+#endif
 
 #ifdef ANY_GRID_ENABLED
   ClosestFriendlyResult result = {unit, NULL, 32.0f, NULL, 32.0f};
