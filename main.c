@@ -49,7 +49,10 @@ const int MOD_COUNT = 11;
 const int SHAPE_COUNT = 1;
 
 const unsigned int BENCHMARK_INTERVAL_MS = 0x0000F;
-const unsigned int BENCHMARK_DURATION_MS = 0x0FFFF;
+const unsigned int BENCHMARK_DURATION_MS = 0x2FFFF;
+
+#define SPAWN_OFFSET 0.2
+#define SPAWN_DISTANCE 0.1
 
 #ifdef CONFIG_MAKE_GAME
 #include "team_id.h"
@@ -62,9 +65,9 @@ static void make_game(Game * game) {
     int x_offset = xy_offset / 2;
     int y_offset = xy_offset % 2;
 
-    Vector spawn = {0.2, 0.2};
-    spawn.x += 0.1 * x_offset;
-    spawn.y += 0.1 * y_offset;
+    Vector spawn = {SPAWN_OFFSET, SPAWN_OFFSET};
+    spawn.x += SPAWN_DISTANCE * x_offset;
+    spawn.y += SPAWN_DISTANCE * y_offset;
     Vector team_mp = TEAM_SPAWN[i % TEAM_COUNT];
     spawn.x *= team_mp.x;
     spawn.y *= team_mp.y;

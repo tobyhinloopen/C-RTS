@@ -90,7 +90,7 @@ Unit * kdtree_search_closest_enemy_unit(Game * game, Vector position, int team_i
   for (int i = 0; i < TEAM_COUNT; i++) {
     if (i != team_id) {
       KDTreeFindResult result = kdtree_find_distance(&game->kdtree[i], position);
-      if (result.distance < closest_enemy_unit_distance) {
+      if (result.ref != NULL && result.distance < closest_enemy_unit_distance) {
         closest_enemy_unit = (Unit *)result.ref;
         closest_enemy_unit_distance = result.distance;
       }

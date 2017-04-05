@@ -3,8 +3,9 @@
 
 void mod_kdtree_initialize(Game * game) {
   for (int i = 0; i < TEAM_COUNT; i++) {
-    kdtree_initialize(&game->kdtree[i]);
-    kdtree_set_capacity(&game->kdtree[i], 2048);
+    KDTree * kdtree = &game->kdtree[i];
+    kdtree_initialize(kdtree);
+    kdtree_set_capacity(kdtree, 128);
   }
 }
 
@@ -20,8 +21,12 @@ void mod_kdtree_update(Game * game, unsigned int delta) {
   for (int i = 0; i < TEAM_COUNT; i++)
     kdtree_clear(&game->kdtree[i]);
   world_iterate_entities(&game->world, game, add_unit_to_kdtree);
-  for (int i = 0; i < TEAM_COUNT; i++)
-    kdtree_build(&game->kdtree[i]);
+  for (int i = 0; i < TEAM_COUNT; i++) {
+    KDTree * kdtree = &game->kdtree[i];
+    if (kdtree->capacity < kdtree->count * 2)
+      kdtree_set_capacity(kdtree, kdtree->capacity * 2);
+    kdtree_build(kdtree);
+  }
 }
 
 void mod_kdtree_deinitialize(Game * game) {
