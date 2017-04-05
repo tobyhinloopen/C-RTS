@@ -1,4 +1,4 @@
-#include "camera_update.h"
+#include "mod_camera_update.h"
 #include "../camera.h"
 
 void mod_camera_update_update(Game * game, unsigned int delta_i) {

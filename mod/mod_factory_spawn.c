@@ -1,4 +1,4 @@
-#include "factory_spawn.h"
+#include "mod_factory_spawn.h"
 #include "../world.h"
 #include "../team_id.h"
 #include "../pi.h"

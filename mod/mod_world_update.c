@@ -1,4 +1,4 @@
-#include "world_update.h"
+#include "mod_world_update.h"
 #include "../world.h"
 
 void mod_world_update_update(Game * game, unsigned int delta_i) {

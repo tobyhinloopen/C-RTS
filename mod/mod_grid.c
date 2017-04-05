@@ -1,4 +1,4 @@
-#include "grid.h"
+#include "mod_grid.h"
 #include "../grid.h"
 
 void mod_grid_initialize(Game * game) {

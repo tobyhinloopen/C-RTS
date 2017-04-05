@@ -13,7 +13,7 @@ CFLAGS = -Wall -g -std=c99
 
 # define any directories containing header files other than /usr/include
 #
-INCLUDES = -I/usr/local/include -ISDL2/include -D_THREAD_SAFE
+INCLUDES = -I/usr/local/include -D_THREAD_SAFE
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify

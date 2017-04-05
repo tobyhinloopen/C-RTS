@@ -13,26 +13,25 @@
 #include <time.h>
 
 #ifdef CONFIG_GRID_ENABLED
-#include "mod/grid.h"
+#include "mod/mod_grid.h"
 #endif
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
-#include "mod/scalable_grid.h"
+#include "mod/mod_scalable_grid.h"
 #endif
 #ifdef CONFIG_KDTREE_ENABLED
-#include "mod/kdtree.h"
+#include "mod/mod_kdtree.h"
 #endif
-#include "mod/event.h"
-#include "mod/event.h"
-#include "mod/unit_projectile_spawn.h"
-#include "mod/projectile_unit_impact.h"
-#include "mod/unit_behavior.h"
-#include "mod/factory_spawn.h"
-#include "mod/world_update.h"
-#include "mod/camera_update.h"
-#include "mod/render.h"
-
+#include "mod/mod_event.h"
+#include "mod/mod_event.h"
+#include "mod/mod_unit_projectile_spawn.h"
+#include "mod/mod_projectile_unit_impact.h"
+#include "mod/mod_unit_behavior.h"
+#include "mod/mod_factory_spawn.h"
+#include "mod/mod_world_update.h"
+#include "mod/mod_camera_update.h"
+#include "mod/mod_render.h"
 #ifdef CONFIG_PRINT_PERFORMANCE_ENABLED
-#include "mod/print_performance.h"
+#include "mod/mod_print_performance.h"
 #endif
 
 #ifdef CONFIG_BENCHMARK_ENABLED

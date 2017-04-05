@@ -1,4 +1,4 @@
-#include "kdtree.h"
+#include "mod_kdtree.h"
 #include "../kdtree.h"
 
 void mod_kdtree_initialize(Game * game) {

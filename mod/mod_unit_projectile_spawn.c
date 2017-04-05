@@ -1,4 +1,4 @@
-#include "unit_projectile_spawn.h"
+#include "mod_unit_projectile_spawn.h"
 #include "../rand_range.h"
 
 static Projectile * create_unit_projectile(Unit * unit, World * world) {
