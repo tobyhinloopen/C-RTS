@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-const float PADDING = 0.0001f;
-const float SIZE_MP = 1 + PADDING * 2;
+#define PADDING 0.0001f
+#define SIZE_MP (1.0f + PADDING * 2.0f)
 
 void scalable_grid_initialize(ScalableGrid * sgrid) {
   grid_initialize(&sgrid->grid);

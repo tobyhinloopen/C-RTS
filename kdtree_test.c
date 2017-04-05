@@ -9,7 +9,8 @@ typedef struct {
   Vector position;
 } KDTreeTestPoint;
 
-const int KDTREE_TEST_POINTS_COUNT = 8;
+#define KDTREE_TEST_POINTS_COUNT 8
+
 KDTreeTestPoint test_points[KDTREE_TEST_POINTS_COUNT] = {
   {1,{7,2}}, {2,{5,4}}, {3,{9,6}}, {4,{2,3}}, {5,{4,7}}, {6,{8,1}}, {7,{7,3}}, {8,{6.9,3}}
 };
