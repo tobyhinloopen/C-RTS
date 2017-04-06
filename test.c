@@ -9,6 +9,7 @@
 #include "factory_test.h"
 #include "grid_test.h"
 #include "kdtree_test.h"
+#include "rand_range_test.h"
 
 #include <stdio.h>
 
@@ -22,5 +23,6 @@ void test() {
   test_factory();
   test_grid();
   test_kdtree();
+  test_rand_range();
   printf("TEST OK\n");
 }
