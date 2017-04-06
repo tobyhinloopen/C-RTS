@@ -2,3 +2,5 @@
 main
 C-RTS.app/
 Makefile.bak
+Debug/
+.vs/
