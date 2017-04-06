@@ -30,23 +30,23 @@ static int world_count_units(World * world) {
   return count;
 }
 
-static void setup_unit(Unit * unit, int team_offset, float x, float y) {
+static void setup_unit(Unit * unit, rand_range_seed_t * seed, int team_offset, float x, float y) {
   unit_initialize(unit);
-  unit->direction = rand_rangef(0, PI2);
+  unit->direction = rand_rangef(seed, 0, PI2);
   unit->team_id = team_offset;
-  unit->position.x = x + rand_rangef_pow2(-JITTER_X, JITTER_X);
-  unit->position.y = y + rand_rangef_pow2(-JITTER_Y, JITTER_Y);
+  unit->position.x = x + rand_rangef_pow2(seed, -JITTER_X, JITTER_X);
+  unit->position.y = y + rand_rangef_pow2(seed, -JITTER_Y, JITTER_Y);
 }
 
 static void game_spawn_next_unit_group(Game * game) {
   game->last_spawn_time += UNIT_SPAWN_INTERVAL_MS;
-  int team_offset = rand_rangei(0, TEAM_COUNT);
-  float x = rand_rangef_pow2(-RANGE_X, RANGE_X);
-  float y = rand_rangef_pow2(-RANGE_Y, RANGE_Y);
+  int team_offset = rand_rangei(&game->seed, 0, TEAM_COUNT);
+  float x = rand_rangef_pow2(&game->seed, -RANGE_X, RANGE_X);
+  float y = rand_rangef_pow2(&game->seed, -RANGE_Y, RANGE_Y);
   int world_unit_count = world_count_units(&game->world);
-  for(int unit_count = rand_rangei(1, UNIT_SPAWN_MAX_GROUP_SIZE); unit_count >= 0; --unit_count)
+  for(int unit_count = rand_rangei(&game->seed, 1, UNIT_SPAWN_MAX_GROUP_SIZE); unit_count >= 0; --unit_count)
     if(world_unit_count++ < UNIT_MAX_SPAWN_COUNT)
-      setup_unit(&world_entity_allocate(&game->world, UNIT)->unit, team_offset, x, y);
+      setup_unit(&world_entity_allocate(&game->world, UNIT)->unit, &game->seed, team_offset, x, y);
 }
 
 static void mod_random_spawn_initialize(Game * game) {

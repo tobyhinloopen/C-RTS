@@ -1,19 +1,25 @@
 #include "rand_range.h"
 
 #include <math.h>
-#include <stdlib.h>
 
-float rand_rangef(float min, float max) {
-  return min + ((double)rand() / RAND_MAX) * (max - min);
+#define RAND_MAX 32767
+
+static int rand(rand_range_seed_t * seed) {
+  (*seed) = (*seed) * 1103515245 + 12345;
+  return (unsigned int)((*seed)/65536) % 32768;
 }
 
-int rand_rangei(int min, int max) {
-  return rand_rangef(min, max);
+float rand_rangef(rand_range_seed_t * seed, float min, float max) {
+  return min + ((double)rand(seed) / RAND_MAX) * (max - min);
 }
 
-float rand_rangef_pow2(float min, float max) {
+int rand_rangei(rand_range_seed_t * seed, int min, int max) {
+  return rand_rangef(seed, min, max);
+}
+
+float rand_rangef_pow2(rand_range_seed_t * seed, float min, float max) {
   const float magnitude = (max - min)/2;
   const float magnitude_sq = magnitude * magnitude;
-  const float result = rand_rangef(-magnitude_sq, magnitude_sq);
+  const float result = rand_rangef(seed, -magnitude_sq, magnitude_sq);
   return sqrtf(result < 0.0f ? -result : result) * (result < 0.0f ? -1.0f : 1.0f);
 }

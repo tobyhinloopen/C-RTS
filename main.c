@@ -57,8 +57,9 @@ const unsigned int BENCHMARK_DURATION_MS = 0x0FFFF;
 #ifdef CONFIG_MAKE_GAME
 #include "team_id.h"
 
-static void make_game(Game * game) {
+static void make_game(Game * game, rand_range_seed_t seed) {
   game_initialize(game, SPAWN_POINTS_COUNT, SHAPE_COUNT, SIZE_X, SIZE_Y, MOD_COUNT);
+  game->seed = seed;
 
   for (int i = 0; i < SPAWN_POINTS_COUNT; i++) {
     int xy_offset = (i / 4);
@@ -116,8 +117,7 @@ static void make_game(Game * game) {
 #ifdef CONFIG_BENCHMARK_ENABLED
 static void benchmark() {
   Game game;
-  srand(0);
-  make_game(&game);
+  make_game(&game, 0);
   clock_t start_time = clock();
   benchmark_game(&game, BENCHMARK_INTERVAL_MS, BENCHMARK_DURATION_MS);
   double duration_s = (double)(clock() - start_time) / CLOCKS_PER_SEC;
@@ -134,8 +134,7 @@ static void benchmark() {
 #ifdef CONFIG_GAME_ENABLED
 static void run_game() {
   Game game;
-  srand(time(NULL));
-  make_game(&game);
+  make_game(&game, time(NULL));
 
   while(!game.is_quit_requested)
     game_update(&game);

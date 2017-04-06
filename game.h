@@ -9,6 +9,7 @@
 #include "kdtree.h"
 #include "scalable_grid.h"
 #include "team_id.h"
+#include "rand_range.h"
 #include <time.h>
 
 #define GAME_MODULE_DURATION_LENGTH 32
@@ -25,6 +26,7 @@ struct Game {
   Grid grid;
   KDTree kdtree[TEAM_COUNT];
   ScalableGrid scalable_grid;
+  rand_range_seed_t seed;
 
   unsigned int start_time;
   unsigned int current_time;

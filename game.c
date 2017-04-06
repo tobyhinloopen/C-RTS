@@ -32,6 +32,7 @@ void game_initialize(Game * game, int spawn_points_count, int shapes_count, floa
   game->current_time = game->start_time;
   game->last_time = game->start_time;
   game->last_spawn_time = 0;
+  game->seed = 0;
 }
 
 static void noop_game(Game * game) {}
