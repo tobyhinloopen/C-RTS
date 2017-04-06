@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{1A83EF1F-3C7B-4BD4-87BE-2797FB6FC326}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\Users\hinlo\Projects\SDL2-2.0.5;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>C:\Users\hinlo\Projects\SDL2-2.0.5\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;SDL2main.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="benchmark.c" />
+    <ClCompile Include="camera.c" />
+    <ClCompile Include="factory.c" />
+    <ClCompile Include="factory_test.c" />
+    <ClCompile Include="game.c" />
+    <ClCompile Include="grid.c" />
+    <ClCompile Include="grid_test.c" />
+    <ClCompile Include="kdtree.c" />
+    <ClCompile Include="kdtree_test.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="map.c" />
+    <ClCompile Include="mod\mod_camera_update.c" />
+    <ClCompile Include="mod\mod_event.c" />
+    <ClCompile Include="mod\mod_factory_spawn.c" />
+    <ClCompile Include="mod\mod_grid.c" />
+    <ClCompile Include="mod\mod_kdtree.c" />
+    <ClCompile Include="mod\mod_print_performance.c" />
+    <ClCompile Include="mod\mod_projectile_unit_impact.c" />
+    <ClCompile Include="mod\mod_random_spawn.c" />
+    <ClCompile Include="mod\mod_render.c" />
+    <ClCompile Include="mod\mod_scalable_grid.c" />
+    <ClCompile Include="mod\mod_unit_behavior.c" />
+    <ClCompile Include="mod\mod_unit_projectile_spawn.c" />
+    <ClCompile Include="mod\mod_world_update.c" />
+    <ClCompile Include="projectile.c" />
+    <ClCompile Include="rand_range.c" />
+    <ClCompile Include="renderer.c" />
+    <ClCompile Include="renderer_test.c" />
+    <ClCompile Include="scalable_grid.c" />
+    <ClCompile Include="shape.c" />
+    <ClCompile Include="shape_test.c" />
+    <ClCompile Include="team_id.c" />
+    <ClCompile Include="test.c" />
+    <ClCompile Include="unit.c" />
+    <ClCompile Include="unit\behavior.c" />
+    <ClCompile Include="unit\behavior_test.c" />
+    <ClCompile Include="unit_test.c" />
+    <ClCompile Include="vector.c" />
+    <ClCompile Include="vector3.c" />
+    <ClCompile Include="vector_test.c" />
+    <ClCompile Include="world.c" />
+    <ClCompile Include="world_test.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="benchmark.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="config.h" />
+    <ClInclude Include="factory.h" />
+    <ClInclude Include="factory_test.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="grid.h" />
+    <ClInclude Include="grid_test.h" />
+    <ClInclude Include="kdtree.h" />
+    <ClInclude Include="kdtree_test.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="mod\camera_update.h" />
+    <ClInclude Include="mod\event.h" />
+    <ClInclude Include="mod\factory_spawn.h" />
+    <ClInclude Include="mod\grid.h" />
+    <ClInclude Include="mod\kdtree.h" />
+    <ClInclude Include="mod\mod_camera_update.h" />
+    <ClInclude Include="mod\mod_event.h" />
+    <ClInclude Include="mod\mod_factory_spawn.h" />
+    <ClInclude Include="mod\mod_grid.h" />
+    <ClInclude Include="mod\mod_kdtree.h" />
+    <ClInclude Include="mod\mod_print_performance.h" />
+    <ClInclude Include="mod\mod_projectile_unit_impact.h" />
+    <ClInclude Include="mod\mod_random_spawn.h" />
+    <ClInclude Include="mod\mod_render.h" />
+    <ClInclude Include="mod\mod_scalable_grid.h" />
+    <ClInclude Include="mod\mod_unit_behavior.h" />
+    <ClInclude Include="mod\mod_unit_projectile_spawn.h" />
+    <ClInclude Include="mod\mod_world_update.h" />
+    <ClInclude Include="mod\print_performance.h" />
+    <ClInclude Include="mod\projectile_unit_impact.h" />
+    <ClInclude Include="mod\random_spawn.h" />
+    <ClInclude Include="mod\render.h" />
+    <ClInclude Include="mod\scalable_grid.h" />
+    <ClInclude Include="mod\unit_behavior.h" />
+    <ClInclude Include="mod\unit_projectile_spawn.h" />
+    <ClInclude Include="mod\world_update.h" />
+    <ClInclude Include="opengl.h" />
+    <ClInclude Include="pi.h" />
+    <ClInclude Include="projectile.h" />
+    <ClInclude Include="rand_range.h" />
+    <ClInclude Include="renderer.h" />
+    <ClInclude Include="renderer_test.h" />
+    <ClInclude Include="scalable_grid.h" />
+    <ClInclude Include="shape.h" />
+    <ClInclude Include="shape_test.h" />
+    <ClInclude Include="team_id.h" />
+    <ClInclude Include="test.h" />
+    <ClInclude Include="unit.h" />
+    <ClInclude Include="unit\behavior.h" />
+    <ClInclude Include="unit\behavior_test.h" />
+    <ClInclude Include="unit_test.h" />
+    <ClInclude Include="vector.h" />
+    <ClInclude Include="vector3.h" />
+    <ClInclude Include="vector_test.h" />
+    <ClInclude Include="world.h" />
+    <ClInclude Include="world_test.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="screen.html" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
