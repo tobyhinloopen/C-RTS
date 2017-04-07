@@ -6,6 +6,7 @@
 #include "vector3.h"
 #include "projectile.h"
 #include <SDL2/SDL.h>
+#include "map.h"
 #include "opengl.h"
 
 typedef struct {
@@ -21,6 +22,8 @@ void renderer_notify_viewport_resized(Renderer *);
 Vector renderer_screen_to_world(Renderer *, Vector);
 Vector renderer_world_to_screen(Renderer *, Vector);
 void renderer_clear_color(Renderer *, float r, float g, float b);
+void renderer_begin(Renderer *);
+void renderer_render_map(Renderer *, Map *);
 void renderer_render_world(Renderer *, World *);
 void renderer_present(Renderer *);
 void renderer_deinitialize(Renderer *);

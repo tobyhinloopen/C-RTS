@@ -5,7 +5,7 @@ void mod_kdtree_initialize(Game * game) {
   for (int i = 0; i < TEAM_COUNT; i++) {
     KDTree * kdtree = &game->kdtree[i];
     kdtree_initialize(kdtree);
-    kdtree_set_capacity(kdtree, 128);
+    kdtree_set_capacity(kdtree, 1024);
   }
 }
 

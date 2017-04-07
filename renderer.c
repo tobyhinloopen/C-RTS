@@ -19,6 +19,8 @@ const int HEALTH_BAR_WIDTH = 32;
 const int HEALTH_BAR_HEIGHT = 4;
 const int HALF_FACTORY_TEXTURE_SIZE = 48;
 
+#define MAP_PADDING 128
+
 typedef union { Uint32 color; struct { Uint8 b; Uint8 g; Uint8 r; }; } RendererColor;
 
 static SDL_Window * create_sdl_window() {
@@ -40,6 +42,7 @@ void renderer_initialize(Renderer * renderer) {
 
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_BLEND);
+  glDepthFunc(GL_LEQUAL);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_LINE_SMOOTH);
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
@@ -231,14 +234,76 @@ static void render_entity(Entity * entity, void * renderer_ptr) {
   }
 }
 
-void renderer_render_world(Renderer * renderer, World * world) {
+void renderer_begin(Renderer * renderer) {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   const float scale = renderer_scale(renderer);
   glScalef(scale, scale, 1.0f);
   glTranslatef(-renderer->camera.x, -renderer->camera.y, 0.0f);
+  renderer_clear_color(renderer, 0.9f, 0.9f, 0.9f);
+}
 
+void renderer_render_map(Renderer * renderer, Map * map) {
+  glPushMatrix();
+  glTranslatef(0.0f, 0.0f, -1.0f);
+
+  // map padding
+  glColor3f(0.95f, 0.95f, 0.95f);
+  glTranslatef(0.0f, 0.0f, 0.1);
+
+  glBegin(GL_QUADS);
+
+  glVertex2f(-MAP_PADDING, -MAP_PADDING);
+  glVertex2f(map->size.x + MAP_PADDING, - MAP_PADDING);
+  glVertex2f(map->size.x + MAP_PADDING, map->size.y + MAP_PADDING);
+  glVertex2f(-MAP_PADDING, map->size.y + MAP_PADDING);
+
+  glEnd();
+
+  // map background
+  glColor3f(1.0f, 1.0f, 1.0f);
+  glTranslatef(0.0f, 0.0f, 0.1);
+
+  glBegin(GL_QUADS);
+
+  glVertex2f(0, 0);
+  glVertex2f(map->size.x, 0);
+  glVertex2f(map->size.x, map->size.y);
+  glVertex2f(0, map->size.y);
+
+  glEnd();
+
+  // map inner border
+  glColor3f(0.8f, 0.8f, 0.8f);
+  glTranslatef(0.0f, 0.0f, 0.1);
+
+  glBegin(GL_LINE_LOOP);
+
+  glVertex2f(0, 0);
+  glVertex2f(map->size.x, 0);
+  glVertex2f(map->size.x, map->size.y);
+  glVertex2f(0, map->size.y);
+
+  glEnd();
+
+  // map outer border
+  glBegin(GL_LINE_LOOP);
+
+  glVertex2f(-MAP_PADDING, -MAP_PADDING);
+  glVertex2f(map->size.x + MAP_PADDING, - MAP_PADDING);
+  glVertex2f(map->size.x + MAP_PADDING, map->size.y + MAP_PADDING);
+  glVertex2f(-MAP_PADDING, map->size.y + MAP_PADDING);
+
+  glEnd();
+
+  glPopMatrix();
+}
+
+void renderer_render_world(Renderer * renderer, World * world) {
+  glPushMatrix();
+  glTranslatef(0.0f, 0.0f, 0.0f);
   world_iterate_entities(world, renderer, render_entity);
+  glEnd();
 }
 
 void renderer_present(Renderer * renderer) {

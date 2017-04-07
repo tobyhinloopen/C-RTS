@@ -1,0 +1,65 @@
+# measurement units:
+# h: Health
+# hps: Health Per Second
+# pps: Pixels Per Second
+# radps: Radians Per Second
+# rps: Revolutions Per Second (radps = rps * pi * 2)
+# s: Seconds (0.25s = 4hz)
+# ms: Milliseconds (1s = 1000ms)
+# hz: Frequency; Times Per Second (s = 1/hz)
+
+map:
+  size: [2048, 2048]
+  entities:
+    - type: light-tank-factory
+      position: [ 256,  256]
+      team_id: 1
+    - type: light-tank-factory
+      position: [1792, 1792]
+      team_id: 2
+    - type: light-tank-factory
+      position: [1792,  256]
+      team_id: 3
+    - type: light-tank-factory
+      position: [ 256, 1792]
+      team_id: 4
+    - type: light-tank-factory
+      position: [ 256, 1024]
+      team_id: 5
+    - type: light-tank-factory
+      poisiton: [1792, 1024]
+      team_id: 6
+    - type: light-tank-factory
+      position: [1024,  256]
+      team_id: 7
+    - type: light-tank-factory
+      position: [1024, 1792]
+      team_id: 8
+    - type: light-tank-factory
+      position: [ 896,  896]
+      team_id: 9
+    - type: light-tank-factory
+      poisiton: [1152, 1152]
+      team_id: 10
+    - type: light-tank-factory
+      position: [1152,  896]
+      team_id: 11
+    - type: light-tank-factory
+      position: [ 896, 1152]
+      team_id: 12
+
+factories:
+  light-tank-factory:
+    health: 8000h
+    health_regeneration: 200hps
+    build_interval: 500ms
+    mesh: light-tank-factory.yml
+
+units:
+  light-tank:
+    health: 400h
+    speed: 100pps
+    rotation_speed: 0.25rps
+    aiming_speed: 1rps
+    health_regeneration: 20hps
+    mesh: light-tank.yml

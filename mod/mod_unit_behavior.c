@@ -113,25 +113,44 @@ void print_unit_debug(void * other_unit_ptr, void * own_unit_ptr) {
 #endif
 #endif
 
+static Vector get_closest_point_inside(Map * map, Vector pos, float distance) {
+  const float max_x = map->size.x - distance;
+  if (pos.x < distance)
+    pos.x = distance;
+  else if (pos.x > max_x)
+    pos.x = max_x;
+
+  const float max_y = map->size.y - distance;
+  if (pos.y < distance)
+    pos.y = distance;
+  else if (pos.y > max_y)
+    pos.y = max_y;
+  return pos;
+}
+
 static void update_unit_behavior(Unit * unit, Game * game) {
+  Vector pos = unit->position;
+  Map * map = &game->map;
+  int outside_of_map = pos.x < 0 || pos.x > map->size.x || pos.y < 0 || pos.y > map->size.y;
+
 #ifdef CONFIG_KDTREE_ENEMY_SEARCH
-  Unit * closest_enemy_unit = kdtree_search_closest_enemy_unit(game, unit->position, unit->team_id);
+  Unit * closest_enemy_unit = kdtree_search_closest_enemy_unit(game, pos, unit->team_id);
 #ifdef CONFIG_KDTREE_ENEMY_SEARCH_CHECK
   World * world = &game->world;
   Unit * check_enemy_unit = unit_behavior_find_closest_enemy_unit(unit, world);
   if (check_enemy_unit != closest_enemy_unit) {
-    float actual_distance = vector_distance(closest_enemy_unit->position, unit->position);
-    float expected_distance = vector_distance(check_enemy_unit->position, unit->position);
+    float actual_distance = vector_distance(closest_enemy_unit->position, pos);
+    float expected_distance = vector_distance(check_enemy_unit->position, pos);
     printf("Found: %p (%f, %i), Expected: %p (%f, %i)\n",
       closest_enemy_unit, actual_distance, closest_enemy_unit->team_id, check_enemy_unit, expected_distance, check_enemy_unit->team_id);
-    printf("Found Team ID: %i; Own Unit Position: %4.1f,%4.1f\n", closest_enemy_unit->team_id, unit->position.x, unit->position.y);
+    printf("Found Team ID: %i; Own Unit Position: %4.1f,%4.1f\n", closest_enemy_unit->team_id, pos.x, pos.y);
     kdtree_debug_print(&game->kdtree[closest_enemy_unit->team_id], unit, print_unit_debug);
     if (closest_enemy_unit->team_id != check_enemy_unit->team_id) {
       printf("Expected TEAM ID: %i\n", check_enemy_unit->team_id);
       kdtree_debug_print(&game->kdtree[check_enemy_unit->team_id], unit, print_unit_debug);
     }
 
-    kdtree_find_distance(&game->kdtree[check_enemy_unit->team_id], unit->position);
+    kdtree_find_distance(&game->kdtree[check_enemy_unit->team_id], pos);
     assert(0);
   }
 #endif
@@ -139,7 +158,7 @@ static void update_unit_behavior(Unit * unit, Game * game) {
   World * world = &game->world;
 #ifdef CONFIG_SCALABLE_GRID_QUICK_SHORT_RANGE_ENEMY_SEARCH
   ClosestEnemyUnitResult enemy_unit_result = {unit->team_id, FP_INFINITE, NULL};
-  scalable_grid_iterate_items(&game->scalable_grid, unit->position, CONFIG_SCALABLE_GRID_QUICK_SHORT_RANGE_ENEMY_SEARCH, &enemy_unit_result, update_enemy_unit_result);
+  scalable_grid_iterate_items(&game->scalable_grid, pos, CONFIG_SCALABLE_GRID_QUICK_SHORT_RANGE_ENEMY_SEARCH, &enemy_unit_result, update_enemy_unit_result);
   Unit * closest_enemy_unit = enemy_unit_result.unit;
 #else
   Unit * closest_enemy_unit = NULL;
@@ -153,10 +172,10 @@ static void update_unit_behavior(Unit * unit, Game * game) {
 
 
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
-  scalable_grid_iterate_items(&game->scalable_grid, unit->position, 32, &result, update_closest_friendly_result);
+  scalable_grid_iterate_items(&game->scalable_grid, pos, 32, &result, update_closest_friendly_result);
 #else
-  unsigned int x = 47.5f + unit->position.x / 64;
-  unsigned int y = 47.5f + unit->position.y / 64;
+  unsigned int x = 47.5f + pos.x / 64;
+  unsigned int y = 47.5f + pos.y / 64;
   grid_iterate_items(&game->grid, (GridXY){ x, y }, &result, update_closest_friendly_result);
   grid_iterate_items(&game->grid, (GridXY){ x, y + 1 }, &result, update_closest_friendly_result);
   grid_iterate_items(&game->grid, (GridXY){ x + 1, y }, &result, update_closest_friendly_result);
@@ -184,13 +203,15 @@ static void update_unit_behavior(Unit * unit, Game * game) {
 
   float unit_health = unit_health_percentage(unit);
 
-  if(closest_friendly_factory != NULL)
+  if (outside_of_map)
+    unit_behavior_set_target_position(unit, get_closest_point_inside(map, pos, 64.0f), 32.0f);
+  else if (closest_friendly_factory != NULL)
     unit_behavior_move_away_from(unit, closest_friendly_factory->position);
-  else if(closest_friendly_unit != NULL)
+  else if (closest_friendly_unit != NULL)
     unit_behavior_move_away_from(unit, closest_friendly_unit->position);
-  else if(closest_enemy_unit != NULL && unit_health >= 0.5f)
+  else if (closest_enemy_unit != NULL && unit_health >= 0.5f)
     unit_behavior_set_target_position(unit, closest_enemy_unit->position, 120.0f);
-  else if(closest_enemy_unit != NULL)
+  else if (closest_enemy_unit != NULL)
     unit_behavior_evasive_flee_from(unit, closest_enemy_unit->position);
   else
     unit_behavior_movement_stop(unit);

@@ -16,7 +16,8 @@ static void handle_window_resize(Game * game) {
 
 static void mod_render_update(Game * game, unsigned int delta_i) {
   handle_window_resize(game);
-  renderer_clear_color(&game->renderer, 1.0f, 1.0f, 1.0f);
+  renderer_begin(&game->renderer);
+  renderer_render_map(&game->renderer, &game->map);
   renderer_render_world(&game->renderer, &game->world);
   renderer_present(&game->renderer);
 }

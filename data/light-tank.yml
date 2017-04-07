@@ -1,0 +1,22 @@
+- type: line-loop
+  align: body
+  points:
+    - [-16, -12]
+    - [ 16, -12]
+    - [ 16,  12]
+    - [-16,  12]
+- type: line-strip
+  align: head
+  points:
+    - [-4, -8]
+    - [ 4,  0]
+    - [-4,  8]
+- type: lines
+  align: body
+  transform:
+    health-percentage:
+      - [0,  0]
+      - [0, 24]
+  points:
+    - [-20, -12]
+    - [-20, -12]

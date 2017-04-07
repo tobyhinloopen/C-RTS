@@ -1,0 +1,33 @@
+- type: line-loop
+  align: body
+  points:
+    - [-28, -24]
+    - [ 28, -24]
+    - [ 28, -18]
+    - [-22, -18]
+    - [-22,  18]
+    - [ 28,  18]
+    - [ 28,  24]
+    - [-28,  24]
+- type: lines
+  align: body
+  points:
+    - [-32, -24]
+    - [-32, -24]
+  transform:
+    health-percentage:
+      - [0,  0]
+      - [0, 48]
+- type: line-loop
+  align: body
+  points:
+    - [0, 0]
+    - [0, 0]
+    - [0, 0]
+    - [0, 0]
+  transform:
+    build_percentage:
+      - [-16, -12]
+      - [ 16, -12]
+      - [ 16,  12]
+      - [-16,  12]

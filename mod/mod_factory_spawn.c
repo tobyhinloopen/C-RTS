@@ -10,9 +10,11 @@ static void mod_factory_spawn_initialize(Game * game) {
     Factory * factory = &world_entity_allocate(&game->world, FACTORY)->factory;
     factory_initialize(factory);
     factory->position = spawn_point;
-    factory->team_id = i%TEAM_COUNT;
-    factory->direction = PI + HALF_PI * TEAM_SPAWN[i%TEAM_COUNT].y;
-    factory_start_building(factory);
+    factory->team_id = 1 + i % (TEAM_COUNT - 1);
+    factory->direction = PI + HALF_PI * TEAM_SPAWN[factory->team_id].y;
+    if (factory->team_id != NEUTRAL_TEAM_ID) {
+      factory_start_building(factory);
+    }
   }
 }
 
@@ -30,7 +32,7 @@ static void try_spawn_units_for_factory_entity(Entity * entity, void * world_ptr
       if (factory_health_percentage(factory) < 0.4) {
         factory_stop_building(factory);
       }
-    } else if (factory_health_percentage(factory) > 0.8) {
+    } else if (factory_health_percentage(factory) > 0.8 && factory->team_id != NEUTRAL_TEAM_ID) {
       factory_start_building(factory);
     }
   }

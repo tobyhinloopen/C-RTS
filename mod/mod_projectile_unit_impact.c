@@ -30,6 +30,15 @@ static void destroy_touching_entities(void * entity_ptr, float distance, void * 
   } else if(entity->type == FACTORY) {
     if(factory->team_id != projectile->team_id && distance < PROJECTILE_FACTORY_IMPACT_DISTANCE) {
       factory->health -= projectile_damage(projectile);
+      if (factory_is_dead(factory)) {
+        if (factory->team_id != NEUTRAL_TEAM_ID) {
+          factory->health = FACTORY_INITIAL_HEALTH;
+          factory->team_id = NEUTRAL_TEAM_ID;
+        } else {
+          factory->health = FACTORY_INITIAL_HEALTH * 0.1;
+          factory->team_id = projectile->team_id;
+        }
+      }
       projectile->hit_count++;
     }
   }

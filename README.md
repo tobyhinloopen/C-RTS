@@ -5,19 +5,19 @@ This is a private project where a simple RTS is being made in C. This code is pu
 This project is for fun only.
 
 
-## Installation
+## Installation (Mac)
 
     brew install makedepend sdl2
     make depend
     make
 
 
+## Installation (Windows)
+
+Open the project in Visual Studio 2017. Do stuff you usually do, I guess.
+
+
 ## Controls
 
   - WSAD: Move camera
   - QE: Zoom
-
-
-## Intended code structure
-
-My intent is to create a data structure representing the full game state that is being manipulated by modules.
