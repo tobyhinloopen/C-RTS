@@ -4,20 +4,25 @@
 #include <stdlib.h>
 #include <assert.h>
 
+int errors_count = 0;
+
 static void assert_determenistic_random(int expected_result, int actual_result) {
   if (actual_result != expected_result) {
     printf("Expected %i to be %i\n", actual_result, expected_result);
+    errors_count++;
   }
 }
 
 void test_rand_range() {
   rand_range_seed_t seed = 0;
-  assert_determenistic_random(  1818, rand_rangei(&seed, -0xFFFF, 0xFFFF));
-  assert_determenistic_random(-42502, rand_rangei(&seed, -0xFFFF, 0xFFFF));
-  assert_determenistic_random(-25082, rand_rangei(&seed, -0xFFFF, 0xFFFF));
-  assert_determenistic_random(  4526, rand_rangei(&seed, -0xFFFF, 0xFFFF));
-  assert_determenistic_random( 58670, rand_rangei(&seed, -0xFFFF, 0xFFFF));
-  assert_determenistic_random(-43026, rand_rangei(&seed, -0xFFFF, 0xFFFF));
-  assert_determenistic_random( 26506, rand_rangei(&seed, -0xFFFF, 0xFFFF));
-  assert_determenistic_random(-35858, rand_rangei(&seed, -0xFFFF, 0xFFFF));
+  assert_determenistic_random( 17274, rand_rangei(&seed, -0xFFFF, 0xFFFF));
+  assert_determenistic_random(  3586, rand_rangei(&seed, -0xFFFF, 0xFFFF));
+  assert_determenistic_random(-60254, rand_rangei(&seed, -0xFFFF, 0xFFFF));
+  assert_determenistic_random(-60722, rand_rangei(&seed, -0xFFFF, 0xFFFF));
+  assert_determenistic_random(-56322, rand_rangei(&seed, -0xFFFF, 0xFFFF));
+  assert_determenistic_random( 19146, rand_rangei(&seed, -0xFFFF, 0xFFFF));
+  assert_determenistic_random( -3014, rand_rangei(&seed, -0xFFFF, 0xFFFF));
+  assert_determenistic_random(-13510, rand_rangei(&seed, -0xFFFF, 0xFFFF));
+  if (errors_count)
+    assert(0);
 }
