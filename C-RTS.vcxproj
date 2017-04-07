@@ -128,6 +128,7 @@
     <ClCompile Include="mod\mod_world_update.c" />
     <ClCompile Include="projectile.c" />
     <ClCompile Include="rand_range.c" />
+    <ClCompile Include="rand_range_test.c" />
     <ClCompile Include="renderer.c" />
     <ClCompile Include="renderer_test.c" />
     <ClCompile Include="scalable_grid.c" />
@@ -187,6 +188,7 @@
     <ClInclude Include="pi.h" />
     <ClInclude Include="projectile.h" />
     <ClInclude Include="rand_range.h" />
+    <ClInclude Include="rand_range_test.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="renderer_test.h" />
     <ClInclude Include="scalable_grid.h" />

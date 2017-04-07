@@ -141,6 +141,9 @@
     <ClCompile Include="mod\mod_world_update.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rand_range_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="benchmark.h">
@@ -312,6 +315,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="mod\mod_world_update.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rand_range_test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
