@@ -13,15 +13,16 @@ static void mod_kdtree_initialize(Game * game) {
   }
 }
 
-static void add_entity_to_kdtree(Entity * entity, void * game_ptr) {
+static void add_unit_to_kdtree(Entity * entity, void * game_ptr) {
   Game * game = (Game *)game_ptr;
-  if (entity->type == UNIT) {
-    Unit * unit = &entity->unit;
-    kdtree_add(&game->units_kdtrees[unit->team_id], unit->position, unit);
-  } else if(entity->type == FACTORY) {
-    Factory * factory = &entity->factory;
-    kdtree_add(&game->factories_kdtrees[factory->team_id], factory->position, factory);
-  }
+  Unit * unit = &entity->unit;
+  kdtree_add(&game->units_kdtrees[unit->team_id], unit->position, unit);
+}
+
+static void add_factory_to_kdtree(Entity * entity, void * game_ptr) {
+  Game * game = (Game *)game_ptr;
+  Factory * factory = &entity->factory;
+  kdtree_add(&game->factories_kdtrees[factory->team_id], factory->position, factory);
 }
 
 static void resize_and_build(KDTree * kdtree) {
@@ -35,7 +36,10 @@ static void mod_kdtree_update(Game * game, unsigned int delta) {
     kdtree_clear(&game->units_kdtrees[i]);
     kdtree_clear(&game->factories_kdtrees[i]);
   }
-  world_iterate_entities(&game->world, game, add_entity_to_kdtree);
+
+  world_iterate_entities_of_type(&game->world, UNIT, game, add_unit_to_kdtree);
+  world_iterate_entities_of_type(&game->world, FACTORY, game, add_factory_to_kdtree);
+
   for (int i = 0; i < TEAM_COUNT; i++) {
     resize_and_build(&game->units_kdtrees[i]);
     resize_and_build(&game->factories_kdtrees[i]);

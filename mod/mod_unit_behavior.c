@@ -73,7 +73,7 @@ static void update_entity_unit_behavior(Entity * entity, void * game_ptr) {
 }
 
 static void mod_unit_behavior_update(Game * game, unsigned int delta) {
-  world_iterate_entities(&game->world, game, update_entity_unit_behavior);
+  world_iterate_entities_of_type(&game->world, UNIT, game, update_entity_unit_behavior);
 }
 
 void mod_unit_behavior(GameModule * mod) {

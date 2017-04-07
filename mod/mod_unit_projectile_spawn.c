@@ -20,14 +20,12 @@ static void create_unit_projectiles(Unit * unit, World * world, rand_range_seed_
 }
 
 static void create_unit_entity_projectiles(Entity * entity, void * game_ptr) {
-  if(entity->type == UNIT) {
-    Game * game = (Game *)game_ptr;
-    create_unit_projectiles(&entity->unit, &game->world, &game->seed);
-  }
+  Game * game = (Game *)game_ptr;
+  create_unit_projectiles(&entity->unit, &game->world, &game->seed);
 }
 
 static void mod_unit_projectile_spawn_update(Game * game, unsigned int delta) {
-  world_iterate_entities(&game->world, game, create_unit_entity_projectiles);
+  world_iterate_entities_of_type(&game->world, UNIT, game, create_unit_entity_projectiles);
 }
 
 void mod_unit_projectile_spawn(GameModule * mod) {

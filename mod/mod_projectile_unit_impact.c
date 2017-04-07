@@ -84,7 +84,8 @@ static void destroy_entity_touching_projectile_entity(Entity * entity, void * ga
     grid_iterate_items(&game->grid, (GridXY){ x + 1, y }, projectile, destroy_touching_entities);
     grid_iterate_items(&game->grid, (GridXY){ x + 1, y + 1 }, projectile, destroy_touching_entities);
 #else
-    world_iterate_entities(&game->world, projectile, destroy_entity_touching_projectile);
+    world_iterate_entities_of_type(&game->world, UNIT, projectile, destroy_entity_touching_projectile);
+    world_iterate_entities_of_type(&game->world, FACTORY, projectile, destroy_entity_touching_projectile);
 #endif
 #endif
 
@@ -94,7 +95,7 @@ static void destroy_entity_touching_projectile_entity(Entity * entity, void * ga
 }
 
 static void mod_projectile_unit_impact_update(Game * game, unsigned int delta) {
-  world_iterate_entities(&game->world, game, destroy_entity_touching_projectile_entity);
+  world_iterate_entities_of_type(&game->world, PROJECTILE, game, destroy_entity_touching_projectile_entity);
 }
 
 void mod_projectile_unit_impact(GameModule * mod) {

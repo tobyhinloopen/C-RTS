@@ -19,7 +19,6 @@ static EntityPool * allocate_pool(World * world) {
 }
 
 void world_initialize(World * world) {
-  world->time = 0.0f;
   world->entity_pools = NULL;
   world->entity_pool_count = 0;
 }
