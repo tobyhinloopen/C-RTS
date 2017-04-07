@@ -34,6 +34,7 @@ Entity * world_entity_allocate(World *, EntityType type);
 void world_entity_deallocate(World *, Entity *);
 void world_update(World *, float delta);
 void world_iterate_entities(World *, void *, void (*)(Entity *, void *));
+void world_iterate_entities_of_type(World *, EntityType type, void *, void (*)(Entity *, void *));
 void world_deinitialize(World *);
 
 #endif

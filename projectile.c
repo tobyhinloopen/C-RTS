@@ -4,6 +4,7 @@
 const float PROJECTILE_PIXELS_PER_SECOND = 600.0f;
 const float PROJECTILE_RANGE = 1000.0f;
 const float PROJECTILE_DECAY = 1.0f;
+const float PROJECTILE_DAMAGE = 100.0f;
 
 void projectile_initialize(Projectile * projectile, Vector position, float direction, int team_id) {
   projectile->position = position;
@@ -34,7 +35,7 @@ void projectile_update(Projectile * projectile, float delta) {
 }
 
 float projectile_damage(Projectile * projectile) {
-  return 100.0f;
+  return PROJECTILE_DAMAGE;
 }
 
 int projectile_is_dead(Projectile * projectile) {

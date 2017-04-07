@@ -95,9 +95,26 @@ static void pool_iterate_entities(EntityPool * pool, void * arg, void (* fn)(Ent
   }
 }
 
-void world_iterate_entities(World * world, void * arg, void (* fn)(Entity *, void *)) {
+typedef struct {
+  EntityType type;
+  void * param;
+  void (* fn)(Entity *, void *);
+} IteratorOfType;
+
+static void iterate_entity_of_type(Entity * entity, void * iterator_of_type_t) {
+  IteratorOfType * context = (IteratorOfType *)iterator_of_type_t;
+  if (entity->type == context->type)
+    context->fn(entity, context->param);
+}
+
+void world_iterate_entities_of_type(World * world, EntityType type, void * param, void (* fn)(Entity *, void *)) {
+  IteratorOfType context = {type, param, fn};
+  world_iterate_entities(world, &context, iterate_entity_of_type);
+}
+
+void world_iterate_entities(World * world, void * param, void (* fn)(Entity *, void *)) {
   for(int i = 0; i < world->entity_pool_count; ++i)
-    pool_iterate_entities(world->entity_pools[i], arg, fn);
+    pool_iterate_entities(world->entity_pools[i], param, fn);
 }
 
 void world_update(World * world, float delta) {

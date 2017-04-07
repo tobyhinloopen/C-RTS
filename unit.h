@@ -2,15 +2,20 @@
 #define UNIT_H
 
 #include "vector.h"
+#include "pi.h"
 
-extern const float UNIT_PIXELS_PER_SECOND;
-extern const float UNIT_RADIANS_PER_SECOND;
-extern const float UNIT_HEAD_RADIANS_PER_SECOND;
-extern const float UNIT_FIRE_INTERVAL;
-extern const float UNIT_INITIAL_HEALTH;
-extern const float UNIT_HEALTH_REGENERATION;
+#define UNIT_PIXELS_PER_SECOND 100
+#define UNIT_RADIANS_PER_SECOND HALF_PI
+#define UNIT_HEAD_RADIANS_PER_SECOND PI2
+#define UNIT_FIRE_INTERVAL 0.5
+#define UNIT_INITIAL_HEALTH 400
+#define UNIT_HEALTH_REGENERATION 20
 
-typedef struct {
+typedef struct Unit Unit;
+
+#include "factory.h"
+
+struct Unit {
   Vector position;
   float direction;
   float head_direction;
@@ -20,7 +25,11 @@ typedef struct {
   float next_fire_interval;
   float health;
   int team_id;
-} Unit;
+  Unit * closest_friendly_unit;
+  Unit * closest_enemy_unit;
+  Factory * closest_friendly_factory;
+  Factory * closest_enemy_factory;
+};
 
 void unit_initialize(Unit *);
 void unit_update(Unit *, float delta);

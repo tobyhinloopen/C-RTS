@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
+#include <float.h>
 
 void kdtree_initialize(KDTree * kdtree) {
   kdtree->capacity = 0;
@@ -99,7 +100,11 @@ static float get_position_on_axis(Vector vector, int depth) {
   return depth%2 == 0 ? vector.x : vector.y;
 }
 
-static KDTreeNodeDistance get_closer_node_distance(KDTreeNodeDistance current_nd, Vector position, int depth) {
+static KDTreeNodeDistance get_better_node_distance(KDTreeNodeDistance left, KDTreeNodeDistance right, void * excluding_ref) {
+  return right.node->item.ref == excluding_ref || (left.distance < right.distance && left.node->item.ref != excluding_ref) ? left : right;
+}
+
+static KDTreeNodeDistance get_closer_node_distance(KDTreeNodeDistance current_nd, Vector position, void * excluding_ref, int depth) {
   KDTreeNode * current_node = current_nd.node;
   float current_position = get_position_on_axis(current_node->item.position, depth);
   float target_position = get_position_on_axis(position, depth);
@@ -111,8 +116,8 @@ static KDTreeNodeDistance get_closer_node_distance(KDTreeNodeDistance current_nd
     current_best_nd = current_nd;
   else {
     KDTreeNodeDistance next_nd = get_node_distance(next_node, position);
-    KDTreeNodeDistance closest_nd = get_closer_node_distance(next_nd, position, depth+1);
-    current_best_nd = closest_nd.distance < current_nd.distance ? closest_nd : current_nd;
+    KDTreeNodeDistance closest_nd = get_closer_node_distance(next_nd, position, excluding_ref, depth+1);
+    current_best_nd = get_better_node_distance(closest_nd, current_nd, excluding_ref);
   }
 
   KDTreeNode * other_node = position_comparison ? current_node->left : current_node->right;
@@ -120,21 +125,25 @@ static KDTreeNodeDistance get_closer_node_distance(KDTreeNodeDistance current_nd
     float splitting_coord_diff = current_position - target_position;
     if (splitting_coord_diff * splitting_coord_diff < current_best_nd.distance) {
       KDTreeNodeDistance other_nd = get_node_distance(other_node, position);
-      KDTreeNodeDistance other_best_nd = get_closer_node_distance(other_nd, position, depth+1);
-      current_best_nd = other_best_nd.distance < current_best_nd.distance ? other_best_nd : current_best_nd;
+      KDTreeNodeDistance other_best_nd = get_closer_node_distance(other_nd, position, excluding_ref, depth+1);
+      current_best_nd = get_better_node_distance(other_best_nd, current_best_nd, excluding_ref);
     }
   }
 
   return current_best_nd;
 }
 
-KDTreeFindResult kdtree_find_distance(KDTree * kdtree, Vector position) {
+KDTreeFindResult kdtree_find_distance_excluding(KDTree * kdtree, Vector position, void * excluding_ref) {
   if (!kdtree->count)
-    return (KDTreeFindResult){ NULL, FP_INFINITE };
+    return (KDTreeFindResult){NULL, FLT_MAX};
   KDTreeNode * current_node = &kdtree->nodes[0];
   KDTreeNodeDistance nd = get_node_distance(current_node, position);
-  KDTreeNodeDistance result = get_closer_node_distance(nd, position, 0);
+  KDTreeNodeDistance result = get_closer_node_distance(nd, position, excluding_ref, 0);
   return (KDTreeFindResult){ result.node->item.ref, result.distance };
+}
+
+KDTreeFindResult kdtree_find_distance(KDTree * kdtree, Vector position) {
+  return kdtree_find_distance_excluding(kdtree, position, NULL);
 }
 
 void * kdtree_find(KDTree * kdtree, Vector position) {

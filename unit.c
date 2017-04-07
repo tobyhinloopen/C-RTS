@@ -1,14 +1,7 @@
 #include "unit.h"
 #include "vector.h"
-#include "pi.h"
 #include <math.h>
-
-const float UNIT_PIXELS_PER_SECOND = 100;
-const float UNIT_RADIANS_PER_SECOND = HALF_PI;
-const float UNIT_HEAD_RADIANS_PER_SECOND = PI2;
-const float UNIT_FIRE_INTERVAL = 0.5f;
-const float UNIT_INITIAL_HEALTH = 400;
-const float UNIT_HEALTH_REGENERATION = 20;
+#include <stdlib.h>
 
 void unit_initialize(Unit * unit) {
   vector_initialize(&unit->position);
@@ -20,6 +13,10 @@ void unit_initialize(Unit * unit) {
   unit->next_fire_interval = INFINITY;
   unit->health = UNIT_INITIAL_HEALTH;
   unit->team_id = 0;
+  unit->closest_friendly_unit = NULL;
+  unit->closest_enemy_unit = NULL;
+  unit->closest_friendly_factory = NULL;
+  unit->closest_enemy_factory = NULL;
 }
 
 static void unit_update_straight_movement(Unit * unit, float delta) {

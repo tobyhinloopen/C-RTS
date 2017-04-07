@@ -1,10 +1,6 @@
 #include "factory.h"
 #include <math.h>
 
-const float FACTORY_INITIAL_HEALTH = 8000;
-const float FACTORY_HEALTH_REGENERATION = 200;
-const float FACTORY_BUILD_INTERVAL = 0.5;
-
 void factory_initialize(Factory * factory) {
   vector_initialize(&factory->position);
   factory->direction = 0;

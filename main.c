@@ -18,10 +18,10 @@
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
 #include "mod/mod_scalable_grid.h"
 #endif
-#ifdef CONFIG_KDTREE_ENABLED
 #include "mod/mod_kdtree.h"
-#endif
-#include "mod/mod_event.h"
+#include "mod/mod_closest_enemy_unit.h"
+#include "mod/mod_closest_friendly_unit.h"
+#include "mod/mod_closest_factory.h"
 #include "mod/mod_event.h"
 #include "mod/mod_unit_projectile_spawn.h"
 #include "mod/mod_projectile_unit_impact.h"
@@ -44,11 +44,11 @@
 const float SIZE_X = 4096;
 const float SIZE_Y = 4096;
 const int SPAWN_POINTS_COUNT = 120;
-const int MOD_COUNT = 11;
+const int MOD_COUNT = 14;
 const int SHAPE_COUNT = 1;
 
 const unsigned int BENCHMARK_INTERVAL_MS = 0x0000F;
-const unsigned int BENCHMARK_DURATION_MS = 0x1FFFF;
+const unsigned int BENCHMARK_DURATION_MS = 0x03FFF;
 
 #define SPAWN_OFFSET 0.1
 #define SPAWN_DISTANCE 0.04
@@ -95,13 +95,14 @@ static void make_game(Game * game, rand_range_seed_t seed) {
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
   game_add_module(game, "mod_scalable_grid", mod_scalable_grid);
 #endif
-#ifdef CONFIG_KDTREE_ENABLED
   game_add_module(game, "mod_kdtree", mod_kdtree);
-#endif
+  game_add_module(game, "mod_factory_spawn", mod_factory_spawn);
+  game_add_module(game, "mod_closest_enemy_unit", mod_closest_enemy_unit);
+  game_add_module(game, "mod_closest_friendly_unit", mod_closest_friendly_unit);
+  game_add_module(game, "mod_closest_factory", mod_closest_factory);
   game_add_module(game, "mod_unit_projectile_spawn", mod_unit_projectile_spawn);
   game_add_module(game, "mod_projectile_unit_impact", mod_projectile_unit_impact);
   game_add_module(game, "mod_unit_behavior", mod_unit_behavior);
-  game_add_module(game, "mod_factory_spawn", mod_factory_spawn);
   game_add_module(game, "mod_world_update", mod_world_update);
   game_add_module(game, "mod_camera_update", mod_camera_update);
   game_add_module(game, "mod_render", mod_render);

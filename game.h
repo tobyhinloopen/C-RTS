@@ -24,7 +24,8 @@ struct Game {
   World world;
   Map map;
   Grid grid;
-  KDTree kdtree[TEAM_COUNT];
+  KDTree units_kdtrees[TEAM_COUNT];
+  KDTree factories_kdtrees[TEAM_COUNT];
   ScalableGrid scalable_grid;
   rand_range_seed_t seed;
 

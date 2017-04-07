@@ -1,20 +1,23 @@
 #ifndef FACTORY_H
 #define FACTORY_H
 
+#define FACTORY_INITIAL_HEALTH 8000
+#define FACTORY_HEALTH_REGENERATION 200
+#define FACTORY_BUILD_INTERVAL 0.5
+
 #include "vector.h"
+
+typedef struct Factory Factory;
+
 #include "unit.h"
 
-extern const float FACTORY_INITIAL_HEALTH;
-extern const float FACTORY_HEALTH_REGENERATION;
-extern const float FACTORY_BUILD_INTERVAL;
-
-typedef struct {
+struct Factory {
   Vector position;
   float direction;
   int team_id;
   float health;
   float next_build_interval;
-} Factory;
+};
 
 void factory_initialize(Factory *);
 int factory_is_dead(Factory *);

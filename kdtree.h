@@ -35,6 +35,7 @@ void kdtree_clear(KDTree *);
 void kdtree_add(KDTree *, Vector, void *);
 void kdtree_build(KDTree *);
 void * kdtree_find(KDTree *, Vector);
+KDTreeFindResult kdtree_find_distance_excluding(KDTree *, Vector, void * excluding_ref);
 KDTreeFindResult kdtree_find_distance(KDTree *, Vector);
 void kdtree_debug_print(KDTree *, void * param, void (* print_fn)(void * ref, void * param)) ;
 void kdtree_deinitialize(KDTree *);
