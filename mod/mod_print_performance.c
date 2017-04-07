@@ -22,41 +22,17 @@ static clock_t duration_avg(clock_t * durations, int duration_count) {
   return sum / duration_count;
 }
 
-typedef struct {
-  int unit_count;
-  int projectile_count;
-  int factory_count;
-} WorldEntityCountResult;
-
-static void increase_entity_count(Entity * entity, void * result_ptr) {
-  WorldEntityCountResult * result = (WorldEntityCountResult *)result_ptr;
-  switch(entity->type) {
-    case UNIT: result->unit_count++; break;
-    case PROJECTILE: result->projectile_count++; break;
-    case FACTORY: result->factory_count++; break;
-    case NONE:
-    default:
-      break;
-  }
-}
-
-static WorldEntityCountResult world_count_entities(World * world) {
-  WorldEntityCountResult result = {0, 0, 0};
-  world_iterate_entities(world, &result, increase_entity_count);
-  return result;
+static void print_world_pool_report(const char * type_label, WorldPool * world_pool) {
+  unsigned int capacity = world_pool->entity_pool_count * WORLD_POOL_SIZE;
+  printf("%12s - pools: %i - capacity: %i - entities: %i\n",
+    type_label, world_pool->entity_pool_count, capacity, world_pool->entity_count);
 }
 
 static void print_world_report(World * world) {
   printf("\nPRINT PERFORMANCE - WORLD STATS\n");
-
-  int capacity = world->entity_pool_count * WORLD_POOL_SIZE;
-  printf("Pools: %i\nPool Size: %i\nEntity capacity: %i\n",
-    world->entity_pool_count, WORLD_POOL_SIZE, capacity);
-
-  WorldEntityCountResult result = world_count_entities(world);
-  int entity_count = result.unit_count + result.projectile_count + result.factory_count;
-  printf("Entities: %i (%2.1f%%)\nUnits: %i\nProjectiles: %i\nFactories %i\n",
-    entity_count, (100.0 * entity_count / capacity), result.unit_count, result.projectile_count, result.factory_count);
+  print_world_pool_report("units", &world->units);
+  print_world_pool_report("factories", &world->factories);
+  print_world_pool_report("projectiles", &world->projectiles);
 }
 
 static void mod_print_performance_update(Game * game, unsigned int delta) {

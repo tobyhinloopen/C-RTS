@@ -48,7 +48,7 @@ const int MOD_COUNT = 14;
 const int SHAPE_COUNT = 1;
 
 const unsigned int BENCHMARK_INTERVAL_MS = 0x0000F;
-const unsigned int BENCHMARK_DURATION_MS = 0x03FFF;
+const unsigned int BENCHMARK_DURATION_MS = 0x0FFFF;
 
 #define SPAWN_OFFSET 0.1
 #define SPAWN_DISTANCE 0.04

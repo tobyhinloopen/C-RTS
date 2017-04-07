@@ -5,7 +5,7 @@
 #include "projectile.h"
 #include "factory.h"
 
-#define WORLD_POOL_SIZE 16
+#define WORLD_POOL_SIZE 32
 
 typedef enum { NONE = 0, UNIT, PROJECTILE, FACTORY } EntityType;
 
@@ -20,12 +20,21 @@ typedef struct {
 
 typedef struct {
   Entity entities[WORLD_POOL_SIZE];
-  int entity_count;
+  unsigned int entity_count;
+  Entity * free[WORLD_POOL_SIZE];
+  unsigned int free_count;
 } EntityPool;
 
 typedef struct {
   EntityPool ** entity_pools;
-  int entity_pool_count;
+  unsigned int entity_pool_count;
+  unsigned int entity_count;
+} WorldPool;
+
+typedef struct {
+  WorldPool units;
+  WorldPool projectiles;
+  WorldPool factories;
 } World;
 
 void world_initialize(World *);
