@@ -6,6 +6,7 @@
 #include "projectile.h"
 #include "pi.h"
 #include "team_id.h"
+#include "text_renderer.h"
 
 const float RAD2DEGf = 360 / PI2;
 
@@ -19,6 +20,7 @@ const int HEALTH_BAR_WIDTH = 32;
 const int HEALTH_BAR_HEIGHT = 4;
 const int HALF_FACTORY_TEXTURE_SIZE = 48;
 
+#define UI_PADDING 128
 #define MAP_PADDING 128
 
 typedef union { Uint32 color; struct { Uint8 b; Uint8 g; Uint8 r; }; } RendererColor;
@@ -304,6 +306,50 @@ void renderer_render_world(Renderer * renderer, World * world) {
   glTranslatef(0.0f, 0.0f, 0.0f);
   world_iterate_entities(world, renderer, render_entity);
   glEnd();
+}
+
+static void ui_align(Renderer * renderer, float x, float y, float scale) {
+  glLoadIdentity();
+  glTranslatef(
+    (renderer->viewport_width - UI_PADDING) * x / 2,
+    (renderer->viewport_height - UI_PADDING) * -y / 2,
+    1.0f
+  );
+  glScalef(scale, scale, scale);
+}
+
+static clock_t duration_avg(clock_t * durations, int duration_count) {
+  clock_t sum = 0;
+  for (int i = 0; i < duration_count; i++)
+    sum += durations[i];
+  return sum / duration_count;
+}
+
+static void render_ui_debug(Renderer * renderer, Game * game) {
+  ui_align(renderer, -1, -1, 1);
+  char debug_str[2048];
+  int length = snprintf(debug_str, sizeof(debug_str),
+    "%.0f, %.0f %.0f%%\n%22s:%7i\n%22s:%7i\n%22s:%7i\n%22s:%7i 0x%08x\n",
+    renderer->camera.x, renderer->camera.y, renderer_scale(renderer) * 100,
+    "factories", game->world.factories.entity_count,
+    "units", game->world.units.entity_count,
+    "projectiles", game->world.projectiles.entity_count,
+    "time", game->current_time - game->start_time, game->current_time - game->start_time
+  );
+
+  for (int i = 0; i < game->modules_count; i++) {
+    GameModule * mod = &game->modules[i];
+    clock_t duration = duration_avg(mod->duration_update, GAME_MODULE_DURATION_LENGTH);
+    length += snprintf(debug_str + length, sizeof(debug_str) - length, "%22s: %6luC (log2 %5.1f)\n", mod->name + 4, duration, duration ? log2f(duration) : 0);
+  }
+
+  text_renderer_render_string(debug_str, length);
+}
+
+void renderer_render_ui(Renderer * renderer, Game * game) {
+  glMatrixMode(GL_MODELVIEW);
+  glColor3f(0.4f, 0.4f, 0.4f);
+  render_ui_debug(renderer, game);
 }
 
 void renderer_present(Renderer * renderer) {

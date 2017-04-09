@@ -19,6 +19,7 @@ static void mod_render_update(Game * game, unsigned int delta_i) {
   renderer_begin(&game->renderer);
   renderer_render_map(&game->renderer, &game->map);
   renderer_render_world(&game->renderer, &game->world);
+  renderer_render_ui(&game->renderer, game);
   renderer_present(&game->renderer);
 }
 

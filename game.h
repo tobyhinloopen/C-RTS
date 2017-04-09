@@ -1,6 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+typedef struct Game Game;
+
 #include "world.h"
 #include "map.h"
 #include "renderer.h"
@@ -14,7 +16,6 @@
 
 #define GAME_MODULE_DURATION_LENGTH 32
 
-typedef struct Game Game;
 typedef struct GameModule GameModule;
 
 struct Game {
