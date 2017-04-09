@@ -24,7 +24,6 @@ struct Game {
   Renderer renderer;
   World world;
   Map map;
-  Grid grid;
   KDTree units_kdtrees[TEAM_COUNT];
   KDTree factories_kdtrees[TEAM_COUNT];
   ScalableGrid scalable_grid;
@@ -35,6 +34,9 @@ struct Game {
   unsigned int delta;
   unsigned int last_time;
   unsigned int last_spawn_time;
+
+  clock_t cumulative_update_duration;
+  size_t update_count;
 
   Vector3 camera_movement;
   struct GameModule * modules;

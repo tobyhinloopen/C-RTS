@@ -327,18 +327,19 @@ static void render_ui_debug(Renderer * renderer, Game * game) {
   ui_align(renderer, -1, -1, 0.8);
   char debug_str[2048];
   int length = snprintf(debug_str, sizeof(debug_str),
-    "%.0f, %.0f %.0f%%\n%22s:%7i\n%22s:%7i\n%22s:%7i\n%22s:%7i 0x%08x\n",
+    "%.0f, %.0f %.0f%%\n%22s:%7i\n%22s:%7i\n%22s:%7i\n%22s:%7i 0x%08x\n%22s:%7lu  fps%6.1f\n",
     renderer->camera.x, renderer->camera.y, renderer_scale(renderer) * 100,
     "factories", game->world.factories.entity_count,
     "units", game->world.units.entity_count,
     "projectiles", game->world.projectiles.entity_count,
-    "time", game->current_time - game->start_time, game->current_time - game->start_time
+    "time", game->current_time - game->start_time, game->current_time - game->start_time,
+    "update realtime ms", (game->cumulative_update_duration * 1000 / CLOCKS_PER_SEC), game->update_count * CLOCKS_PER_SEC * 1.0f / game->cumulative_update_duration
   );
 
   for (int i = 0; i < game->modules_count; i++) {
     GameModule * mod = &game->modules[i];
     clock_t duration = duration_avg(mod->duration_update, GAME_MODULE_DURATION_LENGTH);
-    length += snprintf(debug_str + length, sizeof(debug_str) - length, "%22s: %6luC (log2 %5.1f)\n", mod->name + 4, duration, duration ? log2f(duration) : 0);
+    length += snprintf(debug_str + length, sizeof(debug_str) - length, "%22s:%7luC log2%5.1f\n", mod->name + 4, duration, duration ? log2f(duration) : 0);
   }
 
   text_renderer_render_string(debug_str, length);

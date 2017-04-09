@@ -12,9 +12,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#ifdef CONFIG_GRID_ENABLED
-#include "mod/mod_grid.h"
-#endif
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
 #include "mod/mod_scalable_grid.h"
 #endif
@@ -89,9 +86,6 @@ static void make_game(Game * game, rand_range_seed_t seed) {
   shape_initialize(shape);
 
   game_add_module(game, "mod_event", mod_event);
-#ifdef CONFIG_GRID_ENABLED
-  game_add_module(game, "mod_grid", mod_grid);
-#endif
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
   game_add_module(game, "mod_scalable_grid", mod_scalable_grid);
 #endif

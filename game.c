@@ -34,6 +34,9 @@ void game_initialize(Game * game, int spawn_points_count, int shapes_count, floa
   game->last_time = game->start_time;
   game->last_spawn_time = 0;
   game->seed = 0;
+
+  game->cumulative_update_duration = 0;
+  game->update_count = 0;
 }
 
 static void noop_game(Game * game) {}
@@ -66,6 +69,7 @@ void game_add_module(Game * game, char * name, void (*mod_fn)(GameModule *)) {
 }
 
 void game_update(Game * game) {
+
   game_update_time(game, SDL_GetTicks());
 }
 
@@ -73,6 +77,8 @@ void game_update_time(Game * game, unsigned int current_time) {
   assert(current_time >= game->current_time);
   game->current_time = current_time;
   game->delta = game->current_time - game->last_time;
+  game->update_count++;
+  clock_t update_start_time = clock();
 
   for(size_t i = 0; i < game->modules_count; i++) {
     GameModule * mod = &game->modules[i];
@@ -85,6 +91,7 @@ void game_update_time(Game * game, unsigned int current_time) {
     mod->duration_update_index %= GAME_MODULE_DURATION_LENGTH;
   }
 
+  game->cumulative_update_duration += clock() - update_start_time;
   game->last_time = game->current_time;
 }
 

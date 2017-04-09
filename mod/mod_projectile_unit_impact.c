@@ -5,10 +5,6 @@
 
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
 #include "../scalable_grid.h"
-#else
-#ifdef CONFIG_GRID_ENABLED
-#include "../grid.h"
-#endif
 #endif
 
 #define PROJECTILE_UNIT_IMPACT_DISTANCE 12.0f
@@ -61,11 +57,6 @@ static void destroy_entity_touching_projectile(Entity * entity, void * projectil
   }
 }
 
-#ifdef CONFIG_GRID_ENABLED
-static void destroy_touching_entities(void * entity_ptr, void * projectile_ptr) {
-  destroy_entity_touching_projectile((Entity *)entity_ptr, projectile_ptr);
-}
-#endif
 #endif
 
 static void destroy_entity_touching_projectile_entity(Entity * entity, void * game_ptr) {
@@ -76,17 +67,8 @@ static void destroy_entity_touching_projectile_entity(Entity * entity, void * ga
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
   scalable_grid_iterate_items(&game->scalable_grid, projectile->position, PROJECTILE_MAX_IMPACT_DISTANCE, projectile, destroy_touching_entities);
 #else
-#ifdef CONFIG_GRID_ENABLED
-    unsigned int x = 47.5f + projectile->position.x / 64;
-    unsigned int y = 47.5f + projectile->position.y / 64;
-    grid_iterate_items(&game->grid, (GridXY){ x, y }, projectile, destroy_touching_entities);
-    grid_iterate_items(&game->grid, (GridXY){ x, y + 1 }, projectile, destroy_touching_entities);
-    grid_iterate_items(&game->grid, (GridXY){ x + 1, y }, projectile, destroy_touching_entities);
-    grid_iterate_items(&game->grid, (GridXY){ x + 1, y + 1 }, projectile, destroy_touching_entities);
-#else
-    world_iterate_entities_of_type(&game->world, UNIT, projectile, destroy_entity_touching_projectile);
-    world_iterate_entities_of_type(&game->world, FACTORY, projectile, destroy_entity_touching_projectile);
-#endif
+  world_iterate_entities_of_type(&game->world, UNIT, projectile, destroy_entity_touching_projectile);
+  world_iterate_entities_of_type(&game->world, FACTORY, projectile, destroy_entity_touching_projectile);
 #endif
 
     if (projectile->hit_count)
