@@ -7,11 +7,9 @@
 #include "pi.h"
 #include "team_id.h"
 #include "text_renderer.h"
+#include "config.h"
 
 const float RAD2DEGf = 360 / PI2;
-
-const int INITIAL_WINDOW_WIDTH = 2560;
-const int INITIAL_WINDOW_HEIGHT = 1440;
 
 const int HALF_UNIT_TEXTURE_SIZE = 24;
 const float PROJECTILE_LENGTH = 16.0f;
@@ -50,7 +48,7 @@ void renderer_initialize(Renderer * renderer) {
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
   renderer_notify_viewport_resized(renderer);
-  renderer->camera = (Vector3) { 0.0f, 0.0f, 2.0f };
+  renderer->camera = (Vector3) { INITIAL_CAMERA_X, INITIAL_CAMERA_Y, INITIAL_CAMERA_Z };
 }
 
 void renderer_clear_color(Renderer * renderer, float r, float g, float b) {
@@ -326,7 +324,7 @@ static clock_t duration_avg(clock_t * durations, int duration_count) {
 }
 
 static void render_ui_debug(Renderer * renderer, Game * game) {
-  ui_align(renderer, -1, -1, 1);
+  ui_align(renderer, -1, -1, 0.8);
   char debug_str[2048];
   int length = snprintf(debug_str, sizeof(debug_str),
     "%.0f, %.0f %.0f%%\n%22s:%7i\n%22s:%7i\n%22s:%7i\n%22s:%7i 0x%08x\n",

@@ -985,7 +985,7 @@ renderer.o: /usr/local/include/SDL2/SDL_system.h
 renderer.o: /usr/local/include/SDL2/SDL_timer.h
 renderer.o: /usr/local/include/SDL2/SDL_version.h renderer.h vector3.h
 renderer.o: opengl.h game.h world.h unit.h vector.h pi.h factory.h
-renderer.o: projectile.h team_id.h text_renderer.h
+renderer.o: projectile.h team_id.h text_renderer.h config.h
 renderer_test.o: renderer_test.h renderer.h vector3.h
 renderer_test.o: /usr/local/include/SDL2/SDL.h
 renderer_test.o: /usr/local/include/SDL2/SDL_main.h

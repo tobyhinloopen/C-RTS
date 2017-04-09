@@ -9,6 +9,7 @@
 #include "unit/behavior.h"
 #include <assert.h>
 #include "rand_range.h"
+#include <string.h>
 
 void game_initialize(Game * game, int spawn_points_count, int shapes_count, float map_width, float map_height, size_t mod_capacity) {
   game->modules = malloc(sizeof(GameModule) * mod_capacity);
@@ -75,6 +76,8 @@ void game_update_time(Game * game, unsigned int current_time) {
 
   for(size_t i = 0; i < game->modules_count; i++) {
     GameModule * mod = &game->modules[i];
+    if (game->delta == 0 && strncmp(mod->name, "mod_event", 9))
+      continue;
 
     clock_t start = clock();
     mod->update(game, game->delta);
