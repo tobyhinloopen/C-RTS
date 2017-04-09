@@ -323,6 +323,19 @@ static clock_t duration_avg(clock_t * durations, int duration_count) {
   return sum / duration_count;
 }
 
+typedef struct {
+  GameModule * mod;
+  clock_t duration;
+} ModulePerformance;
+
+static int compare_module_performances(const void * a, const void * b) {
+  clock_t duration_a = ((ModulePerformance *)a)->duration;
+  clock_t duration_b = ((ModulePerformance *)b)->duration;
+  if (duration_a < duration_b) return 1;
+  if (duration_a > duration_b) return -1;
+  return 0;
+}
+
 static void render_ui_debug(Renderer * renderer, Game * game) {
   ui_align(renderer, -1, -1, 0.8);
   char debug_str[2048];
@@ -336,10 +349,20 @@ static void render_ui_debug(Renderer * renderer, Game * game) {
     "update realtime ms", (game->cumulative_update_duration * 1000 / CLOCKS_PER_SEC), game->update_count * CLOCKS_PER_SEC * 1.0f / game->cumulative_update_duration
   );
 
-  for (int i = 0; i < game->modules_count; i++) {
-    GameModule * mod = &game->modules[i];
-    clock_t duration = duration_avg(mod->duration_update, GAME_MODULE_DURATION_LENGTH);
-    length += snprintf(debug_str + length, sizeof(debug_str) - length, "%22s:%7luC log2%5.1f\n", mod->name + 4, duration, duration ? log2f(duration) : 0);
+  const int modcount = game->modules_count;
+  ModulePerformance mod_performances[modcount];
+
+  for (int i = 0; i < modcount; i++) {
+    ModulePerformance * perf = &mod_performances[i];
+    perf->mod = &game->modules[i];
+    perf->duration = duration_avg(perf->mod->duration_update, GAME_MODULE_DURATION_LENGTH);
+  }
+
+  qsort(mod_performances, modcount, sizeof(ModulePerformance), compare_module_performances);
+
+  for (int i = 0; i < modcount; i++) {
+    ModulePerformance * perf = &mod_performances[i];
+    length += snprintf(debug_str + length, sizeof(debug_str) - length, "%22s:%7luC log2%5.1f\n", perf->mod->name + 4, perf->duration, perf->duration ? log2f(perf->duration) : 0);
   }
 
   text_renderer_render_string(debug_str, length);

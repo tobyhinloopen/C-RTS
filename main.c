@@ -1,20 +1,14 @@
 #include "game.h"
 #include "config.h"
-#ifdef CONFIG_BENCHMARK_ENABLED
 #include "benchmark.h"
-#endif
-
-#ifdef CONFIG_TEST_ENABLED
 #include "test.h"
-#endif
+#include "team_id.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-#ifdef CONFIG_SCALABLE_GRID_ENABLED
 #include "mod/mod_scalable_grid.h"
-#endif
 #include "mod/mod_kdtree.h"
 #include "mod/mod_closest_enemy_unit.h"
 #include "mod/mod_closest_friendly_unit.h"
@@ -27,9 +21,7 @@
 #include "mod/mod_world_update.h"
 #include "mod/mod_camera_update.h"
 #include "mod/mod_render.h"
-#ifdef CONFIG_PRINT_PERFORMANCE_ENABLED
 #include "mod/mod_print_performance.h"
-#endif
 
 #ifdef CONFIG_BENCHMARK_ENABLED
 #define CONFIG_MAKE_GAME
@@ -38,21 +30,10 @@
 #define CONFIG_MAKE_GAME
 #endif
 
-const float SIZE_X = 4096;
-const float SIZE_Y = 4096;
-const int SPAWN_POINTS_COUNT = 120;
-const int MOD_COUNT = 14;
-const int SHAPE_COUNT = 1;
-
-const unsigned int BENCHMARK_INTERVAL_MS = 0x0000F;
-const unsigned int BENCHMARK_DURATION_MS = 0x03FFF;
-
-#define SPAWN_OFFSET 0.1
-#define SPAWN_DISTANCE 0.04
-#define FACTORY_ROWS 3
+#define MOD_COUNT 14
+#define SHAPE_COUNT 1
 
 #ifdef CONFIG_MAKE_GAME
-#include "team_id.h"
 
 static void make_game(Game * game, rand_range_seed_t seed) {
   game_initialize(game, SPAWN_POINTS_COUNT, SHAPE_COUNT, SIZE_X, SIZE_Y, MOD_COUNT);
