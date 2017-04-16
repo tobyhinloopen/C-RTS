@@ -35,7 +35,7 @@
 
 #ifdef CONFIG_MAKE_GAME
 
-static void make_game(Game * game, rand_range_seed_t seed) {
+static void make_game(Game * game, RandRangeSeed seed) {
   game_initialize(game, SPAWN_POINTS_COUNT, SHAPE_COUNT, SIZE_X, SIZE_Y, MOD_COUNT);
   game->seed = seed;
 

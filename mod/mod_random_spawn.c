@@ -30,7 +30,7 @@ static int world_count_units(World * world) {
   return count;
 }
 
-static void setup_unit(Unit * unit, rand_range_seed_t * seed, int team_offset, float x, float y) {
+static void setup_unit(Unit * unit, RandRangeSeed * seed, int team_offset, float x, float y) {
   unit_initialize(unit);
   unit->direction = rand_rangef(seed, 0, PI2);
   unit->team_id = team_offset;

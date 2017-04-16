@@ -27,7 +27,7 @@ struct Game {
   KDTree units_kdtrees[TEAM_COUNT];
   KDTree factories_kdtrees[TEAM_COUNT];
   ScalableGrid scalable_grid;
-  rand_range_seed_t seed;
+  RandRangeSeed seed;
 
   unsigned int start_time;
   unsigned int current_time;

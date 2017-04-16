@@ -1,7 +1,7 @@
 #include "mod_unit_projectile_spawn.h"
 #include "../rand_range.h"
 
-static Projectile * create_unit_projectile(Unit * unit, World * world, rand_range_seed_t * seed) {
+static Projectile * create_unit_projectile(Unit * unit, World * world, RandRangeSeed * seed) {
   Projectile * projectile = &world_entity_allocate(world, PROJECTILE)->projectile;
   projectile_initialize(projectile, unit->position,
     unit->direction + unit->head_direction + rand_rangef(seed, -0.02f, 0.02f), unit->team_id);
@@ -9,7 +9,7 @@ static Projectile * create_unit_projectile(Unit * unit, World * world, rand_rang
   return projectile;
 }
 
-static void create_unit_projectiles(Unit * unit, World * world, rand_range_seed_t * seed) {
+static void create_unit_projectiles(Unit * unit, World * world, RandRangeSeed * seed) {
   if(unit_is_firing(unit)) {
     while(unit->next_fire_interval < 0) {
       Projectile * projectile = create_unit_projectile(unit, world, seed);

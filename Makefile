@@ -791,6 +791,8 @@ unit/behavior.o: unit/behavior.h vector.h unit.h world.h pi.h
 unit/behavior_test.o: unit/behavior_test.h unit/behavior.h vector.h unit.h
 unit/behavior_test.o: world.h pi.h
 benchmark.o: benchmark.h game.h
+bktree.o: bktree.h util.h
+bktree_test.o: bktree.h bktree_test.h rand_range.h util.h
 camera.o: camera.h vector3.h
 factory.o: factory.h vector.h unit.h pi.h
 factory_test.o: factory_test.h factory.h vector.h unit.h pi.h
@@ -992,12 +994,14 @@ scalable_grid.o: scalable_grid.h grid.h vector.h
 shape.o: shape.h vector.h
 shape_test.o: shape_test.h shape.h vector.h
 team_id.o: team_id.h vector.h config.h
-test.o: test.h unit_test.h world_test.h vector_test.h unit/behavior_test.h
-test.o: renderer_test.h shape_test.h factory_test.h grid_test.h kdtree_test.h
-test.o: rand_range_test.h
+test.o: test.h util_test.h unit_test.h world_test.h vector_test.h
+test.o: unit/behavior_test.h renderer_test.h shape_test.h factory_test.h
+test.o: grid_test.h kdtree_test.h rand_range_test.h bktree_test.h
 text_renderer.o: text_renderer.h opengl.h
 unit.o: unit.h vector.h pi.h factory.h
 unit_test.o: unit_test.h unit.h vector.h pi.h factory.h
+util.o: util.h
+util_test.o: util_test.h util.h
 vector.o: vector.h pi.h
 vector3.o: vector3.h
 vector_test.o: vector_test.h vector.h pi.h

@@ -1,10 +1,10 @@
 #ifndef RAND_H
 #define RAND_H
 
-typedef unsigned int rand_range_seed_t;
+typedef unsigned int RandRangeSeed;
 
-float rand_rangef(rand_range_seed_t * seed, float min, float max);
-int rand_rangei(rand_range_seed_t * seed, int min, int max);
-float rand_rangef_pow2(rand_range_seed_t * seed, float min, float max);
+float rand_rangef(RandRangeSeed * seed, float min, float max);
+int rand_rangei(RandRangeSeed * seed, int min, int max);
+float rand_rangef_pow2(RandRangeSeed * seed, float min, float max);
 
 #endif

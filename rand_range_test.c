@@ -14,7 +14,7 @@ static void assert_determenistic_random(int expected_result, int actual_result) 
 }
 
 void test_rand_range() {
-  rand_range_seed_t seed = 0;
+  RandRangeSeed seed = 0;
   assert_determenistic_random( 17274, rand_rangei(&seed, -0xFFFF, 0xFFFF));
   assert_determenistic_random(  3586, rand_rangei(&seed, -0xFFFF, 0xFFFF));
   assert_determenistic_random(-60254, rand_rangei(&seed, -0xFFFF, 0xFFFF));

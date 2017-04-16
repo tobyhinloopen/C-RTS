@@ -73,19 +73,19 @@ unsigned int RANDOM_NUMBERS[NUMBERS_COUNT] = {
   6346, 2078, 15957, 20512, 1681, 9136, 17467, 26569, 30212, 19949, 16801, 28299, 18971, 1880, 20625, 1076
 };
 
-static int rand(rand_range_seed_t * seed) {
+static int rand(RandRangeSeed * seed) {
   return RANDOM_NUMBERS[((*seed)++) % NUMBERS_COUNT];
 }
 
-float rand_rangef(rand_range_seed_t * seed, float min, float max) {
+float rand_rangef(RandRangeSeed * seed, float min, float max) {
   return min + ((double)rand(seed) / RAND_MAX) * (max - min);
 }
 
-int rand_rangei(rand_range_seed_t * seed, int min, int max) {
+int rand_rangei(RandRangeSeed * seed, int min, int max) {
   return rand_rangef(seed, min, max);
 }
 
-float rand_rangef_pow2(rand_range_seed_t * seed, float min, float max) {
+float rand_rangef_pow2(RandRangeSeed * seed, float min, float max) {
   const float magnitude = (max - min)/2;
   const float magnitude_sq = magnitude * magnitude;
   const float result = rand_rangef(seed, -magnitude_sq, magnitude_sq);
