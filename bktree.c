@@ -1,6 +1,7 @@
 #include "bktree.h"
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 #include "util.h"
 
 void bktree_initialize(BKTree * tree) {
@@ -11,7 +12,7 @@ void bktree_initialize(BKTree * tree) {
 }
 
 static void bkdtree_realloc(BKTree * tree, BKSize n) {
-  tree->depth = log2i_ceil(n);
+  tree->depth = n == 0 ? 0 : log2i_ceil(n);
   tree->capacity = 1 << (tree->depth + 1);
   tree->nodes = realloc(tree->nodes, sizeof(BKNode) * tree->capacity);
   assert(tree->nodes != NULL);
@@ -51,14 +52,117 @@ void bktree_build(BKTree * tree, BKNode * input_nodes, BKSize n) {
   build_resursive(tree->nodes, 1, input_nodes, 0, n - 1, 0);
 }
 
+static void maybe_insert_result_sorted(BKResult * results, BKSize * result_count_ptr, BKSize n, BKDistance distance_sq, BKValue value) {
+  assert(n > 0);
+  const BKSize result_count = *result_count_ptr;
+
+  // There are no results yet, just insert it
+  if (result_count == 0) {
+    results->value = value;
+    results->distance_sq = distance_sq;
+    (*result_count_ptr) = 1;
+    return;
+  }
+
+  // There is one result, and only rooom for one result. Insert it.
+  if (result_count == 1 && n == 1) {
+    if (results->distance_sq > distance_sq) {
+      results->value = value;
+      results->distance_sq = distance_sq;
+    }
+    return;
+  }
+
+  // There is at least 1 result. Insert sorted, smallest distance first.
+  // Find the first record that has a smaller distance than the value to insert.
+  BKSize insert_idx = 0;
+  while (results[insert_idx].distance_sq < distance_sq && insert_idx < result_count)
+    insert_idx++;
+
+  // If the index equals to the count, it means the new record has the greatest distance. We insert
+  // the record at the end of the list if there is room for it.
+  if (insert_idx == result_count) {
+    if (result_count < n) {
+      results[insert_idx].value = value;
+      results[insert_idx].distance_sq = distance_sq;
+      (*result_count_ptr)++;
+    }
+    return;
+  }
+
+  // All passed records have smaller distance and will remain in the set. The remaining records (if
+  // any) will be moved to the right, optionally removing the last.
+  BKSize records_to_move = MIN(result_count - insert_idx, n - insert_idx - 1);
+  memmove(results + insert_idx + 1, results + insert_idx, sizeof(BKResult) * records_to_move);
+  results[insert_idx].value = value;
+  results[insert_idx].distance_sq = distance_sq;
+  if (result_count < n)
+    (*result_count_ptr)++;
+}
+
+static BKDistance node_distance_sq(BKNode node, BKScalar x, BKScalar y) {
+  int diff_x = (int)node.x - x;
+  int diff_y = (int)node.y - y;
+  return diff_x * diff_x + diff_y * diff_y;
+}
+
 BKSize bktree_find(BKTree * tree, BKScalar x, BKScalar y, BKResult * results, BKSize n, BKDistance max_distance_sq) {
-  return 0;
+  if (n == 0) {
+    return 0;
+  }
+  BKNode node;
+  BKSize n_idx = 1;
+  int down = 1;
+  BKSize depth = 1;
+  BKSize dcode = 0;
+  BKSize result_count = 0;
+
+  while (depth > 0) {
+    node = tree->nodes[n_idx];
+    int pd = (depth % 2) ? x - node.x : y - node.y;
+    if (down) {
+      if (!node.leaf) {
+        depth <<= 1;
+        n_idx <<= 1;
+        if (pd >= 0) {
+          n_idx++;
+        }
+      } else {
+        down = 0;
+        depth >>= 1;
+        n_idx >>= 1;
+        BKDistance distance_sq = node_distance_sq(node, x, y);
+        if (distance_sq <= max_distance_sq)
+          maybe_insert_result_sorted(results, &result_count, n, distance_sq, node.value);
+      }
+    } else {
+      int pd_sq = pd * pd;
+      if (dcode < depth && pd_sq < max_distance_sq /*&& (result_count == 0 || result_count < n || pd_sq < results[result_count-1].distance_sq)*/) {
+        down = 1;
+        dcode += depth;
+        depth <<= 1;
+        n_idx <<= 1;
+        if (pd < 0) {
+          n_idx++;
+        }
+      } else {
+        dcode -= (dcode < depth) ? 0 : depth;
+        depth >>= 1;
+        n_idx >>= 1;
+      }
+    }
+  }
+
+  return result_count;
 }
 
 BKResult bktree_first(BKTree * tree, BKScalar x, BKScalar y) {
-  return (BKResult){};
+  BKResult result = {0, BKTREE_DISTANCE_MAX};
+  bktree_find(tree, x, y, &result, 1, BKTREE_SIZE_MAX);
+  return result;
 }
 
 void bktree_deinitialize(BKTree * tree) {
-
+  free(tree->nodes);
+  tree->nodes = NULL;
 }

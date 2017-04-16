@@ -6,11 +6,12 @@
 #define BKTREE_SCALAR_MAX USHRT_MAX
 #define BKTREE_VALUE_MAX USHRT_MAX
 #define BKTREE_DISTANCE_MAX UINT_MAX
+#define BKTREE_SIZE_MAX INT_MAX
 
-typedef unsigned short BKValue;
+typedef unsigned long BKValue;
 typedef unsigned int BKSize;
 typedef unsigned int BKDistance;
-typedef unsigned short BKScalar;
+typedef unsigned int BKScalar;
 typedef unsigned char BKBool;
 
 typedef struct {

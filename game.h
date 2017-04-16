@@ -12,6 +12,7 @@ typedef struct Game Game;
 #include "scalable_grid.h"
 #include "team_id.h"
 #include "rand_range.h"
+#include "bktree.h"
 #include <time.h>
 
 #define GAME_MODULE_DURATION_LENGTH 32
@@ -28,6 +29,9 @@ struct Game {
   KDTree factories_kdtrees[TEAM_COUNT];
   ScalableGrid scalable_grid;
   RandRangeSeed seed;
+#ifdef CONFIG_BKTREE_ENABLED
+  BKTree units_bktrees[TEAM_COUNT];
+#endif
 
   unsigned int start_time;
   unsigned int current_time;
