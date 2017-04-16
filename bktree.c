@@ -3,9 +3,6 @@
 #include <stdlib.h>
 #include "util.h"
 
-// #define BKTREE_PARTITIONER_QSORT
-#define BKTREE_PARTITIONER_MACRO
-
 void bktree_initialize(BKTree * tree) {
   tree->nodes = NULL;
   tree->depth = 0;
@@ -41,15 +38,7 @@ static void build_resursive(BKNode * target_nodes, BKSize idx, BKNode * input_no
   if (target_node->leaf)
     return;
 
-#ifdef BKTREE_PARTITIONER_QSORT
   qsort(input_nodes + left, count, sizeof(BKNode), odd ? compare_node_y : compare_node_x);
-#endif
-#ifdef BKTREE_PARTITIONER_MACRO
-  if (odd)
-    PARTITION(BKNode, y, input_nodes, left, right, m);
-  else
-    PARTITION(BKNode, x, input_nodes, left, right, m);
-#endif
 
   idx <<= 1;
   build_resursive(target_nodes, idx, input_nodes, left, m - 1, !odd);

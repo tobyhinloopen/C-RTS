@@ -102,6 +102,7 @@ static void checked_find_multiple(BKScalar x, BKScalar y) {
   BKResult actual_results[BKTREE_FIND_N];
   BKSize actual_size = bktree_find(&tree, x, y, actual_results, BKTREE_FIND_N, BKTREE_FIND_MAX_DISTANCE_SQ);
 
+  printf("actual: %i, expected: %i\n", actual_size, expected_size);
   assert(actual_size == expected_size);
   assert(strncmp((const char *)actual_results, (const char *)expected_results, sizeof(BKResult) * actual_size) == 0);
 }
