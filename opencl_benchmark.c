@@ -134,8 +134,10 @@ OpenclBenchmarkResult opencl_benchmark_device(cl_device_id device_id) {
     assert_success(clSetKernelArg(kernel, 4, sizeof(unit_count), &unit_count));
   }
 
-  const size_t global_work_group_size = UNIT_COUNT;
-  assert_success(clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL, &global_work_group_size, NULL, 0, NULL, NULL));
+
+  const size_t global_work_group_size = (size_t)pow(ceil(sqrt(UNIT_COUNT)), 2);
+  const size_t local_work_group_size = 128;
+  assert_success(clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL, &global_work_group_size, &local_work_group_size, 0, NULL, NULL));
   assert_success(clFinish(command_queue));
   const long finish_end = microtime();
 
