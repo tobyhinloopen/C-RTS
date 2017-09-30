@@ -29,9 +29,6 @@ struct Game {
   KDTree factories_kdtrees[TEAM_COUNT];
   ScalableGrid scalable_grid;
   RandRangeSeed seed;
-#ifdef CONFIG_BKTREE_ENABLED
-  BKTree units_bktrees[TEAM_COUNT];
-#endif
 
   unsigned int start_time;
   unsigned int current_time;
@@ -41,6 +38,9 @@ struct Game {
 
   clock_t cumulative_update_duration;
   size_t update_count;
+
+  int command_position_set;
+  Vector command_position;
 
   Vector3 camera_movement;
   struct GameModule * modules;

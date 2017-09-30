@@ -5,6 +5,7 @@
 
 void unit_initialize(Unit * unit) {
   vector_initialize(&unit->position);
+  vector_initialize(&unit->target_position);
   unit->direction = 0;
   unit->angular_throttle = 0;
   unit->throttle = 0;
@@ -17,6 +18,7 @@ void unit_initialize(Unit * unit) {
   unit->closest_enemy_unit = NULL;
   unit->closest_friendly_factory = NULL;
   unit->closest_enemy_factory = NULL;
+  unit->mode = 0;
 }
 
 static void unit_update_straight_movement(Unit * unit, float delta) {

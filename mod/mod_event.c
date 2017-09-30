@@ -1,7 +1,7 @@
 #include "mod_event.h"
 
 #include "../vector3.h"
-#include "../camera.h"
+#include "../renderer.h"
 #include <SDL2/SDL.h>
 
 static void mod_event_initialize(Game * game) {
@@ -12,6 +12,14 @@ static int event_is_window_resize(SDL_Event * event, SDL_Window * window) {
   return event->type == SDL_WINDOWEVENT
     && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED
     && event->window.windowID == SDL_GetWindowID(window);
+}
+
+static void handle_mouse_button_event(Game * game, SDL_MouseButtonEvent * event) {
+  game->command_position_set = 1;
+  Vector screen;
+  screen.x = event->x;
+  screen.y = event->y;
+  game->command_position = renderer_screen_to_world(&game->renderer, screen);
 }
 
 static Vector3 camera_movement_from_keyboard_event(SDL_KeyboardEvent * event) {
@@ -56,12 +64,16 @@ static Vector3 camera_movement_from_keyboard_event(SDL_KeyboardEvent * event) {
 }
 
 static void mod_event_update(Game * game, unsigned int delta) {
+  game->command_position_set = 0;
+
   SDL_Event event;
   while(SDL_PollEvent(&event)) {
     if(event.type == SDL_QUIT)
       game->is_quit_requested = 1;
     else if(event_is_window_resize(&event, game->renderer.window))
       game->is_window_resized = 1;
+    else if(event.type == SDL_MOUSEBUTTONUP)
+      handle_mouse_button_event(game, &event.button);
     else if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
       vector3_add(&game->camera_movement, camera_movement_from_keyboard_event(&event.key));
   }

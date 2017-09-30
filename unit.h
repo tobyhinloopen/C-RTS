@@ -11,12 +11,15 @@
 #define UNIT_INITIAL_HEALTH 400
 #define UNIT_HEALTH_REGENERATION 20
 
+#define UNIT_MODE_FORCE_MOVE_TARGET_POSITION 1
+
 typedef struct Unit Unit;
 
 #include "factory.h"
 
 struct Unit {
   Vector position;
+  Vector target_position;
   float direction;
   float head_direction;
   float head_throttle;
@@ -25,6 +28,7 @@ struct Unit {
   float next_fire_interval;
   float health;
   int team_id;
+  int mode;
   Unit * closest_friendly_unit;
   Unit * closest_enemy_unit;
   Factory * closest_friendly_factory;

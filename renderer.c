@@ -196,7 +196,7 @@ Vector renderer_screen_to_world(Renderer * renderer, Vector point) {
   const float scale = renderer_scale(renderer);
   return (Vector) {
     (point.x - renderer->viewport_width/2) / scale + renderer->camera.x,
-    (point.y - renderer->viewport_height/2) / scale + renderer->camera.y
+    (point.y - renderer->viewport_height/2) / -scale + renderer->camera.y
   };
 }
 
@@ -204,7 +204,7 @@ Vector renderer_world_to_screen(Renderer * renderer, Vector position) {
   const float scale = renderer_scale(renderer);
   return (Vector) {
     (position.x - renderer->camera.x) * scale + renderer->viewport_width/2,
-    (position.y - renderer->camera.y) * scale + renderer->viewport_height/2
+    (position.y - renderer->camera.y) * -scale + renderer->viewport_height/2
   };
 }
 
@@ -340,8 +340,8 @@ static void render_ui_debug(Renderer * renderer, Game * game) {
   ui_align(renderer, -1, -1, 0.8);
   char debug_str[2048];
   int length = snprintf(debug_str, sizeof(debug_str),
-    "%.0f, %.0f %.0f%%\n%22s:%7i\n%22s:%7i\n%22s:%7i\n%22s:%7i 0x%08x\n%22s:%7lu  fps%6.1f\n",
-    renderer->camera.x, renderer->camera.y, renderer_scale(renderer) * 100,
+    "%.0f, %.0f %.0f%%; CMDPOS: %.0f, %.0f\n%22s:%7i\n%22s:%7i\n%22s:%7i\n%22s:%7i 0x%08x\n%22s:%7lu  fps%6.1f\n",
+    renderer->camera.x, renderer->camera.y, renderer_scale(renderer) * 100, game->command_position.x, game->command_position.y,
     "factories", game->world.factories.entity_count,
     "units", game->world.units.entity_count,
     "projectiles", game->world.projectiles.entity_count,

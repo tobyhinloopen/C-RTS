@@ -22,7 +22,6 @@
 #include "mod/mod_camera_update.h"
 #include "mod/mod_render.h"
 #include "mod/mod_print_performance.h"
-#include "mod/mod_bktree.h"
 
 #ifdef CONFIG_BENCHMARK_ENABLED
 #define CONFIG_MAKE_GAME
@@ -70,9 +69,6 @@ static void make_game(Game * game, RandRangeSeed seed) {
   game_add_module(game, "mod_event", mod_event);
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
   game_add_module(game, "mod_scalable_grid", mod_scalable_grid);
-#endif
-#ifdef CONFIG_BKTREE_ENABLED
-  game_add_module(game, "mod_bktree", mod_bktree);
 #endif
   game_add_module(game, "mod_kdtree", mod_kdtree);
   game_add_module(game, "mod_factory_spawn", mod_factory_spawn);
