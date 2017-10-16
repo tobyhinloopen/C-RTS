@@ -12,6 +12,7 @@
 #include "kdtree_test.h"
 #include "rand_range_test.h"
 #include "bktree_test.h"
+#include "util/linked_list_test.h"
 // #include "opencl_test.h"
 
 #include <stdio.h>
@@ -29,6 +30,7 @@ void test() {
   test_kdtree();
   test_rand_range();
   test_bktree();
+  test_linked_list();
   // test_opencl();
   printf("TEST OK\n");
 }

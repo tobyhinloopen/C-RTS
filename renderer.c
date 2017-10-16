@@ -368,10 +368,15 @@ static void render_ui_debug(Renderer * renderer, Game * game) {
   text_renderer_render_string(debug_str, length);
 }
 
+static void render_gui(Renderer * renderer, GUI * gui) {
+  // render GUI here
+}
+
 void renderer_render_ui(Renderer * renderer, Game * game) {
   glMatrixMode(GL_MODELVIEW);
   glColor3f(0.4f, 0.4f, 0.4f);
   render_ui_debug(renderer, game);
+  render_gui(renderer, &game->gui);
 }
 
 void renderer_present(Renderer * renderer) {
