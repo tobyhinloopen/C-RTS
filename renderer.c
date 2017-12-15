@@ -11,12 +11,9 @@
 
 const float RAD2DEGf = 360 / PI2;
 
-const int HALF_UNIT_TEXTURE_SIZE = 24;
-const float PROJECTILE_LENGTH = 16.0f;
 const float PROJECTILE_IMPACT_HALF_SIZE = 3.0f;
 const int HEALTH_BAR_WIDTH = 32;
 const int HEALTH_BAR_HEIGHT = 4;
-const int HALF_FACTORY_TEXTURE_SIZE = 48;
 
 #define UI_PADDING 128
 #define MAP_PADDING 128
@@ -69,7 +66,7 @@ static void set_gl_team_color(int team_id) {
   set_gl_team_color_alpha(team_id, 255);
 }
 
-static void renderer_render_unit(Renderer * renderer, Unit * unit) {
+void renderer_render_unit(Unit * unit) {
   glPushMatrix();
   glTranslatef(unit->position.x, unit->position.y, 0.0f);
 
@@ -107,7 +104,7 @@ static void renderer_render_unit(Renderer * renderer, Unit * unit) {
   glPopMatrix();
 }
 
-static void renderer_render_projectile(Renderer * renderer, Projectile * projectile) {
+void renderer_render_projectile(Projectile * projectile) {
   set_gl_team_color_alpha(projectile->team_id,
     (unsigned char)(projectile->decay_remaining / PROJECTILE_DECAY * 255.0f));
 
@@ -136,7 +133,7 @@ static void renderer_render_projectile(Renderer * renderer, Projectile * project
   glPopMatrix();
 }
 
-static void renderer_render_factory(Renderer * renderer, Factory * factory) {
+void renderer_render_factory(Factory * factory) {
   glPushMatrix();
   glTranslatef(factory->position.x, factory->position.y, 0.0f);
 
@@ -220,15 +217,15 @@ static void render_entity(Entity * entity, void * renderer_ptr) {
   switch(entity->type) {
     case UNIT:
       if(is_vector_in_viewport(renderer, entity->unit.position, HALF_UNIT_TEXTURE_SIZE))
-        renderer_render_unit(renderer, &entity->unit);
+        renderer_render_unit(&entity->unit);
       break;
     case PROJECTILE:
       if(is_vector_in_viewport(renderer, entity->projectile.position, PROJECTILE_LENGTH))
-        renderer_render_projectile(renderer, &entity->projectile);
+        renderer_render_projectile(&entity->projectile);
       break;
     case FACTORY:
       if(is_vector_in_viewport(renderer, entity->factory.position, HALF_FACTORY_TEXTURE_SIZE))
-        renderer_render_factory(renderer, &entity->factory);
+        renderer_render_factory(&entity->factory);
       break;
     case NONE: break;
   }
@@ -301,8 +298,10 @@ void renderer_render_map(Renderer * renderer, Map * map) {
 
 void renderer_render_world(Renderer * renderer, World * world) {
   glPushMatrix();
+  // wtf?
   glTranslatef(0.0f, 0.0f, 0.0f);
   world_iterate_entities(world, renderer, render_entity);
+  // wtf?
   glEnd();
 }
 
@@ -369,7 +368,7 @@ static void render_ui_debug(Renderer * renderer, Game * game) {
 }
 
 static void render_gui(Renderer * renderer, GUI * gui) {
-  // render GUI here
+  gui_render(gui);
 }
 
 void renderer_render_ui(Renderer * renderer, Game * game) {

@@ -29,6 +29,8 @@ void game_initialize(Game * game, int spawn_points_count, int shapes_count, floa
   game->command_position_set = 0;
   vector_initialize(&game->command_position);
 
+  gui_initialize(&game->gui);
+
   SDL_InitSubSystem(SDL_INIT_TIMER);
 
   game->delta = 0;

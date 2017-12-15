@@ -12,11 +12,36 @@ void gui_component_group_initialize(GUIComponentGroup * group) {
 void gui_component_group_update(GUIComponentGroup * group, unsigned int delta) {
 }
 
-void gui_component_group_add(GUIComponent * group) {
+void gui_component_group_add(GUIComponentGroup * group, GUIComponent * component) {
+  linked_list_push_front(&group->items, component);
 }
 
-GUIComponent * gui_component_group_component_at(GUIComponentGroup * group, int x, int y) {
+GUIComponent * gui_component_group_component_at(GUIComponentGroup * group, float x, float y) {
   return NULL;
+}
+
+typedef struct {
+  void (* func)(GUIComponent *, void *);
+  void * arg;
+} GUIComponentGroupIteratorContext;
+
+static int gui_component_group_iterator(void * gui_component_ptr, void * context_ptr) {
+  GUIComponentGroupIteratorContext * ctx = (GUIComponentGroupIteratorContext *)context_ptr;
+  ctx->func((GUIComponent *)gui_component_ptr, ctx->arg);
+  return 0;
+}
+
+void gui_component_group_iterate(GUIComponentGroup * group, void (* func)(GUIComponent *, void *), void * arg) {
+  GUIComponentGroupIteratorContext ctx = {func, arg};
+  linked_list_iterate(&group->items, gui_component_group_iterator, &ctx);
+}
+
+static void render_gui_component_iterator(GUIComponent * gui_component, void * _) {
+  gui_component_render(gui_component);
+}
+
+void gui_component_group_render(GUIComponentGroup * group) {
+  gui_component_group_iterate(group, render_gui_component_iterator, NULL);
 }
 
 static int gui_component_group_deinitialization_iterator(void * gui_component_ptr, void * _) {

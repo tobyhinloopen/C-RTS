@@ -8,7 +8,7 @@ typedef struct _GUIComponent GUIComponent;
 #include "gui_viewport.h"
 #include "gui_frame.h"
 
-typedef enum {BUTTON, COMPONENT_GROUP, FRAME, VIEWPORT} GUIComponentType;
+typedef enum {BUTTON = 1, COMPONENT_GROUP, FRAME, VIEWPORT} GUIComponentType;
 
 struct _GUIComponent {
   GUIComponentType type;
@@ -21,6 +21,7 @@ struct _GUIComponent {
 };
 
 void gui_component_update(GUIComponent *, unsigned int);
+void gui_component_render(GUIComponent *);
 void gui_component_deinitialize(GUIComponent *);
 
 #endif

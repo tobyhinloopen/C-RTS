@@ -6,4 +6,6 @@ typedef struct {
   void * arg;
 } GUICallback;
 
+void gui_callback_clear(GUICallback *);
+
 #endif

@@ -10,7 +10,11 @@ typedef struct {
   GUICallback onclick;
 } GUIButton;
 
+#include "gui_component.h"
+
+void gui_button_initialize(GUIButton *, const char *);
 void gui_button_update(GUIButton *, unsigned int);
+void gui_button_render(GUIButton *);
 void gui_button_deinitialize(GUIButton *);
 
 #endif

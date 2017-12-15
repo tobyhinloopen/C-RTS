@@ -2,6 +2,7 @@
 #define GUI_H
 
 #include "gui/gui_component_group.h"
+#include "vector.h"
 
 typedef struct {
   GUIComponentGroup root;
@@ -9,7 +10,8 @@ typedef struct {
 
 void gui_initialize(GUI * gui);
 void gui_update(GUI * gui, unsigned int delta);
-GUIComponent * gui_component_at(GUI * gui, int x, int y);
+void gui_render(GUI * gui);
+GUIComponent * gui_component_at(GUI * gui, float x, float y);
 void gui_deinitialize(GUI * gui);
 
 #endif

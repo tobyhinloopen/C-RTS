@@ -11,8 +11,10 @@ typedef struct {
 
 void gui_component_group_initialize(GUIComponentGroup *);
 void gui_component_group_update(GUIComponentGroup *, unsigned int delta);
-void gui_component_group_add(GUIComponent *);
-GUIComponent * gui_component_group_component_at(GUIComponentGroup *, int x, int y);
+void gui_component_group_add(GUIComponentGroup *, GUIComponent *);
+void gui_component_group_iterate(GUIComponentGroup *, void (*)(GUIComponent *, void *), void *);
+void gui_component_group_render(GUIComponentGroup *);
+GUIComponent * gui_component_group_component_at(GUIComponentGroup *, float x, float y);
 void gui_component_group_deinitialize(GUIComponentGroup *);
 
 #endif

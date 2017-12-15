@@ -2,8 +2,10 @@
 #define GUI_STRING_H
 
 typedef struct {
-  char * text;
+  const char * text;
   int length;
 } GUIString;
+
+void gui_string_initialize(GUIString *, const char *);
 
 #endif

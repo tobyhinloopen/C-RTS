@@ -17,6 +17,23 @@ void gui_component_update(GUIComponent * gui_component, unsigned int delta) {
   }
 }
 
+void gui_component_render(GUIComponent * gui_component) {
+  switch(gui_component->type) {
+    case BUTTON:
+      gui_button_render(&gui_component->button);
+      break;
+    case COMPONENT_GROUP:
+      gui_component_group_render(&gui_component->component_group);
+      break;
+    case FRAME:
+      gui_frame_render(&gui_component->frame);
+      break;
+    case VIEWPORT:
+      gui_viewport_render(&gui_component->viewport);
+      break;
+  }
+}
+
 void gui_component_deinitialize(GUIComponent * gui_component) {
   switch(gui_component->type) {
     case BUTTON:
