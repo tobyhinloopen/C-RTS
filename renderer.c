@@ -181,7 +181,7 @@ static void renderer_render_factory(Renderer * renderer, Factory * factory) {
 }
 
 void renderer_notify_viewport_resized(Renderer * renderer) {
-  SDL_GL_GetDrawableSize(renderer->window, &renderer->viewport_width, &renderer->viewport_height);
+  SDL_GetWindowSize(renderer->window, &renderer->viewport_width, &renderer->viewport_height);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
