@@ -18,11 +18,11 @@ static void test_renderer_world_to_screen() {
   renderer.camera = (Vector3) { 0.0f, 0.0f, 0.0f };
 
   Vector position = (Vector) { 2.0f, 3.0f };
-  assert_vector_equal((Vector) { 102.0f, 53.0f }, renderer_world_to_screen(&renderer, position));
+  assert_vector_equal((Vector) { 102.0f, 47.0f }, renderer_world_to_screen(&renderer, position));
 
   renderer.camera = (Vector3) { 0.0f, 0.0f, 1.0f };
 
-  assert_vector_equal((Vector) { 101.0f, 51.5f }, renderer_world_to_screen(&renderer, position));
+  assert_vector_equal((Vector) { 101.0f, 48.5 }, renderer_world_to_screen(&renderer, position));
 }
 
 void test_renderer() {
