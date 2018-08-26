@@ -14,17 +14,19 @@ typedef struct {
 } Renderer;
 
 #include "game.h"
+#include "view/node.h"
 
 void renderer_initialize(Renderer *);
 void renderer_notify_viewport_resized(Renderer *);
-Vector renderer_screen_to_world(Renderer *, Vector);
-Vector renderer_world_to_screen(Renderer *, Vector);
-void renderer_clear_color(Renderer *, float r, float g, float b);
-void renderer_begin(Renderer *);
-void renderer_render_map(Renderer *, Map *);
+Vector renderer_screen_to_world(const Renderer *, Vector);
+Vector renderer_world_to_screen(const Renderer *, Vector);
+void renderer_clear_color(const Renderer *, float r, float g, float b);
+void renderer_begin(const Renderer *);
+void renderer_render_map(const Renderer *, const Map *);
 void renderer_render_world(Renderer *, World *);
-void renderer_render_ui(Renderer *, Game *);
-void renderer_present(Renderer *);
+void renderer_render_ui(const Renderer *, const Game *);
+void renderer_render_view_node(const Renderer *, const Node *);
+void renderer_present(const Renderer *);
 void renderer_deinitialize(Renderer *);
 
 #endif

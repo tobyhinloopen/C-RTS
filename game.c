@@ -16,6 +16,10 @@ void game_initialize(Game * game, int spawn_points_count, int shapes_count, floa
   game->modules_count = 0;
   game->modules_capacity = mod_capacity;
 
+  game->node = malloc(sizeof(Node));
+  node_initialize(game->node);
+  game->node->viewport_game = game;
+
   game->is_quit_requested = 1;
   game->is_window_resized = 0;
   game->camera_movement = (Vector3) { 0.0f, 0.0f, 0.0f };

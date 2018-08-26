@@ -26,7 +26,7 @@ void factory_start_building(Factory *);
 void factory_stop_building(Factory *);
 void factory_update(Factory *, float);
 int factory_try_build_unit(Factory *, Unit *);
-float factory_health_percentage(Factory *);
-float factory_build_percentage(Factory *);
+float factory_health_percentage(const Factory *);
+float factory_build_percentage(const Factory *);
 
 #endif

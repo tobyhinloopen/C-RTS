@@ -235,8 +235,10 @@ mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_version.h opengl.h
-mod/mod_camera_update.o: game.h grid.h kdtree.h scalable_grid.h team_id.h
-mod/mod_camera_update.o: config.h rand_range.h bktree.h /usr/include/limits.h
+mod/mod_camera_update.o: game.h view/node.h vector3.h util/rect.h
+mod/mod_camera_update.o: util/color.h util/string.h vendor/vec.h grid.h
+mod/mod_camera_update.o: kdtree.h scalable_grid.h team_id.h config.h
+mod/mod_camera_update.o: rand_range.h bktree.h /usr/include/limits.h
 mod/mod_camera_update.o: /usr/include/machine/limits.h
 mod/mod_camera_update.o: /usr/include/i386/limits.h
 mod/mod_camera_update.o: /usr/include/i386/_limits.h
@@ -409,9 +411,10 @@ mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_version.h opengl.h
-mod/mod_closest_enemy_unit.o: game.h grid.h kdtree.h scalable_grid.h
-mod/mod_closest_enemy_unit.o: team_id.h config.h rand_range.h bktree.h
-mod/mod_closest_enemy_unit.o: /usr/include/limits.h
+mod/mod_closest_enemy_unit.o: game.h view/node.h vector3.h util/rect.h
+mod/mod_closest_enemy_unit.o: util/color.h util/string.h vendor/vec.h grid.h
+mod/mod_closest_enemy_unit.o: kdtree.h scalable_grid.h team_id.h config.h
+mod/mod_closest_enemy_unit.o: rand_range.h bktree.h /usr/include/limits.h
 mod/mod_closest_enemy_unit.o: /usr/include/machine/limits.h
 mod/mod_closest_enemy_unit.o: /usr/include/i386/limits.h
 mod/mod_closest_enemy_unit.o: /usr/include/i386/_limits.h
@@ -581,9 +584,10 @@ mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_version.h opengl.h
-mod/mod_closest_factory.o: game.h grid.h kdtree.h scalable_grid.h team_id.h
-mod/mod_closest_factory.o: config.h rand_range.h bktree.h
-mod/mod_closest_factory.o: /usr/include/limits.h
+mod/mod_closest_factory.o: game.h view/node.h vector3.h util/rect.h
+mod/mod_closest_factory.o: util/color.h util/string.h vendor/vec.h grid.h
+mod/mod_closest_factory.o: kdtree.h scalable_grid.h team_id.h config.h
+mod/mod_closest_factory.o: rand_range.h bktree.h /usr/include/limits.h
 mod/mod_closest_factory.o: /usr/include/machine/limits.h
 mod/mod_closest_factory.o: /usr/include/i386/limits.h
 mod/mod_closest_factory.o: /usr/include/i386/_limits.h
@@ -759,9 +763,11 @@ mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_version.h
-mod/mod_closest_friendly_unit.o: opengl.h game.h grid.h kdtree.h
-mod/mod_closest_friendly_unit.o: scalable_grid.h team_id.h config.h
-mod/mod_closest_friendly_unit.o: rand_range.h bktree.h /usr/include/limits.h
+mod/mod_closest_friendly_unit.o: opengl.h game.h view/node.h vector3.h
+mod/mod_closest_friendly_unit.o: util/rect.h util/color.h util/string.h
+mod/mod_closest_friendly_unit.o: vendor/vec.h grid.h kdtree.h scalable_grid.h
+mod/mod_closest_friendly_unit.o: team_id.h config.h rand_range.h bktree.h
+mod/mod_closest_friendly_unit.o: /usr/include/limits.h
 mod/mod_closest_friendly_unit.o: /usr/include/machine/limits.h
 mod/mod_closest_friendly_unit.o: /usr/include/i386/limits.h
 mod/mod_closest_friendly_unit.o: /usr/include/i386/_limits.h
@@ -913,11 +919,13 @@ mod/mod_event.o: /usr/local/include/SDL2/SDL_render.h
 mod/mod_event.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_event.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_event.o: /usr/local/include/SDL2/SDL_timer.h
-mod/mod_event.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h grid.h
-mod/mod_event.o: kdtree.h scalable_grid.h team_id.h config.h rand_range.h
-mod/mod_event.o: bktree.h /usr/include/limits.h /usr/include/machine/limits.h
-mod/mod_event.o: /usr/include/i386/limits.h /usr/include/i386/_limits.h
-mod/mod_event.o: /usr/include/sys/syslimits.h vector3.h renderer.h
+mod/mod_event.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h
+mod/mod_event.o: view/node.h vector3.h util/rect.h util/color.h util/string.h
+mod/mod_event.o: vendor/vec.h grid.h kdtree.h scalable_grid.h team_id.h
+mod/mod_event.o: config.h rand_range.h bktree.h /usr/include/limits.h
+mod/mod_event.o: /usr/include/machine/limits.h /usr/include/i386/limits.h
+mod/mod_event.o: /usr/include/i386/_limits.h /usr/include/sys/syslimits.h
+mod/mod_event.o: renderer.h
 mod/mod_factory_spawn.o: mod/mod_factory_spawn.h game.h world.h unit.h
 mod/mod_factory_spawn.o: vector.h pi.h factory.h projectile.h map.h shape.h
 mod/mod_factory_spawn.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
@@ -1081,8 +1089,10 @@ mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_version.h opengl.h
-mod/mod_factory_spawn.o: game.h grid.h kdtree.h scalable_grid.h team_id.h
-mod/mod_factory_spawn.o: config.h rand_range.h bktree.h /usr/include/limits.h
+mod/mod_factory_spawn.o: game.h view/node.h vector3.h util/rect.h
+mod/mod_factory_spawn.o: util/color.h util/string.h vendor/vec.h grid.h
+mod/mod_factory_spawn.o: kdtree.h scalable_grid.h team_id.h config.h
+mod/mod_factory_spawn.o: rand_range.h bktree.h /usr/include/limits.h
 mod/mod_factory_spawn.o: /usr/include/machine/limits.h
 mod/mod_factory_spawn.o: /usr/include/i386/limits.h
 mod/mod_factory_spawn.o: /usr/include/i386/_limits.h
@@ -1237,11 +1247,12 @@ mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h
-mod/mod_kdtree.o: grid.h kdtree.h scalable_grid.h team_id.h config.h
-mod/mod_kdtree.o: rand_range.h bktree.h /usr/include/limits.h
-mod/mod_kdtree.o: /usr/include/machine/limits.h /usr/include/i386/limits.h
-mod/mod_kdtree.o: /usr/include/i386/_limits.h /usr/include/sys/syslimits.h
-mod/mod_kdtree.o: kdtree.h
+mod/mod_kdtree.o: view/node.h vector3.h util/rect.h util/color.h
+mod/mod_kdtree.o: util/string.h vendor/vec.h grid.h kdtree.h scalable_grid.h
+mod/mod_kdtree.o: team_id.h config.h rand_range.h bktree.h
+mod/mod_kdtree.o: /usr/include/limits.h /usr/include/machine/limits.h
+mod/mod_kdtree.o: /usr/include/i386/limits.h /usr/include/i386/_limits.h
+mod/mod_kdtree.o: /usr/include/sys/syslimits.h kdtree.h
 mod/mod_print_performance.o: mod/mod_print_performance.h game.h world.h
 mod/mod_print_performance.o: unit.h vector.h pi.h factory.h projectile.h
 mod/mod_print_performance.o: map.h shape.h renderer.h vector3.h
@@ -1410,9 +1421,10 @@ mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_version.h opengl.h
-mod/mod_print_performance.o: game.h grid.h kdtree.h scalable_grid.h team_id.h
-mod/mod_print_performance.o: config.h rand_range.h bktree.h
-mod/mod_print_performance.o: /usr/include/limits.h
+mod/mod_print_performance.o: game.h view/node.h vector3.h util/rect.h
+mod/mod_print_performance.o: util/color.h util/string.h vendor/vec.h grid.h
+mod/mod_print_performance.o: kdtree.h scalable_grid.h team_id.h config.h
+mod/mod_print_performance.o: rand_range.h bktree.h /usr/include/limits.h
 mod/mod_print_performance.o: /usr/include/machine/limits.h
 mod/mod_print_performance.o: /usr/include/i386/limits.h
 mod/mod_print_performance.o: /usr/include/i386/_limits.h
@@ -1589,7 +1601,9 @@ mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_version.h
-mod/mod_projectile_unit_impact.o: opengl.h game.h grid.h kdtree.h
+mod/mod_projectile_unit_impact.o: opengl.h game.h view/node.h vector3.h
+mod/mod_projectile_unit_impact.o: util/rect.h util/color.h util/string.h
+mod/mod_projectile_unit_impact.o: vendor/vec.h grid.h kdtree.h
 mod/mod_projectile_unit_impact.o: scalable_grid.h team_id.h config.h
 mod/mod_projectile_unit_impact.o: rand_range.h bktree.h /usr/include/limits.h
 mod/mod_projectile_unit_impact.o: /usr/include/machine/limits.h
@@ -1758,8 +1772,10 @@ mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h
-mod/mod_random_spawn.o: grid.h kdtree.h scalable_grid.h team_id.h config.h
-mod/mod_random_spawn.o: rand_range.h bktree.h /usr/include/limits.h
+mod/mod_random_spawn.o: view/node.h vector3.h util/rect.h util/color.h
+mod/mod_random_spawn.o: util/string.h vendor/vec.h grid.h kdtree.h
+mod/mod_random_spawn.o: scalable_grid.h team_id.h config.h rand_range.h
+mod/mod_random_spawn.o: bktree.h /usr/include/limits.h
 mod/mod_random_spawn.o: /usr/include/machine/limits.h
 mod/mod_random_spawn.o: /usr/include/i386/limits.h
 mod/mod_random_spawn.o: /usr/include/i386/_limits.h
@@ -1915,11 +1931,12 @@ mod/mod_render.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_render.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_render.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_render.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h
-mod/mod_render.o: grid.h kdtree.h scalable_grid.h team_id.h config.h
-mod/mod_render.o: rand_range.h bktree.h /usr/include/limits.h
-mod/mod_render.o: /usr/include/machine/limits.h /usr/include/i386/limits.h
-mod/mod_render.o: /usr/include/i386/_limits.h /usr/include/sys/syslimits.h
-mod/mod_render.o: renderer.h camera.h
+mod/mod_render.o: view/node.h vector3.h util/rect.h util/color.h
+mod/mod_render.o: util/string.h vendor/vec.h grid.h kdtree.h scalable_grid.h
+mod/mod_render.o: team_id.h config.h rand_range.h bktree.h
+mod/mod_render.o: /usr/include/limits.h /usr/include/machine/limits.h
+mod/mod_render.o: /usr/include/i386/limits.h /usr/include/i386/_limits.h
+mod/mod_render.o: /usr/include/sys/syslimits.h renderer.h camera.h
 mod/mod_scalable_grid.o: mod/mod_scalable_grid.h game.h world.h unit.h
 mod/mod_scalable_grid.o: vector.h pi.h factory.h projectile.h map.h shape.h
 mod/mod_scalable_grid.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
@@ -2083,8 +2100,10 @@ mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_version.h opengl.h
-mod/mod_scalable_grid.o: game.h grid.h kdtree.h scalable_grid.h team_id.h
-mod/mod_scalable_grid.o: config.h rand_range.h bktree.h /usr/include/limits.h
+mod/mod_scalable_grid.o: game.h view/node.h vector3.h util/rect.h
+mod/mod_scalable_grid.o: util/color.h util/string.h vendor/vec.h grid.h
+mod/mod_scalable_grid.o: kdtree.h scalable_grid.h team_id.h config.h
+mod/mod_scalable_grid.o: rand_range.h bktree.h /usr/include/limits.h
 mod/mod_scalable_grid.o: /usr/include/machine/limits.h
 mod/mod_scalable_grid.o: /usr/include/i386/limits.h
 mod/mod_scalable_grid.o: /usr/include/i386/_limits.h
@@ -2253,8 +2272,10 @@ mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_version.h opengl.h
-mod/mod_unit_behavior.o: game.h grid.h kdtree.h scalable_grid.h team_id.h
-mod/mod_unit_behavior.o: config.h rand_range.h bktree.h /usr/include/limits.h
+mod/mod_unit_behavior.o: game.h view/node.h vector3.h util/rect.h
+mod/mod_unit_behavior.o: util/color.h util/string.h vendor/vec.h grid.h
+mod/mod_unit_behavior.o: kdtree.h scalable_grid.h team_id.h config.h
+mod/mod_unit_behavior.o: rand_range.h bktree.h /usr/include/limits.h
 mod/mod_unit_behavior.o: /usr/include/machine/limits.h
 mod/mod_unit_behavior.o: /usr/include/i386/limits.h
 mod/mod_unit_behavior.o: /usr/include/i386/_limits.h
@@ -2431,9 +2452,11 @@ mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_version.h
-mod/mod_unit_projectile_spawn.o: opengl.h game.h grid.h kdtree.h
-mod/mod_unit_projectile_spawn.o: scalable_grid.h team_id.h config.h
-mod/mod_unit_projectile_spawn.o: rand_range.h bktree.h /usr/include/limits.h
+mod/mod_unit_projectile_spawn.o: opengl.h game.h view/node.h vector3.h
+mod/mod_unit_projectile_spawn.o: util/rect.h util/color.h util/string.h
+mod/mod_unit_projectile_spawn.o: vendor/vec.h grid.h kdtree.h scalable_grid.h
+mod/mod_unit_projectile_spawn.o: team_id.h config.h rand_range.h bktree.h
+mod/mod_unit_projectile_spawn.o: /usr/include/limits.h
 mod/mod_unit_projectile_spawn.o: /usr/include/machine/limits.h
 mod/mod_unit_projectile_spawn.o: /usr/include/i386/limits.h
 mod/mod_unit_projectile_spawn.o: /usr/include/i386/_limits.h
@@ -2599,8 +2622,10 @@ mod/mod_world_update.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_world_update.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_world_update.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_world_update.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h
-mod/mod_world_update.o: grid.h kdtree.h scalable_grid.h team_id.h config.h
-mod/mod_world_update.o: rand_range.h bktree.h /usr/include/limits.h
+mod/mod_world_update.o: view/node.h vector3.h util/rect.h util/color.h
+mod/mod_world_update.o: util/string.h vendor/vec.h grid.h kdtree.h
+mod/mod_world_update.o: scalable_grid.h team_id.h config.h rand_range.h
+mod/mod_world_update.o: bktree.h /usr/include/limits.h
 mod/mod_world_update.o: /usr/include/machine/limits.h
 mod/mod_world_update.o: /usr/include/i386/limits.h
 mod/mod_world_update.o: /usr/include/i386/_limits.h
@@ -2660,6 +2685,8 @@ unit/behavior_test.o: /usr/include/sys/_symbol_aliasing.h
 unit/behavior_test.o: /usr/include/sys/_posix_availability.h
 unit/behavior_test.o: unit/behavior_test.h unit/behavior.h vector.h unit.h
 unit/behavior_test.o: world.h pi.h
+util/rect.o: util/./rect.h
+util/string.o: util/./string.h
 vendor/vec.o: vendor/vec.h /usr/include/stdlib.h /usr/include/Availability.h
 vendor/vec.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
 vendor/vec.o: /usr/include/sys/_types.h /usr/include/sys/cdefs.h
@@ -2850,13 +2877,12 @@ view/node.o: /usr/local/include/SDL2/SDL_render.h
 view/node.o: /usr/local/include/SDL2/SDL_shape.h
 view/node.o: /usr/local/include/SDL2/SDL_system.h
 view/node.o: /usr/local/include/SDL2/SDL_timer.h
-view/node.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h grid.h
-view/node.o: kdtree.h scalable_grid.h team_id.h config.h rand_range.h
+view/node.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h
+view/node.o: view/node.h util/rect.h util/color.h util/string.h vendor/vec.h
+view/node.o: grid.h kdtree.h scalable_grid.h team_id.h config.h rand_range.h
 view/node.o: bktree.h /usr/include/limits.h /usr/include/machine/limits.h
 view/node.o: /usr/include/i386/limits.h /usr/include/i386/_limits.h
-view/node.o: /usr/include/sys/syslimits.h view/./../util/rect.h
-view/node.o: view/./../util/color.h view/./../util/string.h
-view/node.o: view/./../vendor/vec.h
+view/node.o: /usr/include/sys/syslimits.h
 benchmark.o: benchmark.h game.h /usr/include/assert.h
 benchmark.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
 benchmark.o: /usr/include/sys/_posix_availability.h
@@ -3441,7 +3467,8 @@ main.o: /usr/local/include/SDL2/SDL_render.h
 main.o: /usr/local/include/SDL2/SDL_shape.h
 main.o: /usr/local/include/SDL2/SDL_system.h
 main.o: /usr/local/include/SDL2/SDL_timer.h
-main.o: /usr/local/include/SDL2/SDL_version.h opengl.h grid.h kdtree.h
+main.o: /usr/local/include/SDL2/SDL_version.h opengl.h view/node.h vector3.h
+main.o: util/rect.h util/color.h util/string.h vendor/vec.h grid.h kdtree.h
 main.o: scalable_grid.h rand_range.h bktree.h /usr/include/limits.h
 main.o: /usr/include/machine/limits.h /usr/include/i386/limits.h
 main.o: /usr/include/i386/_limits.h /usr/include/sys/syslimits.h
@@ -3691,8 +3718,13 @@ renderer.o: /usr/local/include/SDL2/SDL_shape.h
 renderer.o: /usr/local/include/SDL2/SDL_system.h
 renderer.o: /usr/local/include/SDL2/SDL_timer.h
 renderer.o: /usr/local/include/SDL2/SDL_version.h /usr/include/assert.h
-renderer.o: renderer.h vector3.h opengl.h game.h world.h unit.h vector.h pi.h
-renderer.o: factory.h projectile.h team_id.h config.h text_renderer.h
+renderer.o: renderer.h vector3.h opengl.h game.h view/node.h vector3.h game.h
+renderer.o: world.h unit.h vector.h pi.h factory.h projectile.h map.h shape.h
+renderer.o: grid.h kdtree.h scalable_grid.h team_id.h config.h rand_range.h
+renderer.o: bktree.h /usr/include/limits.h /usr/include/machine/limits.h
+renderer.o: /usr/include/i386/limits.h /usr/include/i386/_limits.h
+renderer.o: /usr/include/sys/syslimits.h util/rect.h util/color.h
+renderer.o: util/string.h vendor/vec.h text_renderer.h
 renderer_test.o: renderer_test.h renderer.h vector3.h
 renderer_test.o: /usr/local/include/SDL2/SDL.h
 renderer_test.o: /usr/local/include/SDL2/SDL_main.h
@@ -3840,7 +3872,13 @@ renderer_test.o: /usr/local/include/SDL2/SDL_shape.h
 renderer_test.o: /usr/local/include/SDL2/SDL_system.h
 renderer_test.o: /usr/local/include/SDL2/SDL_timer.h
 renderer_test.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h
-renderer_test.o: /usr/include/assert.h vector.h
+renderer_test.o: view/node.h vector3.h game.h world.h unit.h vector.h pi.h
+renderer_test.o: factory.h projectile.h map.h shape.h grid.h kdtree.h
+renderer_test.o: scalable_grid.h team_id.h config.h rand_range.h bktree.h
+renderer_test.o: /usr/include/limits.h /usr/include/machine/limits.h
+renderer_test.o: /usr/include/i386/limits.h /usr/include/i386/_limits.h
+renderer_test.o: /usr/include/sys/syslimits.h util/rect.h util/color.h
+renderer_test.o: util/string.h vendor/vec.h /usr/include/assert.h
 scalable_grid.o: scalable_grid.h grid.h vector.h /usr/include/assert.h
 scalable_grid.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
 scalable_grid.o: /usr/include/sys/_posix_availability.h /usr/include/stdlib.h

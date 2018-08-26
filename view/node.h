@@ -1,6 +1,8 @@
 #ifndef VIEW_NODE_H
 #define VIEW_NODE_H
 
+typedef struct Node Node;
+
 #include "../vector3.h"
 #include "../game.h"
 #include "../util/rect.h"
@@ -13,8 +15,6 @@ typedef struct {
   Color border_color;
   float border_width;
 } NodeStyle;
-
-typedef struct Node Node;
 
 struct Node {
   vec_t(Node) children;

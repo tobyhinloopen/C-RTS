@@ -65,14 +65,14 @@ void unit_update(Unit * unit, float delta) {
   unit->next_fire_interval -= delta;
 }
 
-int unit_is_firing(Unit * unit) {
+int unit_is_firing(const Unit * unit) {
   return isfinite(unit->next_fire_interval);
 }
 
-int unit_is_dead(Unit * unit) {
+int unit_is_dead(const Unit * unit) {
   return unit->health <= 0;
 }
 
-float unit_health_percentage(Unit * unit) {
+float unit_health_percentage(const Unit * unit) {
   return unit->health <= 0 ? 0 : unit->health / UNIT_INITIAL_HEALTH;
 }

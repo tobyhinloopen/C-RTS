@@ -55,10 +55,10 @@ int factory_try_build_unit(Factory * factory, Unit * unit) {
   }
 }
 
-float factory_health_percentage(Factory * factory) {
+float factory_health_percentage(const Factory * factory) {
   return factory->health <= 0 ? 0 : factory->health / FACTORY_INITIAL_HEALTH;
 }
 
-float factory_build_percentage(Factory * factory) {
+float factory_build_percentage(const Factory * factory) {
   return factory->next_build_interval <= 0 ? 0 : 1 - factory->next_build_interval / FACTORY_BUILD_INTERVAL;
 }

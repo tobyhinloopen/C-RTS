@@ -51,12 +51,12 @@ void renderer_initialize(Renderer * renderer) {
   renderer->camera = (Vector3) { INITIAL_CAMERA_X, INITIAL_CAMERA_Y, INITIAL_CAMERA_Z };
 }
 
-void renderer_clear_color(Renderer * renderer, float r, float g, float b) {
+void renderer_clear_color(const Renderer * renderer, float r, float g, float b) {
   glClearColor(r, g, b, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
-static float renderer_scale(Renderer * renderer) {
+static float renderer_scale(const Renderer * renderer) {
   return 1.0f / (1.0f + renderer->camera.z);
 }
 
@@ -69,7 +69,7 @@ static void set_gl_team_color(int team_id) {
   set_gl_team_color_alpha(team_id, 255);
 }
 
-static void renderer_render_unit(Renderer * renderer, Unit * unit) {
+static void renderer_render_unit(const Renderer * renderer, const Unit * unit) {
   glPushMatrix();
   glTranslatef(unit->position.x, unit->position.y, 0.0f);
 
@@ -107,7 +107,7 @@ static void renderer_render_unit(Renderer * renderer, Unit * unit) {
   glPopMatrix();
 }
 
-static void renderer_render_projectile(Renderer * renderer, Projectile * projectile) {
+static void renderer_render_projectile(const Renderer * renderer, const Projectile * projectile) {
   set_gl_team_color_alpha(projectile->team_id,
     (unsigned char)(projectile->decay_remaining / PROJECTILE_DECAY * 255.0f));
 
@@ -136,7 +136,7 @@ static void renderer_render_projectile(Renderer * renderer, Projectile * project
   glPopMatrix();
 }
 
-static void renderer_render_factory(Renderer * renderer, Factory * factory) {
+static void renderer_render_factory(const Renderer * renderer, const Factory * factory) {
   glPushMatrix();
   glTranslatef(factory->position.x, factory->position.y, 0.0f);
 
@@ -192,7 +192,7 @@ void renderer_notify_viewport_resized(Renderer * renderer) {
 }
 
 
-Vector renderer_screen_to_world(Renderer * renderer, Vector point) {
+Vector renderer_screen_to_world(const Renderer * renderer, Vector point) {
   const float scale = renderer_scale(renderer);
   return (Vector) {
     (point.x - renderer->viewport_width/2) / scale + renderer->camera.x,
@@ -200,7 +200,7 @@ Vector renderer_screen_to_world(Renderer * renderer, Vector point) {
   };
 }
 
-Vector renderer_world_to_screen(Renderer * renderer, Vector position) {
+Vector renderer_world_to_screen(const Renderer * renderer, Vector position) {
   const float scale = renderer_scale(renderer);
   return (Vector) {
     (position.x - renderer->camera.x) * scale + renderer->viewport_width/2,
@@ -208,7 +208,7 @@ Vector renderer_world_to_screen(Renderer * renderer, Vector position) {
   };
 }
 
-static int is_vector_in_viewport(Renderer * renderer, Vector vector, int padding) {
+static int is_vector_in_viewport(const Renderer * renderer, Vector vector, int padding) {
   Vector point = renderer_world_to_screen(renderer, vector);
   return point.x + padding >= 0.0f && point.y + padding >= 0.0f
     && point.x - padding <= renderer->viewport_width
@@ -216,7 +216,7 @@ static int is_vector_in_viewport(Renderer * renderer, Vector vector, int padding
 }
 
 static void render_entity(Entity * entity, void * renderer_ptr) {
-  Renderer * renderer = (Renderer *)renderer_ptr;
+  const Renderer * renderer = (const Renderer *)renderer_ptr;
   switch(entity->type) {
     case UNIT:
       if(is_vector_in_viewport(renderer, entity->unit.position, HALF_UNIT_TEXTURE_SIZE))
@@ -234,16 +234,12 @@ static void render_entity(Entity * entity, void * renderer_ptr) {
   }
 }
 
-void renderer_begin(Renderer * renderer) {
+void renderer_begin(const Renderer * renderer) {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  const float scale = renderer_scale(renderer);
-  glScalef(scale, scale, 1.0f);
-  glTranslatef(-renderer->camera.x, -renderer->camera.y, 0.0f);
-  renderer_clear_color(renderer, 0.9f, 0.9f, 0.9f);
 }
 
-void renderer_render_map(Renderer * renderer, Map * map) {
+void renderer_render_map(const Renderer * renderer, const  Map * map) {
   glPushMatrix();
   glTranslatef(0.0f, 0.0f, -1.0f);
 
@@ -306,7 +302,7 @@ void renderer_render_world(Renderer * renderer, World * world) {
   glEnd();
 }
 
-static void ui_align(Renderer * renderer, float x, float y, float scale) {
+static void ui_align(const Renderer * renderer, float x, float y, float scale) {
   glLoadIdentity();
   glTranslatef(
     (renderer->viewport_width - UI_PADDING) * x / 2,
@@ -316,7 +312,7 @@ static void ui_align(Renderer * renderer, float x, float y, float scale) {
   glScalef(scale, scale, scale);
 }
 
-static clock_t duration_avg(clock_t * durations, int duration_count) {
+static clock_t duration_avg(const clock_t * durations, int duration_count) {
   clock_t sum = 0;
   for (int i = 0; i < duration_count; i++)
     sum += durations[i];
@@ -336,17 +332,23 @@ static int compare_module_performances(const void * a, const void * b) {
   return 0;
 }
 
-static void render_ui_debug(Renderer * renderer, Game * game) {
+static void render_ui_debug(const Renderer * renderer, const Game * game) {
   ui_align(renderer, -1, -1, 0.8);
   char debug_str[2048];
   int length = snprintf(debug_str, sizeof(debug_str),
     "%.0f, %.0f %.0f%%; CMDPOS: %.0f, %.0f\n%22s:%7i\n%22s:%7i\n%22s:%7i\n%22s:%7i 0x%08x\n%22s:%7lu  fps%6.1f\n",
-    renderer->camera.x, renderer->camera.y, renderer_scale(renderer) * 100, game->command_position.x, game->command_position.y,
+    renderer->camera.x,
+    renderer->camera.y,
+    renderer_scale(renderer) * 100,
+    game->command_position.x,
+    game->command_position.y,
     "factories", game->world.factories.entity_count,
     "units", game->world.units.entity_count,
     "projectiles", game->world.projectiles.entity_count,
     "time", game->current_time - game->start_time, game->current_time - game->start_time,
-    "update realtime ms", (game->cumulative_update_duration * 1000 / CLOCKS_PER_SEC), game->update_count * CLOCKS_PER_SEC * 1.0f / game->cumulative_update_duration
+    "update realtime ms",
+    (game->cumulative_update_duration * 1000 / CLOCKS_PER_SEC),
+    game->update_count * CLOCKS_PER_SEC * 1.0f / game->cumulative_update_duration
   );
 
   const int modcount = game->modules_count;
@@ -362,19 +364,107 @@ static void render_ui_debug(Renderer * renderer, Game * game) {
 
   for (int i = 0; i < modcount; i++) {
     ModulePerformance * perf = &mod_performances[i];
-    length += snprintf(debug_str + length, sizeof(debug_str) - length, "%22s:%7luC log2%5.1f\n", perf->mod->name + 4, perf->duration, perf->duration ? log2f(perf->duration) : 0);
+    length += snprintf(
+      debug_str + length,
+      sizeof(debug_str) - length,
+      "%22s:%7luC log2%5.1f\n",
+      perf->mod->name + 4,
+      perf->duration, perf->duration ? log2f(perf->duration) : 0);
   }
 
   text_renderer_render_string(debug_str, length);
 }
 
-void renderer_render_ui(Renderer * renderer, Game * game) {
+void renderer_render_ui(const Renderer * renderer, const Game * game) {
   glMatrixMode(GL_MODELVIEW);
   glColor3f(0.4f, 0.4f, 0.4f);
   render_ui_debug(renderer, game);
 }
 
-void renderer_present(Renderer * renderer) {
+static void set_color(Color color) {
+  assert(sizeof(GLubyte) * 4 == sizeof(uint32_t));
+  glColor4ubv((GLubyte*)&color.value);
+}
+
+static void render_view_node_frame(const Renderer * renderer, const Node * node) {
+  const Recti frame = node->frame;
+  const NodeStyle style = node->style;
+  const int l = frame.x;
+  const int t = frame.y;
+  const int r = frame.x + frame.w;
+  const int b = frame.y + frame.h;
+
+  if (style.background_color.value) {
+    set_color(style.background_color);
+
+    glBegin(GL_QUADS);
+    glVertex2i(l, t);
+    glVertex2i(r, t);
+    glVertex2i(r, b);
+    glVertex2i(l, b);
+    glEnd();
+  }
+
+  if (style.border_width && style.border_color.value) {
+    set_color(style.border_color);
+    glLineWidth(style.border_width);
+
+    glBegin(GL_LINE_LOOP);
+    glVertex2i(l, t);
+    glVertex2i(r, t);
+    glVertex2i(r, b);
+    glVertex2i(l, b);
+    glEnd();
+  }
+}
+
+static void render_view_node_children(const Renderer * renderer, const Node * node) {
+  Node * child;
+  int i;
+  vec_foreach_ptr(&node->children, child, i) {
+    renderer_render_view_node(renderer, child);
+  }
+}
+
+static void renderer_begin_world(const Renderer * renderer) {
+  glLoadIdentity();
+  const float scale = renderer_scale(renderer);
+  glScalef(scale, scale, 1.0f);
+  glTranslatef(-renderer->camera.x, -renderer->camera.y, 0.0f);
+  renderer_clear_color(renderer, 0.9f, 0.9f, 0.9f);
+}
+
+static void render_view_node_viewport(const Renderer * renderer, const Node * node) {
+  if (node->viewport_game) {
+    Renderer renderer_copy = *renderer;
+    renderer_copy.camera = node->viewport_camera;
+    Game * game = node->viewport_game;
+
+    renderer_begin_world(&renderer_copy);
+    renderer_render_map(&renderer_copy, &game->map);
+    renderer_render_world(&renderer_copy, &game->world);
+    renderer_render_ui(&renderer_copy, game);
+  }
+}
+
+static void render_view_node_text(const Renderer * renderer, const Node * node) {
+  text_renderer_render_string(node->text_content.data, node->text_content.length);
+}
+
+void renderer_render_view_node(const Renderer * renderer, const Node * node) {
+  glPushMatrix();
+  ui_align(renderer, -1, -1, 1);
+
+  render_view_node_frame(renderer, node);
+  render_view_node_viewport(renderer, node);
+  ui_align(renderer, -1, -1, 1);
+  render_view_node_text(renderer, node);
+  render_view_node_children(renderer, node);
+
+  glPopMatrix();
+}
+
+void renderer_present(const Renderer * renderer) {
   SDL_GL_SwapWindow(renderer->window);
 }
 

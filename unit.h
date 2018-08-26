@@ -37,8 +37,8 @@ struct Unit {
 
 void unit_initialize(Unit *);
 void unit_update(Unit *, float delta);
-int unit_is_firing(Unit *);
-int unit_is_dead(Unit *);
-float unit_health_percentage(Unit *);
+int unit_is_firing(const Unit *);
+int unit_is_dead(const Unit *);
+float unit_health_percentage(const Unit *);
 
 #endif
