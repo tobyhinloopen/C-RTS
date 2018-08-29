@@ -6,6 +6,7 @@ typedef struct {
   int length;
 } String;
 
+void string_assign_empty(String * string);
 void string_assign_constant_cstring(String * string, const char * cstring);
 
 #endif

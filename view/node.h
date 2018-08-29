@@ -14,6 +14,7 @@ typedef struct {
   Color background_color;
   Color border_color;
   float border_width;
+  float text_scale;
 } NodeStyle;
 
 struct Node {

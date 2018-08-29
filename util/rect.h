@@ -9,4 +9,6 @@ typedef struct {
   float x, y, w, h;
 } Rectf;
 
+void recti_set(Recti *, int, int, int, int);
+
 #endif

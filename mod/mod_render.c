@@ -16,6 +16,7 @@ static void mod_render_initialize(Game * game) {
   resize_frame(game->node, &game->renderer);
   Node label_node;
   node_initialize(&label_node);
+  label_node.style.text_scale = 0.9f;
   string_assign_constant_cstring(&label_node.text_content, "Hello");
 
   vec_push(&game->node->children, label_node);
@@ -34,9 +35,6 @@ static void mod_render_update(Game * game, unsigned int delta_i) {
   game->node->viewport_camera = game->renderer.camera;
   renderer_begin(&game->renderer);
   renderer_render_view_node(&game->renderer, game->node);
-  // renderer_render_map(&game->renderer, &game->map);
-  // renderer_render_world(&game->renderer, &game->world);
-  // renderer_render_ui(&game->renderer, game);
   renderer_present(&game->renderer);
 }
 

@@ -457,8 +457,10 @@ void renderer_render_view_node(const Renderer * renderer, const Node * node) {
 
   render_view_node_frame(renderer, node);
   render_view_node_viewport(renderer, node);
-  ui_align(renderer, -1, -1, 1);
+
+  ui_align(renderer, -1, -1, node->style.text_scale);
   render_view_node_text(renderer, node);
+
   render_view_node_children(renderer, node);
 
   glPopMatrix();
