@@ -72,6 +72,164 @@ depend: $(SRCS)
 	makedepend $(INCLUDES) $^
 # DO NOT DELETE
 
+cmod/cmod_game.o: cmod/cmod_game.h client.h /usr/include/time.h
+cmod/cmod_game.o: /usr/include/_types.h /usr/include/sys/_types.h
+cmod/cmod_game.o: /usr/include/sys/cdefs.h
+cmod/cmod_game.o: /usr/include/sys/_symbol_aliasing.h
+cmod/cmod_game.o: /usr/include/sys/_posix_availability.h
+cmod/cmod_game.o: /usr/include/machine/_types.h /usr/include/i386/_types.h
+cmod/cmod_game.o: /usr/include/sys/_pthread/_pthread_types.h
+cmod/cmod_game.o: /usr/include/Availability.h
+cmod/cmod_game.o: /usr/include/AvailabilityInternal.h
+cmod/cmod_game.o: /usr/include/sys/_types/_clock_t.h
+cmod/cmod_game.o: /usr/include/machine/types.h /usr/include/i386/types.h
+cmod/cmod_game.o: /usr/include/sys/_types/_int8_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_int16_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_int32_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_int64_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_u_int8_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_u_int16_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_u_int32_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_u_int64_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_intptr_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_uintptr_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_null.h
+cmod/cmod_game.o: /usr/include/sys/_types/_size_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_time_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_timespec.h vendor/vec.h
+cmod/cmod_game.o: /usr/include/stdlib.h /usr/include/sys/wait.h
+cmod/cmod_game.o: /usr/include/sys/_types/_pid_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_id_t.h /usr/include/sys/signal.h
+cmod/cmod_game.o: /usr/include/sys/appleapiopts.h
+cmod/cmod_game.o: /usr/include/machine/signal.h /usr/include/i386/signal.h
+cmod/cmod_game.o: /usr/include/machine/_mcontext.h
+cmod/cmod_game.o: /usr/include/i386/_mcontext.h
+cmod/cmod_game.o: /usr/include/mach/machine/_structs.h
+cmod/cmod_game.o: /usr/include/mach/i386/_structs.h
+cmod/cmod_game.o: /usr/include/sys/_pthread/_pthread_attr_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_sigaltstack.h
+cmod/cmod_game.o: /usr/include/sys/_types/_ucontext.h
+cmod/cmod_game.o: /usr/include/sys/_types/_sigset_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_uid_t.h
+cmod/cmod_game.o: /usr/include/sys/resource.h /usr/include/stdint.h
+cmod/cmod_game.o: /usr/include/_types/_uint8_t.h
+cmod/cmod_game.o: /usr/include/_types/_uint16_t.h
+cmod/cmod_game.o: /usr/include/_types/_uint32_t.h
+cmod/cmod_game.o: /usr/include/_types/_uint64_t.h
+cmod/cmod_game.o: /usr/include/_types/_intmax_t.h
+cmod/cmod_game.o: /usr/include/_types/_uintmax_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_timeval.h
+cmod/cmod_game.o: /usr/include/machine/endian.h /usr/include/i386/endian.h
+cmod/cmod_game.o: /usr/include/sys/_endian.h
+cmod/cmod_game.o: /usr/include/libkern/_OSByteOrder.h
+cmod/cmod_game.o: /usr/include/libkern/i386/_OSByteOrder.h
+cmod/cmod_game.o: /usr/include/alloca.h /usr/include/sys/_types/_ct_rune_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_rune_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_wchar_t.h
+cmod/cmod_game.o: /usr/include/malloc/_malloc.h
+cmod/cmod_game.o: /usr/include/sys/_types/_dev_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_mode_t.h /usr/include/string.h
+cmod/cmod_game.o: /usr/include/sys/_types/_rsize_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_errno_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_ssize_t.h /usr/include/strings.h
+cmod/cmod_game.o: /usr/include/secure/_strings.h
+cmod/cmod_game.o: /usr/include/secure/_common.h /usr/include/secure/_string.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_main.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_stdinc.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_config.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_platform.h
+cmod/cmod_game.o: /usr/local/include/SDL2/begin_code.h
+cmod/cmod_game.o: /usr/local/include/SDL2/close_code.h
+cmod/cmod_game.o: /usr/include/sys/types.h /usr/include/sys/_types/_u_char.h
+cmod/cmod_game.o: /usr/include/sys/_types/_u_short.h
+cmod/cmod_game.o: /usr/include/sys/_types/_u_int.h
+cmod/cmod_game.o: /usr/include/sys/_types/_caddr_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_blkcnt_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_blksize_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_gid_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_in_addr_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_in_port_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_ino_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_ino64_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_key_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_nlink_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_off_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_useconds_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_suseconds_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_fd_def.h
+cmod/cmod_game.o: /usr/include/sys/_types/_fd_setsize.h
+cmod/cmod_game.o: /usr/include/sys/_types/_fd_set.h
+cmod/cmod_game.o: /usr/include/sys/_types/_fd_clr.h
+cmod/cmod_game.o: /usr/include/sys/_types/_fd_zero.h
+cmod/cmod_game.o: /usr/include/sys/_types/_fd_isset.h
+cmod/cmod_game.o: /usr/include/sys/_types/_fd_copy.h
+cmod/cmod_game.o: /usr/include/sys/_pthread/_pthread_cond_t.h
+cmod/cmod_game.o: /usr/include/sys/_pthread/_pthread_condattr_t.h
+cmod/cmod_game.o: /usr/include/sys/_pthread/_pthread_mutex_t.h
+cmod/cmod_game.o: /usr/include/sys/_pthread/_pthread_mutexattr_t.h
+cmod/cmod_game.o: /usr/include/sys/_pthread/_pthread_once_t.h
+cmod/cmod_game.o: /usr/include/sys/_pthread/_pthread_rwlock_t.h
+cmod/cmod_game.o: /usr/include/sys/_pthread/_pthread_rwlockattr_t.h
+cmod/cmod_game.o: /usr/include/sys/_pthread/_pthread_t.h
+cmod/cmod_game.o: /usr/include/sys/_pthread/_pthread_key_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_fsblkcnt_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_fsfilcnt_t.h /usr/include/stdio.h
+cmod/cmod_game.o: /usr/include/_stdio.h /usr/include/sys/_types/_va_list.h
+cmod/cmod_game.o: /usr/include/sys/stdio.h /usr/include/secure/_stdio.h
+cmod/cmod_game.o: /usr/include/stddef.h /usr/include/sys/_types/_offsetof.h
+cmod/cmod_game.o: /usr/include/sys/_types/_ptrdiff_t.h
+cmod/cmod_game.o: /usr/include/sys/_types/_wint_t.h /usr/include/wchar.h
+cmod/cmod_game.o: /usr/include/sys/_types/_mbstate_t.h /usr/include/_wctype.h
+cmod/cmod_game.o: /usr/include/__wctype.h /usr/include/_types/_wctype_t.h
+cmod/cmod_game.o: /usr/include/ctype.h /usr/include/_ctype.h
+cmod/cmod_game.o: /usr/include/runetype.h /usr/include/inttypes.h
+cmod/cmod_game.o: /usr/include/math.h /usr/include/float.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_assert.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_atomic.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_audio.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_error.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_endian.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_mutex.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_thread.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_rwops.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_clipboard.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_cpuinfo.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_events.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_video.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_pixels.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_rect.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_surface.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_blendmode.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_keyboard.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_keycode.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_scancode.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_mouse.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_joystick.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_gamecontroller.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_quit.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_gesture.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_touch.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_filesystem.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_haptic.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_hints.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_loadso.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_log.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_messagebox.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_power.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_render.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_shape.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_system.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_timer.h
+cmod/cmod_game.o: /usr/local/include/SDL2/SDL_version.h game.h world.h unit.h
+cmod/cmod_game.o: vector.h pi.h factory.h projectile.h map.h shape.h
+cmod/cmod_game.o: renderer.h vector3.h opengl.h game.h view/node.h vector3.h
+cmod/cmod_game.o: util/rect.h util/color.h util/string.h vendor/vec.h grid.h
+cmod/cmod_game.o: kdtree.h scalable_grid.h team_id.h config.h rand_range.h
+cmod/cmod_game.o: bktree.h /usr/include/limits.h
+cmod/cmod_game.o: /usr/include/machine/limits.h /usr/include/i386/limits.h
+cmod/cmod_game.o: /usr/include/i386/_limits.h /usr/include/sys/syslimits.h
+cmod/cmod_game.o: /usr/include/assert.h
 mod/mod_camera_update.o: mod/mod_camera_update.h game.h world.h unit.h
 mod/mod_camera_update.o: vector.h pi.h factory.h projectile.h map.h shape.h
 mod/mod_camera_update.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
@@ -183,7 +341,7 @@ mod/mod_camera_update.o: /usr/include/alloca.h
 mod/mod_camera_update.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_camera_update.o: /usr/include/sys/_types/_rune_t.h
 mod/mod_camera_update.o: /usr/include/sys/_types/_wchar_t.h
-mod/mod_camera_update.o: /usr/include/stddef.h
+mod/mod_camera_update.o: /usr/include/malloc/_malloc.h /usr/include/stddef.h
 mod/mod_camera_update.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_camera_update.o: /usr/include/sys/_types/_ptrdiff_t.h
 mod/mod_camera_update.o: /usr/include/sys/_types/_wint_t.h
@@ -358,6 +516,7 @@ mod/mod_closest_enemy_unit.o: /usr/include/alloca.h
 mod/mod_closest_enemy_unit.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_closest_enemy_unit.o: /usr/include/sys/_types/_rune_t.h
 mod/mod_closest_enemy_unit.o: /usr/include/sys/_types/_wchar_t.h
+mod/mod_closest_enemy_unit.o: /usr/include/malloc/_malloc.h
 mod/mod_closest_enemy_unit.o: /usr/include/stddef.h
 mod/mod_closest_enemy_unit.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_closest_enemy_unit.o: /usr/include/sys/_types/_ptrdiff_t.h
@@ -532,6 +691,7 @@ mod/mod_closest_factory.o: /usr/include/alloca.h
 mod/mod_closest_factory.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_closest_factory.o: /usr/include/sys/_types/_rune_t.h
 mod/mod_closest_factory.o: /usr/include/sys/_types/_wchar_t.h
+mod/mod_closest_factory.o: /usr/include/malloc/_malloc.h
 mod/mod_closest_factory.o: /usr/include/stddef.h
 mod/mod_closest_factory.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_closest_factory.o: /usr/include/sys/_types/_ptrdiff_t.h
@@ -708,6 +868,7 @@ mod/mod_closest_friendly_unit.o: /usr/include/alloca.h
 mod/mod_closest_friendly_unit.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_closest_friendly_unit.o: /usr/include/sys/_types/_rune_t.h
 mod/mod_closest_friendly_unit.o: /usr/include/sys/_types/_wchar_t.h
+mod/mod_closest_friendly_unit.o: /usr/include/malloc/_malloc.h
 mod/mod_closest_friendly_unit.o: /usr/include/stddef.h
 mod/mod_closest_friendly_unit.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_closest_friendly_unit.o: /usr/include/sys/_types/_ptrdiff_t.h
@@ -871,7 +1032,8 @@ mod/mod_event.o: /usr/include/_types/_uintmax_t.h
 mod/mod_event.o: /usr/include/sys/_types/_timeval.h /usr/include/alloca.h
 mod/mod_event.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_event.o: /usr/include/sys/_types/_rune_t.h
-mod/mod_event.o: /usr/include/sys/_types/_wchar_t.h /usr/include/stddef.h
+mod/mod_event.o: /usr/include/sys/_types/_wchar_t.h
+mod/mod_event.o: /usr/include/malloc/_malloc.h /usr/include/stddef.h
 mod/mod_event.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_event.o: /usr/include/sys/_types/_ptrdiff_t.h
 mod/mod_event.o: /usr/include/sys/_types/_wint_t.h /usr/include/string.h
@@ -1037,7 +1199,7 @@ mod/mod_factory_spawn.o: /usr/include/alloca.h
 mod/mod_factory_spawn.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_factory_spawn.o: /usr/include/sys/_types/_rune_t.h
 mod/mod_factory_spawn.o: /usr/include/sys/_types/_wchar_t.h
-mod/mod_factory_spawn.o: /usr/include/stddef.h
+mod/mod_factory_spawn.o: /usr/include/malloc/_malloc.h /usr/include/stddef.h
 mod/mod_factory_spawn.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_factory_spawn.o: /usr/include/sys/_types/_ptrdiff_t.h
 mod/mod_factory_spawn.o: /usr/include/sys/_types/_wint_t.h
@@ -1198,7 +1360,8 @@ mod/mod_kdtree.o: /usr/include/_types/_uintmax_t.h
 mod/mod_kdtree.o: /usr/include/sys/_types/_timeval.h /usr/include/alloca.h
 mod/mod_kdtree.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_kdtree.o: /usr/include/sys/_types/_rune_t.h
-mod/mod_kdtree.o: /usr/include/sys/_types/_wchar_t.h /usr/include/stddef.h
+mod/mod_kdtree.o: /usr/include/sys/_types/_wchar_t.h
+mod/mod_kdtree.o: /usr/include/malloc/_malloc.h /usr/include/stddef.h
 mod/mod_kdtree.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_kdtree.o: /usr/include/sys/_types/_ptrdiff_t.h
 mod/mod_kdtree.o: /usr/include/sys/_types/_wint_t.h /usr/include/string.h
@@ -1368,6 +1531,7 @@ mod/mod_print_performance.o: /usr/include/alloca.h
 mod/mod_print_performance.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_print_performance.o: /usr/include/sys/_types/_rune_t.h
 mod/mod_print_performance.o: /usr/include/sys/_types/_wchar_t.h
+mod/mod_print_performance.o: /usr/include/malloc/_malloc.h
 mod/mod_print_performance.o: /usr/include/stddef.h
 mod/mod_print_performance.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_print_performance.o: /usr/include/sys/_types/_ptrdiff_t.h
@@ -1545,6 +1709,7 @@ mod/mod_projectile_unit_impact.o: /usr/include/alloca.h
 mod/mod_projectile_unit_impact.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_projectile_unit_impact.o: /usr/include/sys/_types/_rune_t.h
 mod/mod_projectile_unit_impact.o: /usr/include/sys/_types/_wchar_t.h
+mod/mod_projectile_unit_impact.o: /usr/include/malloc/_malloc.h
 mod/mod_projectile_unit_impact.o: /usr/include/stddef.h
 mod/mod_projectile_unit_impact.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_projectile_unit_impact.o: /usr/include/sys/_types/_ptrdiff_t.h
@@ -1720,7 +1885,7 @@ mod/mod_random_spawn.o: /usr/include/alloca.h
 mod/mod_random_spawn.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_random_spawn.o: /usr/include/sys/_types/_rune_t.h
 mod/mod_random_spawn.o: /usr/include/sys/_types/_wchar_t.h
-mod/mod_random_spawn.o: /usr/include/stddef.h
+mod/mod_random_spawn.o: /usr/include/malloc/_malloc.h /usr/include/stddef.h
 mod/mod_random_spawn.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_random_spawn.o: /usr/include/sys/_types/_ptrdiff_t.h
 mod/mod_random_spawn.o: /usr/include/sys/_types/_wint_t.h
@@ -1882,7 +2047,8 @@ mod/mod_render.o: /usr/include/_types/_uintmax_t.h
 mod/mod_render.o: /usr/include/sys/_types/_timeval.h /usr/include/alloca.h
 mod/mod_render.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_render.o: /usr/include/sys/_types/_rune_t.h
-mod/mod_render.o: /usr/include/sys/_types/_wchar_t.h /usr/include/stddef.h
+mod/mod_render.o: /usr/include/sys/_types/_wchar_t.h
+mod/mod_render.o: /usr/include/malloc/_malloc.h /usr/include/stddef.h
 mod/mod_render.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_render.o: /usr/include/sys/_types/_ptrdiff_t.h
 mod/mod_render.o: /usr/include/sys/_types/_wint_t.h /usr/include/string.h
@@ -1936,7 +2102,8 @@ mod/mod_render.o: util/string.h vendor/vec.h grid.h kdtree.h scalable_grid.h
 mod/mod_render.o: team_id.h config.h rand_range.h bktree.h
 mod/mod_render.o: /usr/include/limits.h /usr/include/machine/limits.h
 mod/mod_render.o: /usr/include/i386/limits.h /usr/include/i386/_limits.h
-mod/mod_render.o: /usr/include/sys/syslimits.h renderer.h camera.h
+mod/mod_render.o: /usr/include/sys/syslimits.h view/node.h renderer.h
+mod/mod_render.o: camera.h
 mod/mod_scalable_grid.o: mod/mod_scalable_grid.h game.h world.h unit.h
 mod/mod_scalable_grid.o: vector.h pi.h factory.h projectile.h map.h shape.h
 mod/mod_scalable_grid.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
@@ -2048,7 +2215,7 @@ mod/mod_scalable_grid.o: /usr/include/alloca.h
 mod/mod_scalable_grid.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_scalable_grid.o: /usr/include/sys/_types/_rune_t.h
 mod/mod_scalable_grid.o: /usr/include/sys/_types/_wchar_t.h
-mod/mod_scalable_grid.o: /usr/include/stddef.h
+mod/mod_scalable_grid.o: /usr/include/malloc/_malloc.h /usr/include/stddef.h
 mod/mod_scalable_grid.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_scalable_grid.o: /usr/include/sys/_types/_ptrdiff_t.h
 mod/mod_scalable_grid.o: /usr/include/sys/_types/_wint_t.h
@@ -2220,7 +2387,7 @@ mod/mod_unit_behavior.o: /usr/include/alloca.h
 mod/mod_unit_behavior.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_unit_behavior.o: /usr/include/sys/_types/_rune_t.h
 mod/mod_unit_behavior.o: /usr/include/sys/_types/_wchar_t.h
-mod/mod_unit_behavior.o: /usr/include/stddef.h
+mod/mod_unit_behavior.o: /usr/include/malloc/_malloc.h /usr/include/stddef.h
 mod/mod_unit_behavior.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_unit_behavior.o: /usr/include/sys/_types/_ptrdiff_t.h
 mod/mod_unit_behavior.o: /usr/include/sys/_types/_wint_t.h
@@ -2397,6 +2564,7 @@ mod/mod_unit_projectile_spawn.o: /usr/include/alloca.h
 mod/mod_unit_projectile_spawn.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_unit_projectile_spawn.o: /usr/include/sys/_types/_rune_t.h
 mod/mod_unit_projectile_spawn.o: /usr/include/sys/_types/_wchar_t.h
+mod/mod_unit_projectile_spawn.o: /usr/include/malloc/_malloc.h
 mod/mod_unit_projectile_spawn.o: /usr/include/stddef.h
 mod/mod_unit_projectile_spawn.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_unit_projectile_spawn.o: /usr/include/sys/_types/_ptrdiff_t.h
@@ -2570,7 +2738,7 @@ mod/mod_world_update.o: /usr/include/alloca.h
 mod/mod_world_update.o: /usr/include/sys/_types/_ct_rune_t.h
 mod/mod_world_update.o: /usr/include/sys/_types/_rune_t.h
 mod/mod_world_update.o: /usr/include/sys/_types/_wchar_t.h
-mod/mod_world_update.o: /usr/include/stddef.h
+mod/mod_world_update.o: /usr/include/malloc/_malloc.h /usr/include/stddef.h
 mod/mod_world_update.o: /usr/include/sys/_types/_offsetof.h
 mod/mod_world_update.o: /usr/include/sys/_types/_ptrdiff_t.h
 mod/mod_world_update.o: /usr/include/sys/_types/_wint_t.h
@@ -2678,6 +2846,7 @@ unit/behavior.o: /usr/include/alloca.h /usr/include/sys/_types/_ct_rune_t.h
 unit/behavior.o: /usr/include/sys/_types/_rune_t.h
 unit/behavior.o: /usr/include/sys/_types/_wchar_t.h
 unit/behavior.o: /usr/include/sys/_types/_null.h
+unit/behavior.o: /usr/include/malloc/_malloc.h
 unit/behavior.o: /usr/include/sys/_types/_dev_t.h
 unit/behavior.o: /usr/include/sys/_types/_mode_t.h pi.h
 unit/behavior_test.o: /usr/include/assert.h /usr/include/sys/cdefs.h
@@ -2686,13 +2855,38 @@ unit/behavior_test.o: /usr/include/sys/_posix_availability.h
 unit/behavior_test.o: unit/behavior_test.h unit/behavior.h vector.h unit.h
 unit/behavior_test.o: world.h pi.h
 util/rect.o: util/./rect.h
-util/string.o: util/./string.h
+util/string.o: util/./string.h /usr/include/string.h /usr/include/_types.h
+util/string.o: /usr/include/sys/_types.h /usr/include/sys/cdefs.h
+util/string.o: /usr/include/sys/_symbol_aliasing.h
+util/string.o: /usr/include/sys/_posix_availability.h
+util/string.o: /usr/include/machine/_types.h /usr/include/i386/_types.h
+util/string.o: /usr/include/sys/_pthread/_pthread_types.h
+util/string.o: /usr/include/Availability.h
+util/string.o: /usr/include/AvailabilityInternal.h
+util/string.o: /usr/include/sys/_types/_size_t.h
+util/string.o: /usr/include/sys/_types/_null.h
+util/string.o: /usr/include/sys/_types/_rsize_t.h
+util/string.o: /usr/include/machine/types.h /usr/include/i386/types.h
+util/string.o: /usr/include/sys/_types/_int8_t.h
+util/string.o: /usr/include/sys/_types/_int16_t.h
+util/string.o: /usr/include/sys/_types/_int32_t.h
+util/string.o: /usr/include/sys/_types/_int64_t.h
+util/string.o: /usr/include/sys/_types/_u_int8_t.h
+util/string.o: /usr/include/sys/_types/_u_int16_t.h
+util/string.o: /usr/include/sys/_types/_u_int32_t.h
+util/string.o: /usr/include/sys/_types/_u_int64_t.h
+util/string.o: /usr/include/sys/_types/_intptr_t.h
+util/string.o: /usr/include/sys/_types/_uintptr_t.h
+util/string.o: /usr/include/sys/_types/_errno_t.h
+util/string.o: /usr/include/sys/_types/_ssize_t.h /usr/include/strings.h
+util/string.o: /usr/include/secure/_strings.h /usr/include/secure/_common.h
+util/string.o: /usr/include/secure/_string.h
 vendor/vec.o: vendor/vec.h /usr/include/stdlib.h /usr/include/Availability.h
-vendor/vec.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
-vendor/vec.o: /usr/include/sys/_types.h /usr/include/sys/cdefs.h
+vendor/vec.o: /usr/include/AvailabilityInternal.h /usr/include/sys/cdefs.h
 vendor/vec.o: /usr/include/sys/_symbol_aliasing.h
-vendor/vec.o: /usr/include/sys/_posix_availability.h
-vendor/vec.o: /usr/include/machine/_types.h /usr/include/i386/_types.h
+vendor/vec.o: /usr/include/sys/_posix_availability.h /usr/include/_types.h
+vendor/vec.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+vendor/vec.o: /usr/include/i386/_types.h
 vendor/vec.o: /usr/include/sys/_pthread/_pthread_types.h
 vendor/vec.o: /usr/include/sys/wait.h /usr/include/sys/_types/_pid_t.h
 vendor/vec.o: /usr/include/sys/_types/_id_t.h /usr/include/sys/signal.h
@@ -2728,7 +2922,7 @@ vendor/vec.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 vendor/vec.o: /usr/include/sys/_types/_ct_rune_t.h
 vendor/vec.o: /usr/include/sys/_types/_rune_t.h
 vendor/vec.o: /usr/include/sys/_types/_wchar_t.h
-vendor/vec.o: /usr/include/sys/_types/_null.h
+vendor/vec.o: /usr/include/sys/_types/_null.h /usr/include/malloc/_malloc.h
 vendor/vec.o: /usr/include/sys/_types/_dev_t.h
 vendor/vec.o: /usr/include/sys/_types/_mode_t.h /usr/include/string.h
 vendor/vec.o: /usr/include/sys/_types/_rsize_t.h
@@ -2829,8 +3023,8 @@ view/node.o: /usr/include/_types/_uintmax_t.h
 view/node.o: /usr/include/sys/_types/_timeval.h /usr/include/alloca.h
 view/node.o: /usr/include/sys/_types/_ct_rune_t.h
 view/node.o: /usr/include/sys/_types/_rune_t.h
-view/node.o: /usr/include/sys/_types/_wchar_t.h /usr/include/stddef.h
-view/node.o: /usr/include/sys/_types/_offsetof.h
+view/node.o: /usr/include/sys/_types/_wchar_t.h /usr/include/malloc/_malloc.h
+view/node.o: /usr/include/stddef.h /usr/include/sys/_types/_offsetof.h
 view/node.o: /usr/include/sys/_types/_ptrdiff_t.h
 view/node.o: /usr/include/sys/_types/_wint_t.h /usr/include/string.h
 view/node.o: /usr/include/strings.h /usr/include/secure/_strings.h
@@ -2928,8 +3122,9 @@ bktree.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 bktree.o: /usr/include/sys/_types/_ct_rune_t.h
 bktree.o: /usr/include/sys/_types/_rune_t.h
 bktree.o: /usr/include/sys/_types/_wchar_t.h /usr/include/sys/_types/_null.h
-bktree.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_mode_t.h
-bktree.o: /usr/include/string.h /usr/include/sys/_types/_rsize_t.h
+bktree.o: /usr/include/malloc/_malloc.h /usr/include/sys/_types/_dev_t.h
+bktree.o: /usr/include/sys/_types/_mode_t.h /usr/include/string.h
+bktree.o: /usr/include/sys/_types/_rsize_t.h
 bktree.o: /usr/include/sys/_types/_errno_t.h
 bktree.o: /usr/include/sys/_types/_ssize_t.h /usr/include/strings.h
 bktree.o: /usr/include/secure/_strings.h /usr/include/secure/_common.h
@@ -2995,9 +3190,140 @@ bktree_test.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 bktree_test.o: /usr/include/sys/_types/_ct_rune_t.h
 bktree_test.o: /usr/include/sys/_types/_rune_t.h
 bktree_test.o: /usr/include/sys/_types/_wchar_t.h
-bktree_test.o: /usr/include/sys/_types/_dev_t.h
+bktree_test.o: /usr/include/malloc/_malloc.h /usr/include/sys/_types/_dev_t.h
 bktree_test.o: /usr/include/sys/_types/_mode_t.h util.h
 camera.o: camera.h vector3.h
+client.o: client.h /usr/include/time.h /usr/include/_types.h
+client.o: /usr/include/sys/_types.h /usr/include/sys/cdefs.h
+client.o: /usr/include/sys/_symbol_aliasing.h
+client.o: /usr/include/sys/_posix_availability.h
+client.o: /usr/include/machine/_types.h /usr/include/i386/_types.h
+client.o: /usr/include/sys/_pthread/_pthread_types.h
+client.o: /usr/include/Availability.h /usr/include/AvailabilityInternal.h
+client.o: /usr/include/sys/_types/_clock_t.h /usr/include/machine/types.h
+client.o: /usr/include/i386/types.h /usr/include/sys/_types/_int8_t.h
+client.o: /usr/include/sys/_types/_int16_t.h
+client.o: /usr/include/sys/_types/_int32_t.h
+client.o: /usr/include/sys/_types/_int64_t.h
+client.o: /usr/include/sys/_types/_u_int8_t.h
+client.o: /usr/include/sys/_types/_u_int16_t.h
+client.o: /usr/include/sys/_types/_u_int32_t.h
+client.o: /usr/include/sys/_types/_u_int64_t.h
+client.o: /usr/include/sys/_types/_intptr_t.h
+client.o: /usr/include/sys/_types/_uintptr_t.h
+client.o: /usr/include/sys/_types/_null.h /usr/include/sys/_types/_size_t.h
+client.o: /usr/include/sys/_types/_time_t.h
+client.o: /usr/include/sys/_types/_timespec.h vendor/vec.h
+client.o: /usr/include/stdlib.h /usr/include/sys/wait.h
+client.o: /usr/include/sys/_types/_pid_t.h /usr/include/sys/_types/_id_t.h
+client.o: /usr/include/sys/signal.h /usr/include/sys/appleapiopts.h
+client.o: /usr/include/machine/signal.h /usr/include/i386/signal.h
+client.o: /usr/include/machine/_mcontext.h /usr/include/i386/_mcontext.h
+client.o: /usr/include/mach/machine/_structs.h
+client.o: /usr/include/mach/i386/_structs.h
+client.o: /usr/include/sys/_pthread/_pthread_attr_t.h
+client.o: /usr/include/sys/_types/_sigaltstack.h
+client.o: /usr/include/sys/_types/_ucontext.h
+client.o: /usr/include/sys/_types/_sigset_t.h
+client.o: /usr/include/sys/_types/_uid_t.h /usr/include/sys/resource.h
+client.o: /usr/include/stdint.h /usr/include/_types/_uint8_t.h
+client.o: /usr/include/_types/_uint16_t.h /usr/include/_types/_uint32_t.h
+client.o: /usr/include/_types/_uint64_t.h /usr/include/_types/_intmax_t.h
+client.o: /usr/include/_types/_uintmax_t.h /usr/include/sys/_types/_timeval.h
+client.o: /usr/include/machine/endian.h /usr/include/i386/endian.h
+client.o: /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h
+client.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
+client.o: /usr/include/sys/_types/_ct_rune_t.h
+client.o: /usr/include/sys/_types/_rune_t.h
+client.o: /usr/include/sys/_types/_wchar_t.h /usr/include/malloc/_malloc.h
+client.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_mode_t.h
+client.o: /usr/include/string.h /usr/include/sys/_types/_rsize_t.h
+client.o: /usr/include/sys/_types/_errno_t.h
+client.o: /usr/include/sys/_types/_ssize_t.h /usr/include/strings.h
+client.o: /usr/include/secure/_strings.h /usr/include/secure/_common.h
+client.o: /usr/include/secure/_string.h /usr/local/include/SDL2/SDL.h
+client.o: /usr/local/include/SDL2/SDL_main.h
+client.o: /usr/local/include/SDL2/SDL_stdinc.h
+client.o: /usr/local/include/SDL2/SDL_config.h
+client.o: /usr/local/include/SDL2/SDL_platform.h
+client.o: /usr/local/include/SDL2/begin_code.h
+client.o: /usr/local/include/SDL2/close_code.h /usr/include/sys/types.h
+client.o: /usr/include/sys/_types/_u_char.h
+client.o: /usr/include/sys/_types/_u_short.h /usr/include/sys/_types/_u_int.h
+client.o: /usr/include/sys/_types/_caddr_t.h
+client.o: /usr/include/sys/_types/_blkcnt_t.h
+client.o: /usr/include/sys/_types/_blksize_t.h
+client.o: /usr/include/sys/_types/_gid_t.h
+client.o: /usr/include/sys/_types/_in_addr_t.h
+client.o: /usr/include/sys/_types/_in_port_t.h
+client.o: /usr/include/sys/_types/_ino_t.h /usr/include/sys/_types/_ino64_t.h
+client.o: /usr/include/sys/_types/_key_t.h /usr/include/sys/_types/_nlink_t.h
+client.o: /usr/include/sys/_types/_off_t.h
+client.o: /usr/include/sys/_types/_useconds_t.h
+client.o: /usr/include/sys/_types/_suseconds_t.h
+client.o: /usr/include/sys/_types/_fd_def.h
+client.o: /usr/include/sys/_types/_fd_setsize.h
+client.o: /usr/include/sys/_types/_fd_set.h /usr/include/sys/_types/_fd_clr.h
+client.o: /usr/include/sys/_types/_fd_zero.h
+client.o: /usr/include/sys/_types/_fd_isset.h
+client.o: /usr/include/sys/_types/_fd_copy.h
+client.o: /usr/include/sys/_pthread/_pthread_cond_t.h
+client.o: /usr/include/sys/_pthread/_pthread_condattr_t.h
+client.o: /usr/include/sys/_pthread/_pthread_mutex_t.h
+client.o: /usr/include/sys/_pthread/_pthread_mutexattr_t.h
+client.o: /usr/include/sys/_pthread/_pthread_once_t.h
+client.o: /usr/include/sys/_pthread/_pthread_rwlock_t.h
+client.o: /usr/include/sys/_pthread/_pthread_rwlockattr_t.h
+client.o: /usr/include/sys/_pthread/_pthread_t.h
+client.o: /usr/include/sys/_pthread/_pthread_key_t.h
+client.o: /usr/include/sys/_types/_fsblkcnt_t.h
+client.o: /usr/include/sys/_types/_fsfilcnt_t.h /usr/include/stdio.h
+client.o: /usr/include/_stdio.h /usr/include/sys/_types/_va_list.h
+client.o: /usr/include/sys/stdio.h /usr/include/secure/_stdio.h
+client.o: /usr/include/stddef.h /usr/include/sys/_types/_offsetof.h
+client.o: /usr/include/sys/_types/_ptrdiff_t.h
+client.o: /usr/include/sys/_types/_wint_t.h /usr/include/wchar.h
+client.o: /usr/include/sys/_types/_mbstate_t.h /usr/include/_wctype.h
+client.o: /usr/include/__wctype.h /usr/include/_types/_wctype_t.h
+client.o: /usr/include/ctype.h /usr/include/_ctype.h /usr/include/runetype.h
+client.o: /usr/include/inttypes.h /usr/include/math.h /usr/include/float.h
+client.o: /usr/local/include/SDL2/SDL_assert.h
+client.o: /usr/local/include/SDL2/SDL_atomic.h
+client.o: /usr/local/include/SDL2/SDL_audio.h
+client.o: /usr/local/include/SDL2/SDL_error.h
+client.o: /usr/local/include/SDL2/SDL_endian.h
+client.o: /usr/local/include/SDL2/SDL_mutex.h
+client.o: /usr/local/include/SDL2/SDL_thread.h
+client.o: /usr/local/include/SDL2/SDL_rwops.h
+client.o: /usr/local/include/SDL2/SDL_clipboard.h
+client.o: /usr/local/include/SDL2/SDL_cpuinfo.h
+client.o: /usr/local/include/SDL2/SDL_events.h
+client.o: /usr/local/include/SDL2/SDL_video.h
+client.o: /usr/local/include/SDL2/SDL_pixels.h
+client.o: /usr/local/include/SDL2/SDL_rect.h
+client.o: /usr/local/include/SDL2/SDL_surface.h
+client.o: /usr/local/include/SDL2/SDL_blendmode.h
+client.o: /usr/local/include/SDL2/SDL_keyboard.h
+client.o: /usr/local/include/SDL2/SDL_keycode.h
+client.o: /usr/local/include/SDL2/SDL_scancode.h
+client.o: /usr/local/include/SDL2/SDL_mouse.h
+client.o: /usr/local/include/SDL2/SDL_joystick.h
+client.o: /usr/local/include/SDL2/SDL_gamecontroller.h
+client.o: /usr/local/include/SDL2/SDL_quit.h
+client.o: /usr/local/include/SDL2/SDL_gesture.h
+client.o: /usr/local/include/SDL2/SDL_touch.h
+client.o: /usr/local/include/SDL2/SDL_filesystem.h
+client.o: /usr/local/include/SDL2/SDL_haptic.h
+client.o: /usr/local/include/SDL2/SDL_hints.h
+client.o: /usr/local/include/SDL2/SDL_loadso.h
+client.o: /usr/local/include/SDL2/SDL_log.h
+client.o: /usr/local/include/SDL2/SDL_messagebox.h
+client.o: /usr/local/include/SDL2/SDL_power.h
+client.o: /usr/local/include/SDL2/SDL_render.h
+client.o: /usr/local/include/SDL2/SDL_shape.h
+client.o: /usr/local/include/SDL2/SDL_system.h
+client.o: /usr/local/include/SDL2/SDL_timer.h
+client.o: /usr/local/include/SDL2/SDL_version.h /usr/include/assert.h
 factory.o: factory.h vector.h unit.h pi.h /usr/include/math.h
 factory.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
 factory.o: /usr/include/sys/_posix_availability.h /usr/include/Availability.h
@@ -3009,10 +3335,10 @@ factory_test.o: /usr/include/sys/_posix_availability.h /usr/include/math.h
 factory_test.o: /usr/include/Availability.h
 factory_test.o: /usr/include/AvailabilityInternal.h
 file.o: file.h /usr/include/stdlib.h /usr/include/Availability.h
-file.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
-file.o: /usr/include/sys/_types.h /usr/include/sys/cdefs.h
+file.o: /usr/include/AvailabilityInternal.h /usr/include/sys/cdefs.h
 file.o: /usr/include/sys/_symbol_aliasing.h
-file.o: /usr/include/sys/_posix_availability.h /usr/include/machine/_types.h
+file.o: /usr/include/sys/_posix_availability.h /usr/include/_types.h
+file.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 file.o: /usr/include/i386/_types.h /usr/include/sys/_pthread/_pthread_types.h
 file.o: /usr/include/sys/wait.h /usr/include/sys/_types/_pid_t.h
 file.o: /usr/include/sys/_types/_id_t.h /usr/include/sys/signal.h
@@ -3043,12 +3369,13 @@ file.o: /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h
 file.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 file.o: /usr/include/sys/_types/_ct_rune_t.h
 file.o: /usr/include/sys/_types/_rune_t.h /usr/include/sys/_types/_wchar_t.h
-file.o: /usr/include/sys/_types/_null.h /usr/include/sys/_types/_dev_t.h
-file.o: /usr/include/sys/_types/_mode_t.h /usr/include/stdio.h
-file.o: /usr/include/_stdio.h /usr/include/sys/_types/_va_list.h
-file.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
-file.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
-file.o: /usr/include/secure/_common.h /usr/include/assert.h
+file.o: /usr/include/sys/_types/_null.h /usr/include/malloc/_malloc.h
+file.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_mode_t.h
+file.o: /usr/include/stdio.h /usr/include/_stdio.h
+file.o: /usr/include/sys/_types/_va_list.h /usr/include/sys/stdio.h
+file.o: /usr/include/sys/_types/_off_t.h /usr/include/sys/_types/_ssize_t.h
+file.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
+file.o: /usr/include/assert.h
 game.o: game.h /usr/local/include/SDL2/SDL.h
 game.o: /usr/local/include/SDL2/SDL_main.h
 game.o: /usr/local/include/SDL2/SDL_stdinc.h
@@ -3125,7 +3452,8 @@ game.o: /usr/include/_types/_uint64_t.h /usr/include/_types/_intmax_t.h
 game.o: /usr/include/_types/_uintmax_t.h /usr/include/sys/_types/_timeval.h
 game.o: /usr/include/alloca.h /usr/include/sys/_types/_ct_rune_t.h
 game.o: /usr/include/sys/_types/_rune_t.h /usr/include/sys/_types/_wchar_t.h
-game.o: /usr/include/stddef.h /usr/include/sys/_types/_offsetof.h
+game.o: /usr/include/malloc/_malloc.h /usr/include/stddef.h
+game.o: /usr/include/sys/_types/_offsetof.h
 game.o: /usr/include/sys/_types/_ptrdiff_t.h
 game.o: /usr/include/sys/_types/_wint_t.h /usr/include/string.h
 game.o: /usr/include/strings.h /usr/include/secure/_strings.h
@@ -3175,10 +3503,10 @@ game.o: /usr/local/include/SDL2/SDL_version.h unit.h vector.h pi.h factory.h
 game.o: projectile.h world.h vector3.h unit/behavior.h vector.h unit.h
 game.o: world.h /usr/include/assert.h rand_range.h
 grid.o: grid.h /usr/include/stdlib.h /usr/include/Availability.h
-grid.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
-grid.o: /usr/include/sys/_types.h /usr/include/sys/cdefs.h
+grid.o: /usr/include/AvailabilityInternal.h /usr/include/sys/cdefs.h
 grid.o: /usr/include/sys/_symbol_aliasing.h
-grid.o: /usr/include/sys/_posix_availability.h /usr/include/machine/_types.h
+grid.o: /usr/include/sys/_posix_availability.h /usr/include/_types.h
+grid.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 grid.o: /usr/include/i386/_types.h /usr/include/sys/_pthread/_pthread_types.h
 grid.o: /usr/include/sys/wait.h /usr/include/sys/_types/_pid_t.h
 grid.o: /usr/include/sys/_types/_id_t.h /usr/include/sys/signal.h
@@ -3209,15 +3537,16 @@ grid.o: /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h
 grid.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 grid.o: /usr/include/sys/_types/_ct_rune_t.h
 grid.o: /usr/include/sys/_types/_rune_t.h /usr/include/sys/_types/_wchar_t.h
-grid.o: /usr/include/sys/_types/_null.h /usr/include/sys/_types/_dev_t.h
-grid.o: /usr/include/sys/_types/_mode_t.h /usr/include/assert.h
-grid.o: /usr/include/string.h /usr/include/sys/_types/_rsize_t.h
-grid.o: /usr/include/sys/_types/_errno_t.h /usr/include/sys/_types/_ssize_t.h
-grid.o: /usr/include/strings.h /usr/include/secure/_strings.h
-grid.o: /usr/include/secure/_common.h /usr/include/secure/_string.h
-grid.o: /usr/include/stdio.h /usr/include/_stdio.h
-grid.o: /usr/include/sys/_types/_va_list.h /usr/include/sys/stdio.h
-grid.o: /usr/include/sys/_types/_off_t.h /usr/include/secure/_stdio.h
+grid.o: /usr/include/sys/_types/_null.h /usr/include/malloc/_malloc.h
+grid.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_mode_t.h
+grid.o: /usr/include/assert.h /usr/include/string.h
+grid.o: /usr/include/sys/_types/_rsize_t.h /usr/include/sys/_types/_errno_t.h
+grid.o: /usr/include/sys/_types/_ssize_t.h /usr/include/strings.h
+grid.o: /usr/include/secure/_strings.h /usr/include/secure/_common.h
+grid.o: /usr/include/secure/_string.h /usr/include/stdio.h
+grid.o: /usr/include/_stdio.h /usr/include/sys/_types/_va_list.h
+grid.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
+grid.o: /usr/include/secure/_stdio.h
 grid_test.o: grid_test.h grid.h /usr/include/assert.h
 grid_test.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
 grid_test.o: /usr/include/sys/_posix_availability.h /usr/include/string.h
@@ -3246,11 +3575,11 @@ grid_test.o: /usr/include/_stdio.h /usr/include/sys/_types/_va_list.h
 grid_test.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
 grid_test.o: /usr/include/secure/_stdio.h
 kdtree.o: kdtree.h vector.h /usr/include/stdlib.h /usr/include/Availability.h
-kdtree.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
-kdtree.o: /usr/include/sys/_types.h /usr/include/sys/cdefs.h
+kdtree.o: /usr/include/AvailabilityInternal.h /usr/include/sys/cdefs.h
 kdtree.o: /usr/include/sys/_symbol_aliasing.h
-kdtree.o: /usr/include/sys/_posix_availability.h
-kdtree.o: /usr/include/machine/_types.h /usr/include/i386/_types.h
+kdtree.o: /usr/include/sys/_posix_availability.h /usr/include/_types.h
+kdtree.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+kdtree.o: /usr/include/i386/_types.h
 kdtree.o: /usr/include/sys/_pthread/_pthread_types.h /usr/include/sys/wait.h
 kdtree.o: /usr/include/sys/_types/_pid_t.h /usr/include/sys/_types/_id_t.h
 kdtree.o: /usr/include/sys/signal.h /usr/include/sys/appleapiopts.h
@@ -3284,19 +3613,20 @@ kdtree.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 kdtree.o: /usr/include/sys/_types/_ct_rune_t.h
 kdtree.o: /usr/include/sys/_types/_rune_t.h
 kdtree.o: /usr/include/sys/_types/_wchar_t.h /usr/include/sys/_types/_null.h
-kdtree.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_mode_t.h
-kdtree.o: /usr/include/assert.h /usr/include/math.h /usr/include/stdio.h
-kdtree.o: /usr/include/_stdio.h /usr/include/sys/_types/_va_list.h
-kdtree.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
-kdtree.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
-kdtree.o: /usr/include/secure/_common.h /usr/include/float.h
+kdtree.o: /usr/include/malloc/_malloc.h /usr/include/sys/_types/_dev_t.h
+kdtree.o: /usr/include/sys/_types/_mode_t.h /usr/include/assert.h
+kdtree.o: /usr/include/math.h /usr/include/stdio.h /usr/include/_stdio.h
+kdtree.o: /usr/include/sys/_types/_va_list.h /usr/include/sys/stdio.h
+kdtree.o: /usr/include/sys/_types/_off_t.h /usr/include/sys/_types/_ssize_t.h
+kdtree.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
+kdtree.o: /usr/include/float.h
 kdtree_test.o: kdtree_test.h kdtree.h vector.h /usr/include/stdlib.h
 kdtree_test.o: /usr/include/Availability.h
-kdtree_test.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
-kdtree_test.o: /usr/include/sys/_types.h /usr/include/sys/cdefs.h
+kdtree_test.o: /usr/include/AvailabilityInternal.h /usr/include/sys/cdefs.h
 kdtree_test.o: /usr/include/sys/_symbol_aliasing.h
-kdtree_test.o: /usr/include/sys/_posix_availability.h
-kdtree_test.o: /usr/include/machine/_types.h /usr/include/i386/_types.h
+kdtree_test.o: /usr/include/sys/_posix_availability.h /usr/include/_types.h
+kdtree_test.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+kdtree_test.o: /usr/include/i386/_types.h
 kdtree_test.o: /usr/include/sys/_pthread/_pthread_types.h
 kdtree_test.o: /usr/include/sys/wait.h /usr/include/sys/_types/_pid_t.h
 kdtree_test.o: /usr/include/sys/_types/_id_t.h /usr/include/sys/signal.h
@@ -3334,7 +3664,7 @@ kdtree_test.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 kdtree_test.o: /usr/include/sys/_types/_ct_rune_t.h
 kdtree_test.o: /usr/include/sys/_types/_rune_t.h
 kdtree_test.o: /usr/include/sys/_types/_wchar_t.h
-kdtree_test.o: /usr/include/sys/_types/_null.h
+kdtree_test.o: /usr/include/sys/_types/_null.h /usr/include/malloc/_malloc.h
 kdtree_test.o: /usr/include/sys/_types/_dev_t.h
 kdtree_test.o: /usr/include/sys/_types/_mode_t.h /usr/include/assert.h
 kdtree_test.o: /usr/include/stdio.h /usr/include/_stdio.h
@@ -3342,14 +3672,13 @@ kdtree_test.o: /usr/include/sys/_types/_va_list.h /usr/include/sys/stdio.h
 kdtree_test.o: /usr/include/sys/_types/_off_t.h
 kdtree_test.o: /usr/include/sys/_types/_ssize_t.h
 kdtree_test.o: /usr/include/secure/_stdio.h /usr/include/secure/_common.h
-main.o: game.h config.h benchmark.h test.h team_id.h vector.h
-main.o: /usr/include/stdio.h /usr/include/_stdio.h /usr/include/sys/cdefs.h
-main.o: /usr/include/sys/_symbol_aliasing.h
-main.o: /usr/include/sys/_posix_availability.h /usr/include/Availability.h
-main.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
-main.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+main.o: game.h config.h benchmark.h test.h team_id.h vector.h client.h
+main.o: /usr/include/time.h /usr/include/_types.h /usr/include/sys/_types.h
+main.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
+main.o: /usr/include/sys/_posix_availability.h /usr/include/machine/_types.h
 main.o: /usr/include/i386/_types.h /usr/include/sys/_pthread/_pthread_types.h
-main.o: /usr/include/sys/_types/_va_list.h /usr/include/machine/types.h
+main.o: /usr/include/Availability.h /usr/include/AvailabilityInternal.h
+main.o: /usr/include/sys/_types/_clock_t.h /usr/include/machine/types.h
 main.o: /usr/include/i386/types.h /usr/include/sys/_types/_int8_t.h
 main.o: /usr/include/sys/_types/_int16_t.h /usr/include/sys/_types/_int32_t.h
 main.o: /usr/include/sys/_types/_int64_t.h
@@ -3358,16 +3687,15 @@ main.o: /usr/include/sys/_types/_u_int16_t.h
 main.o: /usr/include/sys/_types/_u_int32_t.h
 main.o: /usr/include/sys/_types/_u_int64_t.h
 main.o: /usr/include/sys/_types/_intptr_t.h
-main.o: /usr/include/sys/_types/_uintptr_t.h
-main.o: /usr/include/sys/_types/_size_t.h /usr/include/sys/_types/_null.h
-main.o: /usr/include/sys/stdio.h /usr/include/sys/_types/_off_t.h
-main.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
-main.o: /usr/include/secure/_common.h /usr/include/stdlib.h
-main.o: /usr/include/sys/wait.h /usr/include/sys/_types/_pid_t.h
-main.o: /usr/include/sys/_types/_id_t.h /usr/include/sys/signal.h
-main.o: /usr/include/sys/appleapiopts.h /usr/include/machine/signal.h
-main.o: /usr/include/i386/signal.h /usr/include/machine/_mcontext.h
-main.o: /usr/include/i386/_mcontext.h /usr/include/mach/machine/_structs.h
+main.o: /usr/include/sys/_types/_uintptr_t.h /usr/include/sys/_types/_null.h
+main.o: /usr/include/sys/_types/_size_t.h /usr/include/sys/_types/_time_t.h
+main.o: /usr/include/sys/_types/_timespec.h vendor/vec.h
+main.o: /usr/include/stdlib.h /usr/include/sys/wait.h
+main.o: /usr/include/sys/_types/_pid_t.h /usr/include/sys/_types/_id_t.h
+main.o: /usr/include/sys/signal.h /usr/include/sys/appleapiopts.h
+main.o: /usr/include/machine/signal.h /usr/include/i386/signal.h
+main.o: /usr/include/machine/_mcontext.h /usr/include/i386/_mcontext.h
+main.o: /usr/include/mach/machine/_structs.h
 main.o: /usr/include/mach/i386/_structs.h
 main.o: /usr/include/sys/_pthread/_pthread_attr_t.h
 main.o: /usr/include/sys/_types/_sigaltstack.h
@@ -3383,12 +3711,13 @@ main.o: /usr/include/libkern/_OSByteOrder.h
 main.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 main.o: /usr/include/sys/_types/_ct_rune_t.h
 main.o: /usr/include/sys/_types/_rune_t.h /usr/include/sys/_types/_wchar_t.h
-main.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_mode_t.h
-main.o: /usr/include/time.h /usr/include/sys/_types/_clock_t.h
-main.o: /usr/include/sys/_types/_time_t.h /usr/include/sys/_types/_timespec.h
-main.o: mod/mod_scalable_grid.h game.h world.h unit.h pi.h factory.h
-main.o: projectile.h map.h shape.h renderer.h vector3.h
-main.o: /usr/local/include/SDL2/SDL.h /usr/local/include/SDL2/SDL_main.h
+main.o: /usr/include/malloc/_malloc.h /usr/include/sys/_types/_dev_t.h
+main.o: /usr/include/sys/_types/_mode_t.h /usr/include/string.h
+main.o: /usr/include/sys/_types/_rsize_t.h /usr/include/sys/_types/_errno_t.h
+main.o: /usr/include/sys/_types/_ssize_t.h /usr/include/strings.h
+main.o: /usr/include/secure/_strings.h /usr/include/secure/_common.h
+main.o: /usr/include/secure/_string.h /usr/local/include/SDL2/SDL.h
+main.o: /usr/local/include/SDL2/SDL_main.h
 main.o: /usr/local/include/SDL2/SDL_stdinc.h
 main.o: /usr/local/include/SDL2/SDL_config.h
 main.o: /usr/local/include/SDL2/SDL_platform.h
@@ -3401,10 +3730,9 @@ main.o: /usr/include/sys/_types/_blksize_t.h /usr/include/sys/_types/_gid_t.h
 main.o: /usr/include/sys/_types/_in_addr_t.h
 main.o: /usr/include/sys/_types/_in_port_t.h /usr/include/sys/_types/_ino_t.h
 main.o: /usr/include/sys/_types/_ino64_t.h /usr/include/sys/_types/_key_t.h
-main.o: /usr/include/sys/_types/_nlink_t.h
+main.o: /usr/include/sys/_types/_nlink_t.h /usr/include/sys/_types/_off_t.h
 main.o: /usr/include/sys/_types/_useconds_t.h
 main.o: /usr/include/sys/_types/_suseconds_t.h
-main.o: /usr/include/sys/_types/_rsize_t.h /usr/include/sys/_types/_errno_t.h
 main.o: /usr/include/sys/_types/_fd_def.h
 main.o: /usr/include/sys/_types/_fd_setsize.h
 main.o: /usr/include/sys/_types/_fd_set.h /usr/include/sys/_types/_fd_clr.h
@@ -3421,12 +3749,12 @@ main.o: /usr/include/sys/_pthread/_pthread_rwlockattr_t.h
 main.o: /usr/include/sys/_pthread/_pthread_t.h
 main.o: /usr/include/sys/_pthread/_pthread_key_t.h
 main.o: /usr/include/sys/_types/_fsblkcnt_t.h
-main.o: /usr/include/sys/_types/_fsfilcnt_t.h /usr/include/stddef.h
-main.o: /usr/include/sys/_types/_offsetof.h
+main.o: /usr/include/sys/_types/_fsfilcnt_t.h /usr/include/stdio.h
+main.o: /usr/include/_stdio.h /usr/include/sys/_types/_va_list.h
+main.o: /usr/include/sys/stdio.h /usr/include/secure/_stdio.h
+main.o: /usr/include/stddef.h /usr/include/sys/_types/_offsetof.h
 main.o: /usr/include/sys/_types/_ptrdiff_t.h
-main.o: /usr/include/sys/_types/_wint_t.h /usr/include/string.h
-main.o: /usr/include/strings.h /usr/include/secure/_strings.h
-main.o: /usr/include/secure/_string.h /usr/include/wchar.h
+main.o: /usr/include/sys/_types/_wint_t.h /usr/include/wchar.h
 main.o: /usr/include/sys/_types/_mbstate_t.h /usr/include/_wctype.h
 main.o: /usr/include/__wctype.h /usr/include/_types/_wctype_t.h
 main.o: /usr/include/ctype.h /usr/include/_ctype.h /usr/include/runetype.h
@@ -3467,9 +3795,11 @@ main.o: /usr/local/include/SDL2/SDL_render.h
 main.o: /usr/local/include/SDL2/SDL_shape.h
 main.o: /usr/local/include/SDL2/SDL_system.h
 main.o: /usr/local/include/SDL2/SDL_timer.h
-main.o: /usr/local/include/SDL2/SDL_version.h opengl.h view/node.h vector3.h
-main.o: util/rect.h util/color.h util/string.h vendor/vec.h grid.h kdtree.h
-main.o: scalable_grid.h rand_range.h bktree.h /usr/include/limits.h
+main.o: /usr/local/include/SDL2/SDL_version.h mod/mod_scalable_grid.h game.h
+main.o: world.h unit.h pi.h factory.h projectile.h map.h shape.h renderer.h
+main.o: vector3.h opengl.h view/node.h vector3.h util/rect.h util/color.h
+main.o: util/string.h vendor/vec.h grid.h kdtree.h scalable_grid.h
+main.o: rand_range.h bktree.h /usr/include/limits.h
 main.o: /usr/include/machine/limits.h /usr/include/i386/limits.h
 main.o: /usr/include/i386/_limits.h /usr/include/sys/syslimits.h
 main.o: mod/mod_kdtree.h mod/mod_closest_enemy_unit.h
@@ -3478,6 +3808,7 @@ main.o: mod/mod_event.h mod/mod_unit_projectile_spawn.h
 main.o: mod/mod_projectile_unit_impact.h mod/mod_unit_behavior.h
 main.o: mod/mod_factory_spawn.h mod/mod_world_update.h
 main.o: mod/mod_camera_update.h mod/mod_render.h mod/mod_print_performance.h
+main.o: cmod/cmod_game.h client.h
 map.o: map.h vector.h shape.h /usr/include/assert.h /usr/include/sys/cdefs.h
 map.o: /usr/include/sys/_symbol_aliasing.h
 map.o: /usr/include/sys/_posix_availability.h /usr/include/stdlib.h
@@ -3513,7 +3844,8 @@ map.o: /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h
 map.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 map.o: /usr/include/sys/_types/_ct_rune_t.h /usr/include/sys/_types/_rune_t.h
 map.o: /usr/include/sys/_types/_wchar_t.h /usr/include/sys/_types/_null.h
-map.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_mode_t.h
+map.o: /usr/include/malloc/_malloc.h /usr/include/sys/_types/_dev_t.h
+map.o: /usr/include/sys/_types/_mode_t.h
 projectile.o: projectile.h vector.h /usr/include/math.h
 projectile.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
 projectile.o: /usr/include/sys/_posix_availability.h
@@ -3577,6 +3909,7 @@ rand_range_test.o: /usr/include/libkern/i386/_OSByteOrder.h
 rand_range_test.o: /usr/include/alloca.h /usr/include/sys/_types/_ct_rune_t.h
 rand_range_test.o: /usr/include/sys/_types/_rune_t.h
 rand_range_test.o: /usr/include/sys/_types/_wchar_t.h
+rand_range_test.o: /usr/include/malloc/_malloc.h
 rand_range_test.o: /usr/include/sys/_types/_dev_t.h
 rand_range_test.o: /usr/include/sys/_types/_mode_t.h /usr/include/assert.h
 renderer.o: /usr/local/include/SDL2/SDL.h /usr/local/include/SDL2/SDL_main.h
@@ -3669,8 +4002,8 @@ renderer.o: /usr/include/_types/_uintmax_t.h
 renderer.o: /usr/include/sys/_types/_timeval.h /usr/include/alloca.h
 renderer.o: /usr/include/sys/_types/_ct_rune_t.h
 renderer.o: /usr/include/sys/_types/_rune_t.h
-renderer.o: /usr/include/sys/_types/_wchar_t.h /usr/include/stddef.h
-renderer.o: /usr/include/sys/_types/_offsetof.h
+renderer.o: /usr/include/sys/_types/_wchar_t.h /usr/include/malloc/_malloc.h
+renderer.o: /usr/include/stddef.h /usr/include/sys/_types/_offsetof.h
 renderer.o: /usr/include/sys/_types/_ptrdiff_t.h
 renderer.o: /usr/include/sys/_types/_wint_t.h /usr/include/string.h
 renderer.o: /usr/include/strings.h /usr/include/secure/_strings.h
@@ -3823,7 +4156,8 @@ renderer_test.o: /usr/include/_types/_uintmax_t.h
 renderer_test.o: /usr/include/sys/_types/_timeval.h /usr/include/alloca.h
 renderer_test.o: /usr/include/sys/_types/_ct_rune_t.h
 renderer_test.o: /usr/include/sys/_types/_rune_t.h
-renderer_test.o: /usr/include/sys/_types/_wchar_t.h /usr/include/stddef.h
+renderer_test.o: /usr/include/sys/_types/_wchar_t.h
+renderer_test.o: /usr/include/malloc/_malloc.h /usr/include/stddef.h
 renderer_test.o: /usr/include/sys/_types/_offsetof.h
 renderer_test.o: /usr/include/sys/_types/_ptrdiff_t.h
 renderer_test.o: /usr/include/sys/_types/_wint_t.h /usr/include/string.h
@@ -3927,6 +4261,7 @@ scalable_grid.o: /usr/include/alloca.h /usr/include/sys/_types/_ct_rune_t.h
 scalable_grid.o: /usr/include/sys/_types/_rune_t.h
 scalable_grid.o: /usr/include/sys/_types/_wchar_t.h
 scalable_grid.o: /usr/include/sys/_types/_null.h
+scalable_grid.o: /usr/include/malloc/_malloc.h
 scalable_grid.o: /usr/include/sys/_types/_dev_t.h
 scalable_grid.o: /usr/include/sys/_types/_mode_t.h /usr/include/stdio.h
 scalable_grid.o: /usr/include/_stdio.h /usr/include/sys/_types/_va_list.h
@@ -3971,8 +4306,8 @@ shape.o: /usr/include/libkern/_OSByteOrder.h
 shape.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 shape.o: /usr/include/sys/_types/_ct_rune_t.h
 shape.o: /usr/include/sys/_types/_rune_t.h /usr/include/sys/_types/_wchar_t.h
-shape.o: /usr/include/sys/_types/_null.h /usr/include/sys/_types/_dev_t.h
-shape.o: /usr/include/sys/_types/_mode_t.h
+shape.o: /usr/include/sys/_types/_null.h /usr/include/malloc/_malloc.h
+shape.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_mode_t.h
 shape_test.o: shape_test.h shape.h vector.h /usr/include/assert.h
 shape_test.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
 shape_test.o: /usr/include/sys/_posix_availability.h
@@ -4067,8 +4402,8 @@ unit.o: /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h
 unit.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 unit.o: /usr/include/sys/_types/_ct_rune_t.h
 unit.o: /usr/include/sys/_types/_rune_t.h /usr/include/sys/_types/_wchar_t.h
-unit.o: /usr/include/sys/_types/_null.h /usr/include/sys/_types/_dev_t.h
-unit.o: /usr/include/sys/_types/_mode_t.h
+unit.o: /usr/include/sys/_types/_null.h /usr/include/malloc/_malloc.h
+unit.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_mode_t.h
 unit_test.o: /usr/include/assert.h /usr/include/sys/cdefs.h
 unit_test.o: /usr/include/sys/_symbol_aliasing.h
 unit_test.o: /usr/include/sys/_posix_availability.h /usr/include/stdio.h
@@ -4095,10 +4430,10 @@ unit_test.o: /usr/include/sys/_types/_ssize_t.h /usr/include/secure/_stdio.h
 unit_test.o: /usr/include/secure/_common.h unit_test.h unit.h vector.h pi.h
 unit_test.o: factory.h
 util.o: util.h /usr/include/stdlib.h /usr/include/Availability.h
-util.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
-util.o: /usr/include/sys/_types.h /usr/include/sys/cdefs.h
+util.o: /usr/include/AvailabilityInternal.h /usr/include/sys/cdefs.h
 util.o: /usr/include/sys/_symbol_aliasing.h
-util.o: /usr/include/sys/_posix_availability.h /usr/include/machine/_types.h
+util.o: /usr/include/sys/_posix_availability.h /usr/include/_types.h
+util.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 util.o: /usr/include/i386/_types.h /usr/include/sys/_pthread/_pthread_types.h
 util.o: /usr/include/sys/wait.h /usr/include/sys/_types/_pid_t.h
 util.o: /usr/include/sys/_types/_id_t.h /usr/include/sys/signal.h
@@ -4129,18 +4464,19 @@ util.o: /usr/include/sys/_endian.h /usr/include/libkern/_OSByteOrder.h
 util.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 util.o: /usr/include/sys/_types/_ct_rune_t.h
 util.o: /usr/include/sys/_types/_rune_t.h /usr/include/sys/_types/_wchar_t.h
-util.o: /usr/include/sys/_types/_null.h /usr/include/sys/_types/_dev_t.h
-util.o: /usr/include/sys/_types/_mode_t.h /usr/include/assert.h
-util.o: /usr/include/string.h /usr/include/sys/_types/_rsize_t.h
-util.o: /usr/include/sys/_types/_errno_t.h /usr/include/sys/_types/_ssize_t.h
-util.o: /usr/include/strings.h /usr/include/secure/_strings.h
-util.o: /usr/include/secure/_common.h /usr/include/secure/_string.h
+util.o: /usr/include/sys/_types/_null.h /usr/include/malloc/_malloc.h
+util.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_mode_t.h
+util.o: /usr/include/assert.h /usr/include/string.h
+util.o: /usr/include/sys/_types/_rsize_t.h /usr/include/sys/_types/_errno_t.h
+util.o: /usr/include/sys/_types/_ssize_t.h /usr/include/strings.h
+util.o: /usr/include/secure/_strings.h /usr/include/secure/_common.h
+util.o: /usr/include/secure/_string.h
 util_test.o: util_test.h util.h /usr/include/stdlib.h
 util_test.o: /usr/include/Availability.h /usr/include/AvailabilityInternal.h
-util_test.o: /usr/include/_types.h /usr/include/sys/_types.h
 util_test.o: /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h
-util_test.o: /usr/include/sys/_posix_availability.h
-util_test.o: /usr/include/machine/_types.h /usr/include/i386/_types.h
+util_test.o: /usr/include/sys/_posix_availability.h /usr/include/_types.h
+util_test.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
+util_test.o: /usr/include/i386/_types.h
 util_test.o: /usr/include/sys/_pthread/_pthread_types.h
 util_test.o: /usr/include/sys/wait.h /usr/include/sys/_types/_pid_t.h
 util_test.o: /usr/include/sys/_types/_id_t.h /usr/include/sys/signal.h
@@ -4176,7 +4512,8 @@ util_test.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 util_test.o: /usr/include/sys/_types/_ct_rune_t.h
 util_test.o: /usr/include/sys/_types/_rune_t.h
 util_test.o: /usr/include/sys/_types/_wchar_t.h
-util_test.o: /usr/include/sys/_types/_null.h /usr/include/sys/_types/_dev_t.h
+util_test.o: /usr/include/sys/_types/_null.h /usr/include/malloc/_malloc.h
+util_test.o: /usr/include/sys/_types/_dev_t.h
 util_test.o: /usr/include/sys/_types/_mode_t.h /usr/include/assert.h
 util_test.o: /usr/include/string.h /usr/include/sys/_types/_rsize_t.h
 util_test.o: /usr/include/sys/_types/_errno_t.h
@@ -4199,10 +4536,10 @@ vector_test.o: /usr/include/sys/_symbol_aliasing.h
 vector_test.o: /usr/include/sys/_posix_availability.h vector_test.h vector.h
 vector_test.o: pi.h
 world.o: /usr/include/stdlib.h /usr/include/Availability.h
-world.o: /usr/include/AvailabilityInternal.h /usr/include/_types.h
-world.o: /usr/include/sys/_types.h /usr/include/sys/cdefs.h
+world.o: /usr/include/AvailabilityInternal.h /usr/include/sys/cdefs.h
 world.o: /usr/include/sys/_symbol_aliasing.h
-world.o: /usr/include/sys/_posix_availability.h /usr/include/machine/_types.h
+world.o: /usr/include/sys/_posix_availability.h /usr/include/_types.h
+world.o: /usr/include/sys/_types.h /usr/include/machine/_types.h
 world.o: /usr/include/i386/_types.h
 world.o: /usr/include/sys/_pthread/_pthread_types.h /usr/include/sys/wait.h
 world.o: /usr/include/sys/_types/_pid_t.h /usr/include/sys/_types/_id_t.h
@@ -4236,9 +4573,10 @@ world.o: /usr/include/libkern/_OSByteOrder.h
 world.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 world.o: /usr/include/sys/_types/_ct_rune_t.h
 world.o: /usr/include/sys/_types/_rune_t.h /usr/include/sys/_types/_wchar_t.h
-world.o: /usr/include/sys/_types/_null.h /usr/include/sys/_types/_dev_t.h
-world.o: /usr/include/sys/_types/_mode_t.h /usr/include/assert.h
-world.o: /usr/include/string.h /usr/include/sys/_types/_rsize_t.h
+world.o: /usr/include/sys/_types/_null.h /usr/include/malloc/_malloc.h
+world.o: /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_mode_t.h
+world.o: /usr/include/assert.h /usr/include/string.h
+world.o: /usr/include/sys/_types/_rsize_t.h
 world.o: /usr/include/sys/_types/_errno_t.h
 world.o: /usr/include/sys/_types/_ssize_t.h /usr/include/strings.h
 world.o: /usr/include/secure/_strings.h /usr/include/secure/_common.h
@@ -4285,7 +4623,7 @@ world_test.o: /usr/include/libkern/i386/_OSByteOrder.h /usr/include/alloca.h
 world_test.o: /usr/include/sys/_types/_ct_rune_t.h
 world_test.o: /usr/include/sys/_types/_rune_t.h
 world_test.o: /usr/include/sys/_types/_wchar_t.h
-world_test.o: /usr/include/sys/_types/_null.h
+world_test.o: /usr/include/sys/_types/_null.h /usr/include/malloc/_malloc.h
 world_test.o: /usr/include/sys/_types/_dev_t.h
 world_test.o: /usr/include/sys/_types/_mode_t.h world_test.h world.h unit.h
 world_test.o: vector.h pi.h factory.h projectile.h

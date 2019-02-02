@@ -76,7 +76,6 @@ void game_add_module(Game * game, char * name, void (*mod_fn)(GameModule *)) {
 }
 
 void game_update(Game * game) {
-
   game_update_time(game, SDL_GetTicks());
 }
 

@@ -3,6 +3,7 @@
 #include "benchmark.h"
 #include "test.h"
 #include "team_id.h"
+#include "client.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +24,8 @@
 #include "mod/mod_render.h"
 #include "mod/mod_print_performance.h"
 
+#include "cmod/cmod_game.h"
+
 #ifdef CONFIG_BENCHMARK_ENABLED
 #define CONFIG_MAKE_GAME
 #endif
@@ -33,11 +36,8 @@
 #define MOD_COUNT 14
 #define SHAPE_COUNT 1
 
-#ifdef CONFIG_MAKE_GAME
-
-static void make_game(Game * game, RandRangeSeed seed) {
-  game_initialize(game, SPAWN_POINTS_COUNT, SHAPE_COUNT, SIZE_X, SIZE_Y, MOD_COUNT);
-  game->seed = seed;
+static void setup_game(Game * game, RandRangeSeed seed) {
+    game->seed = seed;
 
   for (int i = 0; i < SPAWN_POINTS_COUNT; i++) {
     int xy_offset = (i / (TEAM_COUNT - 1));
@@ -88,6 +88,12 @@ static void make_game(Game * game, RandRangeSeed seed) {
   game->renderer.camera.x += SIZE_X / 2;
   game->renderer.camera.y += SIZE_Y / 2;
 }
+
+#ifdef CONFIG_MAKE_GAME
+static void make_game(Game * game, RandRangeSeed seed) {
+  game_initialize(game, SPAWN_POINTS_COUNT, SHAPE_COUNT, SIZE_X, SIZE_Y, MOD_COUNT);
+  setup_game(game, seed);
+}
 #endif
 
 #ifdef CONFIG_BENCHMARK_ENABLED
@@ -119,6 +125,47 @@ static void run_game() {
 }
 #endif
 
+#ifdef CONFIG_CLIENT_ENABLED
+typedef struct {
+  Game * game;
+} GamePointer;
+
+static void setup_client_game(Game * game, void * game_pointer_ptr) {
+  GamePointer * game_pointer = (GamePointer*)game_pointer_ptr;
+  game_pointer->game = game;
+  setup_game(game, 0);
+}
+
+static void setup_client_add_game(Client * client) {
+
+}
+
+static void setup_client(Client * client) {
+  GamePointer game_pointer;
+  CMODGameData data;
+  data.spawn_points_count = SPAWN_POINTS_COUNT;
+  data.shapes_count = SHAPE_COUNT;
+  data.map_height = SIZE_Y;
+  data.map_width = SIZE_X;
+  data.mod_capacity = MOD_COUNT;
+  data.init_data = &game_pointer;
+  data.init = setup_client_game;
+  client_add_module(client, &data, cmod_game);
+}
+
+static void create_client_with_game() {
+  Client client;
+  client_initialize(&client);
+
+  setup_client(&client);
+
+  while(client_update(&client)) {
+    // noop
+  }
+  client_deinitialize(&client);
+}
+#endif
+
 int main(int argc, char **argv) {
 #ifdef CONFIG_TEST_ENABLED
   test();
@@ -128,6 +175,9 @@ int main(int argc, char **argv) {
 #endif
 #ifdef CONFIG_GAME_ENABLED
   run_game();
+#endif
+#ifdef CONFIG_CLIENT_ENABLED
+  create_client_with_game();
 #endif
   return 0;
 }
