@@ -136,10 +136,6 @@ static void setup_client_game(Game * game, void * game_pointer_ptr) {
   setup_game(game, 0);
 }
 
-static void setup_client_add_game(Client * client) {
-
-}
-
 static void setup_client(Client * client) {
   GamePointer game_pointer;
   CMODGameData data;
