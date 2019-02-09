@@ -21,8 +21,6 @@ const int HALF_FACTORY_TEXTURE_SIZE = 48;
 #define UI_PADDING 128
 #define MAP_PADDING 128
 
-typedef union { Uint32 color; struct { Uint8 b; Uint8 g; Uint8 r; }; } RendererColor;
-
 static SDL_Window * create_sdl_window() {
   SDL_Window * sdl_window = SDL_CreateWindow("SDL Window",
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -33,6 +31,11 @@ static SDL_Window * create_sdl_window() {
 }
 
 void renderer_initialize(Renderer * renderer) {
+  assert(sizeof(GLubyte) * 4 == sizeof(uint32_t));
+  assert(sizeof(Vector) == 8);
+  assert(sizeof(RendererColor) == 4);
+  assert(sizeof(RendererUnitVboElement) == 12);
+
   SDL_InitSubSystem(SDL_INIT_VIDEO);
 
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
@@ -69,42 +72,75 @@ static void set_gl_team_color(int team_id) {
   set_gl_team_color_alpha(team_id, 255);
 }
 
-static void renderer_render_unit(const Renderer * renderer, const Unit * unit) {
-  glPushMatrix();
-  glTranslatef(unit->position.x, unit->position.y, 0.0f);
+static void renderer_render_unit(Renderer * renderer, const Unit * unit) {
+  int index = renderer->unit_vbo_length++;
+  Uint32 * colors = &renderer->unit_color_data[index * UNIT_VBO_VERTEX_COUNT];
+  Color color = { value: TEAM_COLOR[unit->team_id] };
+  Uint32 colorCode = 0xFF000000 | (color.r << 16) | (color.g << 8) | color.b;
+  for (int i = 0; i < UNIT_VBO_VERTEX_COUNT; i++) {
+    colors[i] = colorCode;
+  }
 
-  set_gl_team_color(unit->team_id);
+  Vector * vertices = &renderer->unit_vertex_data[index * UNIT_VBO_VERTEX_COUNT];
 
-  glRotatef(unit->direction * RAD2DEGf, 0.0f, 0.0f, 1.0f);
+  // body
+  Vector a = { -16.0f, -12.0f };
+  Vector b = { 16.0f, -12.0f };
+  Vector c = { 16.0f, 12.0f };
+  Vector d = { -16.0f, 12.0f };
 
-  glBegin(GL_LINE_LOOP);
+  // head
+  Vector e = { -4.0f, -8.0f };
+  Vector f = { 4.0f,  0.0f };
+  Vector g = { -4.0f,  8.0f };
 
-  glVertex2f(-16.0f, -12.0f);
-  glVertex2f( 16.0f, -12.0f);
-  glVertex2f( 16.0f,  12.0f);
-  glVertex2f(-16.0f,  12.0f);
-
-  glEnd();
+  // // health
+  Vector h = { -20.0f, -12.0f };
+  Vector i = { -20.0f, -12.0f };
 
   float health = unit_health_percentage(unit);
+  const head_direction = unit->direction + unit->head_direction;
 
-  glBegin(GL_LINES);
+  i.y += 24.0f * health;
 
-  glVertex2f(-20.0f, -12.0f);
-  glVertex2f(-20.0f, -12.0f + 24.0f * health);
+  vector_rotate(&a, unit->direction);
+  vector_rotate(&b, unit->direction);
+  vector_rotate(&c, unit->direction);
+  vector_rotate(&d, unit->direction);
 
-  glEnd();
+  vector_rotate(&h, unit->direction);
+  vector_rotate(&i, unit->direction);
 
-  glRotatef(unit->head_direction * RAD2DEGf, 0.0f, 0.0f, 1.0f);
+  vector_rotate(&e, head_direction);
+  vector_rotate(&f, head_direction);
+  vector_rotate(&g, head_direction);
 
-  glBegin(GL_LINE_STRIP);
+  vector_add(&a, unit->position);
+  vector_add(&b, unit->position);
+  vector_add(&c, unit->position);
+  vector_add(&d, unit->position);
+  vector_add(&e, unit->position);
+  vector_add(&f, unit->position);
+  vector_add(&g, unit->position);
+  vector_add(&h, unit->position);
+  vector_add(&i, unit->position);
 
-  glVertex2f(-4.0f, -8.0f);
-  glVertex2f( 4.0f,  0.0f);
-  glVertex2f(-4.0f,  8.0f);
+  vertices[ 0] = a;
+  vertices[ 1] = b;
+  vertices[ 2] = b;
+  vertices[ 3] = c;
+  vertices[ 4] = c;
+  vertices[ 5] = d;
+  vertices[ 6] = d;
+  vertices[ 7] = a;
 
-  glEnd();
-  glPopMatrix();
+  vertices[ 8] = e;
+  vertices[ 9] = f;
+  vertices[10] = f;
+  vertices[11] = g;
+
+  vertices[12] = h;
+  vertices[13] = i;
 }
 
 static void renderer_render_projectile(const Renderer * renderer, const Projectile * projectile) {
@@ -215,23 +251,22 @@ static int is_vector_in_viewport(const Renderer * renderer, Vector vector, int p
     && point.y - padding <= renderer->viewport_height;
 }
 
-static void render_entity(Entity * entity, void * renderer_ptr) {
+static void render_unit_entity(Entity * entity, void * renderer_ptr) {
+  Renderer * renderer = (Renderer *)renderer_ptr;
+  if(is_vector_in_viewport(renderer, entity->unit.position, HALF_UNIT_TEXTURE_SIZE))
+    renderer_render_unit(renderer, &entity->unit);
+}
+
+static void render_factory_entity(Entity * entity, void * renderer_ptr) {
   const Renderer * renderer = (const Renderer *)renderer_ptr;
-  switch(entity->type) {
-    case UNIT:
-      if(is_vector_in_viewport(renderer, entity->unit.position, HALF_UNIT_TEXTURE_SIZE))
-        renderer_render_unit(renderer, &entity->unit);
-      break;
-    case PROJECTILE:
-      if(is_vector_in_viewport(renderer, entity->projectile.position, PROJECTILE_LENGTH))
-        renderer_render_projectile(renderer, &entity->projectile);
-      break;
-    case FACTORY:
-      if(is_vector_in_viewport(renderer, entity->factory.position, HALF_FACTORY_TEXTURE_SIZE))
-        renderer_render_factory(renderer, &entity->factory);
-      break;
-    case NONE: break;
-  }
+  if(is_vector_in_viewport(renderer, entity->factory.position, HALF_FACTORY_TEXTURE_SIZE))
+    renderer_render_factory(renderer, &entity->factory);
+}
+
+static void render_projectile_entity(Entity * entity, void * renderer_ptr) {
+  const Renderer * renderer = (const Renderer *)renderer_ptr;
+  if(is_vector_in_viewport(renderer, entity->projectile.position, PROJECTILE_LENGTH))
+    renderer_render_projectile(renderer, &entity->projectile);
 }
 
 void renderer_begin(const Renderer * renderer) {
@@ -295,11 +330,25 @@ void renderer_render_map(const Renderer * renderer, const  Map * map) {
   glPopMatrix();
 }
 
+static void render_units(Renderer * renderer, World * world) {
+  renderer->unit_vbo_length = 0;
+  world_pool_iterate_entities(&world->units, renderer, render_unit_entity);
+
+  if (renderer->unit_vbo_length > 0) {
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glColorPointer(4, GL_UNSIGNED_BYTE, 0, &renderer->unit_color_data);
+    glVertexPointer(2, GL_FLOAT, 0, &renderer->unit_vertex_data);
+    glDrawArrays(GL_LINES, 0, renderer->unit_vbo_length * UNIT_VBO_VERTEX_COUNT);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+  }
+}
+
 void renderer_render_world(Renderer * renderer, World * world) {
-  glPushMatrix();
-  glTranslatef(0.0f, 0.0f, 0.0f);
-  world_iterate_entities(world, renderer, render_entity);
-  glEnd();
+  render_units(renderer, world);
+  world_pool_iterate_entities(&world->factories, renderer, render_factory_entity);
+  world_pool_iterate_entities(&world->projectiles, renderer, render_projectile_entity);
 }
 
 static void ui_align(const Renderer * renderer, float x, float y, float scale) {
@@ -382,7 +431,6 @@ void renderer_render_ui(const Renderer * renderer, const Game * game) {
 }
 
 static void set_color(Color color) {
-  assert(sizeof(GLubyte) * 4 == sizeof(uint32_t));
   glColor4ubv((GLubyte*)&color.value);
 }
 

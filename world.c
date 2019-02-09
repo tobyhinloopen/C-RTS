@@ -115,7 +115,7 @@ static void pool_iterate_entities(EntityPool * pool, void * arg, void (* fn)(Ent
   }
 }
 
-static void world_pool_iterate_entities(WorldPool * world_pool, void * param, void (* fn)(Entity *, void *)) {
+void world_pool_iterate_entities(WorldPool * world_pool, void * param, void (* fn)(Entity *, void *)) {
   for(int i = 0; i < world_pool->entity_pool_count; ++i)
     pool_iterate_entities(world_pool->entity_pools[i], param, fn);
 }
