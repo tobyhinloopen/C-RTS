@@ -5,7 +5,7 @@
 
 typedef struct {
   char * data;
-  size_t size;
+  long size;
 } File;
 
 void file_initialize(File *);
