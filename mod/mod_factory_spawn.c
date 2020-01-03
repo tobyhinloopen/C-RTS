@@ -26,7 +26,6 @@ static void spawn_units_for_factory(Factory * factory, World * world) {
 
 static void try_spawn_units_for_factory_entity(Entity * entity, void * world_ptr) {
   Factory * factory = &entity->factory;
-  factory_stop_building(factory);
   if (factory_is_building(factory)) {
     spawn_units_for_factory(factory, (World *)world_ptr);
     if (factory_health_percentage(factory) < 0.4) {

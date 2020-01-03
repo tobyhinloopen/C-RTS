@@ -55,7 +55,7 @@ all: $(MAIN)
 	cp resources/Info.plist C-RTS.app/Contents
 
 $(MAIN): $(OBJS)
-	GL_SILENCE_DEPRECATION=1 $(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)
 
 # this is a suffix replacement rule for building .o's from .c's
 # it uses automatic variables $<: the name of the prerequisite of
