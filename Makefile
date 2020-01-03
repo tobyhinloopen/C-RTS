@@ -55,7 +55,7 @@ all: $(MAIN)
 	cp resources/Info.plist C-RTS.app/Contents
 
 $(MAIN): $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)
+	GL_SILENCE_DEPRECATION=1 $(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)
 
 # this is a suffix replacement rule for building .o's from .c's
 # it uses automatic variables $<: the name of the prerequisite of
@@ -72,13 +72,85 @@ depend: $(SRCS)
 	makedepend $(INCLUDES) $^
 # DO NOT DELETE
 
+gui/gui_button.o: gui/gui_button.h gui/gui_string.h gui/gui_callback.h
+gui/gui_button.o: gui/gui_component.h gui/gui_component_group.h
+gui/gui_button.o: util/linked_list.h gui/gui_viewport.h vector.h
+gui/gui_button.o: gui/gui_frame.h
+gui/gui_callback.o: gui/gui_callback.h
 gui/gui_component.o: gui/gui_component.h gui/gui_button.h gui/gui_string.h
 gui/gui_component.o: gui/gui_callback.h gui/gui_component_group.h
-gui/gui_component.o: util/linked_list.h gui/gui_viewport.h gui/gui_frame.h
+gui/gui_component.o: util/linked_list.h gui/gui_viewport.h vector.h
+gui/gui_component.o: gui/gui_frame.h
 gui/gui_component_group.o: gui/gui_component_group.h util/linked_list.h
 gui/gui_component_group.o: gui/gui_component.h gui/gui_button.h
 gui/gui_component_group.o: gui/gui_string.h gui/gui_callback.h
-gui/gui_component_group.o: gui/gui_viewport.h gui/gui_frame.h
+gui/gui_component_group.o: gui/gui_viewport.h vector.h gui/gui_frame.h
+gui/gui_component_group_test.o: gui/gui_component_group_test.h
+gui/gui_component_group_test.o: gui/gui_component_group.h util/linked_list.h
+gui/gui_component_group_test.o: gui/gui_component.h gui/gui_button.h
+gui/gui_component_group_test.o: gui/gui_string.h gui/gui_callback.h
+gui/gui_component_group_test.o: gui/gui_viewport.h vector.h gui/gui_frame.h
+gui/gui_frame.o: gui/gui_frame.h gui/gui_string.h gui/gui_component.h
+gui/gui_frame.o: gui/gui_button.h gui/gui_callback.h
+gui/gui_frame.o: gui/gui_component_group.h util/linked_list.h
+gui/gui_frame.o: gui/gui_viewport.h vector.h
+gui/gui_string.o: gui/gui_string.h
+gui/gui_viewport.o: gui/gui_viewport.h vector.h
+gui_impl/game_viewport.o: gui_impl/game_viewport.h game.h world.h unit.h
+gui_impl/game_viewport.o: vector.h pi.h factory.h projectile.h map.h shape.h
+gui_impl/game_viewport.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_main.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_stdinc.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_config.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_platform.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/begin_code.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/close_code.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_assert.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_atomic.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_audio.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_error.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_endian.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_mutex.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_thread.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_rwops.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_clipboard.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_cpuinfo.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_events.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_video.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_pixels.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_rect.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_surface.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_blendmode.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_keyboard.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_keycode.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_scancode.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_mouse.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_joystick.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_gamecontroller.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_quit.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_gesture.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_touch.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_filesystem.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_haptic.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_hints.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_loadso.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_log.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_messagebox.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_power.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_render.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_sensor.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_shape.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_system.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_timer.h
+gui_impl/game_viewport.o: /usr/local/include/SDL2/SDL_version.h opengl.h
+gui_impl/game_viewport.o: game.h grid.h kdtree.h scalable_grid.h team_id.h
+gui_impl/game_viewport.o: config.h rand_range.h bktree.h gui.h
+gui_impl/game_viewport.o: gui/gui_component_group.h util/linked_list.h
+gui_impl/game_viewport.o: gui/gui_component.h gui/gui_button.h
+gui_impl/game_viewport.o: gui/gui_string.h gui/gui_callback.h
+gui_impl/game_viewport.o: gui/gui_component_group.h gui/gui_viewport.h
+gui_impl/game_viewport.o: vector.h gui/gui_frame.h gui/gui_viewport.h
+gui_impl/game_viewport.o: renderer.h
 mod/mod_camera_update.o: mod/mod_camera_update.h game.h world.h unit.h
 mod/mod_camera_update.o: vector.h pi.h factory.h projectile.h map.h shape.h
 mod/mod_camera_update.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
@@ -121,6 +193,8 @@ mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_camera_update.o: /usr/local/include/SDL2/SDL_version.h opengl.h
@@ -130,7 +204,7 @@ mod/mod_camera_update.o: gui/gui_component_group.h util/linked_list.h
 mod/mod_camera_update.o: gui/gui_component.h gui/gui_button.h
 mod/mod_camera_update.o: gui/gui_string.h gui/gui_callback.h
 mod/mod_camera_update.o: gui/gui_component_group.h gui/gui_viewport.h
-mod/mod_camera_update.o: gui/gui_frame.h camera.h
+mod/mod_camera_update.o: vector.h gui/gui_frame.h camera.h
 mod/mod_closest_enemy_unit.o: mod/mod_closest_enemy_unit.h game.h world.h
 mod/mod_closest_enemy_unit.o: unit.h vector.h pi.h factory.h projectile.h
 mod/mod_closest_enemy_unit.o: map.h shape.h renderer.h vector3.h
@@ -174,6 +248,8 @@ mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_closest_enemy_unit.o: /usr/local/include/SDL2/SDL_version.h opengl.h
@@ -183,7 +259,7 @@ mod/mod_closest_enemy_unit.o: gui/gui_component_group.h util/linked_list.h
 mod/mod_closest_enemy_unit.o: gui/gui_component.h gui/gui_button.h
 mod/mod_closest_enemy_unit.o: gui/gui_string.h gui/gui_callback.h
 mod/mod_closest_enemy_unit.o: gui/gui_component_group.h gui/gui_viewport.h
-mod/mod_closest_enemy_unit.o: gui/gui_frame.h config.h
+mod/mod_closest_enemy_unit.o: vector.h gui/gui_frame.h config.h
 mod/mod_closest_factory.o: mod/mod_closest_factory.h game.h world.h unit.h
 mod/mod_closest_factory.o: vector.h pi.h factory.h projectile.h map.h shape.h
 mod/mod_closest_factory.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
@@ -226,6 +302,8 @@ mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_closest_factory.o: /usr/local/include/SDL2/SDL_version.h opengl.h
@@ -235,7 +313,7 @@ mod/mod_closest_factory.o: gui/gui_component_group.h util/linked_list.h
 mod/mod_closest_factory.o: gui/gui_component.h gui/gui_button.h
 mod/mod_closest_factory.o: gui/gui_string.h gui/gui_callback.h
 mod/mod_closest_factory.o: gui/gui_component_group.h gui/gui_viewport.h
-mod/mod_closest_factory.o: gui/gui_frame.h
+mod/mod_closest_factory.o: vector.h gui/gui_frame.h
 mod/mod_closest_friendly_unit.o: mod/mod_closest_friendly_unit.h game.h
 mod/mod_closest_friendly_unit.o: world.h unit.h vector.h pi.h factory.h
 mod/mod_closest_friendly_unit.o: projectile.h map.h shape.h renderer.h
@@ -279,6 +357,8 @@ mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_closest_friendly_unit.o: /usr/local/include/SDL2/SDL_version.h
@@ -289,7 +369,7 @@ mod/mod_closest_friendly_unit.o: gui/gui_component_group.h util/linked_list.h
 mod/mod_closest_friendly_unit.o: gui/gui_component.h gui/gui_button.h
 mod/mod_closest_friendly_unit.o: gui/gui_string.h gui/gui_callback.h
 mod/mod_closest_friendly_unit.o: gui/gui_component_group.h gui/gui_viewport.h
-mod/mod_closest_friendly_unit.o: gui/gui_frame.h
+mod/mod_closest_friendly_unit.o: vector.h gui/gui_frame.h
 mod/mod_event.o: mod/mod_event.h game.h world.h unit.h vector.h pi.h
 mod/mod_event.o: factory.h projectile.h map.h shape.h renderer.h vector3.h
 mod/mod_event.o: /usr/local/include/SDL2/SDL.h
@@ -332,6 +412,8 @@ mod/mod_event.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_event.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_event.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_event.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_event.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_event.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_event.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_event.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_event.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h grid.h
@@ -339,7 +421,8 @@ mod/mod_event.o: kdtree.h scalable_grid.h team_id.h config.h rand_range.h
 mod/mod_event.o: bktree.h gui.h gui/gui_component_group.h util/linked_list.h
 mod/mod_event.o: gui/gui_component.h gui/gui_button.h gui/gui_string.h
 mod/mod_event.o: gui/gui_callback.h gui/gui_component_group.h
-mod/mod_event.o: gui/gui_viewport.h gui/gui_frame.h vector3.h renderer.h
+mod/mod_event.o: gui/gui_viewport.h vector.h gui/gui_frame.h vector3.h
+mod/mod_event.o: renderer.h
 mod/mod_factory_spawn.o: mod/mod_factory_spawn.h game.h world.h unit.h
 mod/mod_factory_spawn.o: vector.h pi.h factory.h projectile.h map.h shape.h
 mod/mod_factory_spawn.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
@@ -382,6 +465,8 @@ mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_factory_spawn.o: /usr/local/include/SDL2/SDL_version.h opengl.h
@@ -391,7 +476,7 @@ mod/mod_factory_spawn.o: gui/gui_component_group.h util/linked_list.h
 mod/mod_factory_spawn.o: gui/gui_component.h gui/gui_button.h
 mod/mod_factory_spawn.o: gui/gui_string.h gui/gui_callback.h
 mod/mod_factory_spawn.o: gui/gui_component_group.h gui/gui_viewport.h
-mod/mod_factory_spawn.o: gui/gui_frame.h world.h team_id.h pi.h
+mod/mod_factory_spawn.o: vector.h gui/gui_frame.h world.h team_id.h pi.h
 mod/mod_gui.o: mod/mod_gui.h game.h world.h unit.h vector.h pi.h factory.h
 mod/mod_gui.o: projectile.h map.h shape.h renderer.h vector3.h
 mod/mod_gui.o: /usr/local/include/SDL2/SDL.h
@@ -434,6 +519,8 @@ mod/mod_gui.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_gui.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_gui.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_gui.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_gui.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_gui.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_gui.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_gui.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_gui.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h grid.h
@@ -441,7 +528,7 @@ mod/mod_gui.o: kdtree.h scalable_grid.h team_id.h config.h rand_range.h
 mod/mod_gui.o: bktree.h gui.h gui/gui_component_group.h util/linked_list.h
 mod/mod_gui.o: gui/gui_component.h gui/gui_button.h gui/gui_string.h
 mod/mod_gui.o: gui/gui_callback.h gui/gui_component_group.h
-mod/mod_gui.o: gui/gui_viewport.h gui/gui_frame.h gui.h
+mod/mod_gui.o: gui/gui_viewport.h vector.h gui/gui_frame.h gui.h
 mod/mod_kdtree.o: mod/mod_kdtree.h game.h world.h unit.h vector.h pi.h
 mod/mod_kdtree.o: factory.h projectile.h map.h shape.h renderer.h vector3.h
 mod/mod_kdtree.o: /usr/local/include/SDL2/SDL.h
@@ -484,6 +571,8 @@ mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_kdtree.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h
@@ -491,7 +580,7 @@ mod/mod_kdtree.o: grid.h kdtree.h scalable_grid.h team_id.h config.h
 mod/mod_kdtree.o: rand_range.h bktree.h gui.h gui/gui_component_group.h
 mod/mod_kdtree.o: util/linked_list.h gui/gui_component.h gui/gui_button.h
 mod/mod_kdtree.o: gui/gui_string.h gui/gui_callback.h
-mod/mod_kdtree.o: gui/gui_component_group.h gui/gui_viewport.h
+mod/mod_kdtree.o: gui/gui_component_group.h gui/gui_viewport.h vector.h
 mod/mod_kdtree.o: gui/gui_frame.h kdtree.h
 mod/mod_print_performance.o: mod/mod_print_performance.h game.h world.h
 mod/mod_print_performance.o: unit.h vector.h pi.h factory.h projectile.h
@@ -536,6 +625,8 @@ mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_print_performance.o: /usr/local/include/SDL2/SDL_version.h opengl.h
@@ -545,7 +636,7 @@ mod/mod_print_performance.o: gui/gui_component_group.h util/linked_list.h
 mod/mod_print_performance.o: gui/gui_component.h gui/gui_button.h
 mod/mod_print_performance.o: gui/gui_string.h gui/gui_callback.h
 mod/mod_print_performance.o: gui/gui_component_group.h gui/gui_viewport.h
-mod/mod_print_performance.o: gui/gui_frame.h
+mod/mod_print_performance.o: vector.h gui/gui_frame.h
 mod/mod_projectile_unit_impact.o: mod/mod_projectile_unit_impact.h game.h
 mod/mod_projectile_unit_impact.o: world.h unit.h vector.h pi.h factory.h
 mod/mod_projectile_unit_impact.o: projectile.h map.h shape.h renderer.h
@@ -589,6 +680,8 @@ mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_projectile_unit_impact.o: /usr/local/include/SDL2/SDL_version.h
@@ -600,8 +693,8 @@ mod/mod_projectile_unit_impact.o: util/linked_list.h gui/gui_component.h
 mod/mod_projectile_unit_impact.o: gui/gui_button.h gui/gui_string.h
 mod/mod_projectile_unit_impact.o: gui/gui_callback.h
 mod/mod_projectile_unit_impact.o: gui/gui_component_group.h
-mod/mod_projectile_unit_impact.o: gui/gui_viewport.h gui/gui_frame.h world.h
-mod/mod_projectile_unit_impact.o: config.h scalable_grid.h
+mod/mod_projectile_unit_impact.o: gui/gui_viewport.h vector.h gui/gui_frame.h
+mod/mod_projectile_unit_impact.o: world.h config.h scalable_grid.h
 mod/mod_random_spawn.o: mod/mod_random_spawn.h game.h world.h unit.h vector.h
 mod/mod_random_spawn.o: pi.h factory.h projectile.h map.h shape.h renderer.h
 mod/mod_random_spawn.o: vector3.h /usr/local/include/SDL2/SDL.h
@@ -644,6 +737,8 @@ mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_random_spawn.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h
@@ -651,7 +746,7 @@ mod/mod_random_spawn.o: grid.h kdtree.h scalable_grid.h team_id.h config.h
 mod/mod_random_spawn.o: rand_range.h bktree.h gui.h gui/gui_component_group.h
 mod/mod_random_spawn.o: util/linked_list.h gui/gui_component.h
 mod/mod_random_spawn.o: gui/gui_button.h gui/gui_string.h gui/gui_callback.h
-mod/mod_random_spawn.o: gui/gui_component_group.h gui/gui_viewport.h
+mod/mod_random_spawn.o: gui/gui_component_group.h gui/gui_viewport.h vector.h
 mod/mod_random_spawn.o: gui/gui_frame.h pi.h rand_range.h team_id.h
 mod/mod_render.o: mod/mod_render.h game.h world.h unit.h vector.h pi.h
 mod/mod_render.o: factory.h projectile.h map.h shape.h renderer.h vector3.h
@@ -695,6 +790,8 @@ mod/mod_render.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_render.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_render.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_render.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_render.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_render.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_render.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_render.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_render.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h
@@ -702,7 +799,7 @@ mod/mod_render.o: grid.h kdtree.h scalable_grid.h team_id.h config.h
 mod/mod_render.o: rand_range.h bktree.h gui.h gui/gui_component_group.h
 mod/mod_render.o: util/linked_list.h gui/gui_component.h gui/gui_button.h
 mod/mod_render.o: gui/gui_string.h gui/gui_callback.h
-mod/mod_render.o: gui/gui_component_group.h gui/gui_viewport.h
+mod/mod_render.o: gui/gui_component_group.h gui/gui_viewport.h vector.h
 mod/mod_render.o: gui/gui_frame.h renderer.h camera.h
 mod/mod_scalable_grid.o: mod/mod_scalable_grid.h game.h world.h unit.h
 mod/mod_scalable_grid.o: vector.h pi.h factory.h projectile.h map.h shape.h
@@ -746,6 +843,8 @@ mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_scalable_grid.o: /usr/local/include/SDL2/SDL_version.h opengl.h
@@ -755,7 +854,7 @@ mod/mod_scalable_grid.o: gui/gui_component_group.h util/linked_list.h
 mod/mod_scalable_grid.o: gui/gui_component.h gui/gui_button.h
 mod/mod_scalable_grid.o: gui/gui_string.h gui/gui_callback.h
 mod/mod_scalable_grid.o: gui/gui_component_group.h gui/gui_viewport.h
-mod/mod_scalable_grid.o: gui/gui_frame.h scalable_grid.h config.h
+mod/mod_scalable_grid.o: vector.h gui/gui_frame.h scalable_grid.h config.h
 mod/mod_unit_behavior.o: mod/mod_unit_behavior.h game.h world.h unit.h
 mod/mod_unit_behavior.o: vector.h pi.h factory.h projectile.h map.h shape.h
 mod/mod_unit_behavior.o: renderer.h vector3.h /usr/local/include/SDL2/SDL.h
@@ -798,6 +897,8 @@ mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_unit_behavior.o: /usr/local/include/SDL2/SDL_version.h opengl.h
@@ -807,7 +908,7 @@ mod/mod_unit_behavior.o: gui/gui_component_group.h util/linked_list.h
 mod/mod_unit_behavior.o: gui/gui_component.h gui/gui_button.h
 mod/mod_unit_behavior.o: gui/gui_string.h gui/gui_callback.h
 mod/mod_unit_behavior.o: gui/gui_component_group.h gui/gui_viewport.h
-mod/mod_unit_behavior.o: gui/gui_frame.h unit/behavior.h vector.h unit.h
+mod/mod_unit_behavior.o: vector.h gui/gui_frame.h unit/behavior.h unit.h
 mod/mod_unit_behavior.o: world.h
 mod/mod_unit_projectile_spawn.o: mod/mod_unit_projectile_spawn.h game.h
 mod/mod_unit_projectile_spawn.o: world.h unit.h vector.h pi.h factory.h
@@ -852,6 +953,8 @@ mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_unit_projectile_spawn.o: /usr/local/include/SDL2/SDL_version.h
@@ -862,7 +965,7 @@ mod/mod_unit_projectile_spawn.o: gui/gui_component_group.h util/linked_list.h
 mod/mod_unit_projectile_spawn.o: gui/gui_component.h gui/gui_button.h
 mod/mod_unit_projectile_spawn.o: gui/gui_string.h gui/gui_callback.h
 mod/mod_unit_projectile_spawn.o: gui/gui_component_group.h gui/gui_viewport.h
-mod/mod_unit_projectile_spawn.o: gui/gui_frame.h rand_range.h
+mod/mod_unit_projectile_spawn.o: vector.h gui/gui_frame.h rand_range.h
 mod/mod_world_update.o: mod/mod_world_update.h game.h world.h unit.h vector.h
 mod/mod_world_update.o: pi.h factory.h projectile.h map.h shape.h renderer.h
 mod/mod_world_update.o: vector3.h /usr/local/include/SDL2/SDL.h
@@ -905,6 +1008,8 @@ mod/mod_world_update.o: /usr/local/include/SDL2/SDL_log.h
 mod/mod_world_update.o: /usr/local/include/SDL2/SDL_messagebox.h
 mod/mod_world_update.o: /usr/local/include/SDL2/SDL_power.h
 mod/mod_world_update.o: /usr/local/include/SDL2/SDL_render.h
+mod/mod_world_update.o: /usr/local/include/SDL2/SDL_sensor.h
+mod/mod_world_update.o: /usr/local/include/SDL2/SDL_shape.h
 mod/mod_world_update.o: /usr/local/include/SDL2/SDL_system.h
 mod/mod_world_update.o: /usr/local/include/SDL2/SDL_timer.h
 mod/mod_world_update.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h
@@ -912,7 +1017,7 @@ mod/mod_world_update.o: grid.h kdtree.h scalable_grid.h team_id.h config.h
 mod/mod_world_update.o: rand_range.h bktree.h gui.h gui/gui_component_group.h
 mod/mod_world_update.o: util/linked_list.h gui/gui_component.h
 mod/mod_world_update.o: gui/gui_button.h gui/gui_string.h gui/gui_callback.h
-mod/mod_world_update.o: gui/gui_component_group.h gui/gui_viewport.h
+mod/mod_world_update.o: gui/gui_component_group.h gui/gui_viewport.h vector.h
 mod/mod_world_update.o: gui/gui_frame.h world.h
 unit/behavior.o: unit/behavior.h vector.h unit.h world.h pi.h
 unit/behavior_test.o: unit/behavior_test.h unit/behavior.h vector.h unit.h
@@ -966,6 +1071,8 @@ game.o: /usr/local/include/SDL2/SDL_log.h
 game.o: /usr/local/include/SDL2/SDL_messagebox.h
 game.o: /usr/local/include/SDL2/SDL_power.h
 game.o: /usr/local/include/SDL2/SDL_render.h
+game.o: /usr/local/include/SDL2/SDL_sensor.h
+game.o: /usr/local/include/SDL2/SDL_shape.h
 game.o: /usr/local/include/SDL2/SDL_system.h
 game.o: /usr/local/include/SDL2/SDL_timer.h
 game.o: /usr/local/include/SDL2/SDL_version.h unit.h vector.h pi.h factory.h
@@ -975,7 +1082,8 @@ grid.o: grid.h
 grid_test.o: grid_test.h grid.h
 gui.o: gui.h gui/gui_component_group.h util/linked_list.h gui/gui_component.h
 gui.o: gui/gui_button.h gui/gui_string.h gui/gui_callback.h
-gui.o: gui/gui_component_group.h gui/gui_viewport.h gui/gui_frame.h
+gui.o: gui/gui_component_group.h gui/gui_viewport.h vector.h gui/gui_frame.h
+gui.o: vector.h
 kdtree.o: kdtree.h vector.h
 kdtree_test.o: kdtree_test.h kdtree.h vector.h
 main.o: game.h config.h benchmark.h test.h team_id.h vector.h
@@ -1020,13 +1128,15 @@ main.o: /usr/local/include/SDL2/SDL_log.h
 main.o: /usr/local/include/SDL2/SDL_messagebox.h
 main.o: /usr/local/include/SDL2/SDL_power.h
 main.o: /usr/local/include/SDL2/SDL_render.h
+main.o: /usr/local/include/SDL2/SDL_sensor.h
+main.o: /usr/local/include/SDL2/SDL_shape.h
 main.o: /usr/local/include/SDL2/SDL_system.h
 main.o: /usr/local/include/SDL2/SDL_timer.h
 main.o: /usr/local/include/SDL2/SDL_version.h opengl.h grid.h kdtree.h
 main.o: scalable_grid.h rand_range.h bktree.h gui.h gui/gui_component_group.h
 main.o: util/linked_list.h gui/gui_component.h gui/gui_button.h
 main.o: gui/gui_string.h gui/gui_callback.h gui/gui_component_group.h
-main.o: gui/gui_viewport.h gui/gui_frame.h mod/mod_kdtree.h
+main.o: gui/gui_viewport.h vector.h gui/gui_frame.h mod/mod_kdtree.h
 main.o: mod/mod_closest_enemy_unit.h mod/mod_closest_friendly_unit.h
 main.o: mod/mod_closest_factory.h mod/mod_event.h
 main.o: mod/mod_unit_projectile_spawn.h mod/mod_projectile_unit_impact.h
@@ -1079,6 +1189,8 @@ renderer.o: /usr/local/include/SDL2/SDL_log.h
 renderer.o: /usr/local/include/SDL2/SDL_messagebox.h
 renderer.o: /usr/local/include/SDL2/SDL_power.h
 renderer.o: /usr/local/include/SDL2/SDL_render.h
+renderer.o: /usr/local/include/SDL2/SDL_sensor.h
+renderer.o: /usr/local/include/SDL2/SDL_shape.h
 renderer.o: /usr/local/include/SDL2/SDL_system.h
 renderer.o: /usr/local/include/SDL2/SDL_timer.h
 renderer.o: /usr/local/include/SDL2/SDL_version.h renderer.h vector3.h
@@ -1125,6 +1237,8 @@ renderer_test.o: /usr/local/include/SDL2/SDL_log.h
 renderer_test.o: /usr/local/include/SDL2/SDL_messagebox.h
 renderer_test.o: /usr/local/include/SDL2/SDL_power.h
 renderer_test.o: /usr/local/include/SDL2/SDL_render.h
+renderer_test.o: /usr/local/include/SDL2/SDL_sensor.h
+renderer_test.o: /usr/local/include/SDL2/SDL_shape.h
 renderer_test.o: /usr/local/include/SDL2/SDL_system.h
 renderer_test.o: /usr/local/include/SDL2/SDL_timer.h
 renderer_test.o: /usr/local/include/SDL2/SDL_version.h opengl.h game.h
@@ -1136,7 +1250,7 @@ team_id.o: team_id.h vector.h config.h
 test.o: test.h util_test.h unit_test.h world_test.h vector_test.h
 test.o: unit/behavior_test.h renderer_test.h shape_test.h factory_test.h
 test.o: grid_test.h kdtree_test.h rand_range_test.h bktree_test.h
-test.o: util/linked_list_test.h
+test.o: util/linked_list_test.h gui/gui_component_group_test.h
 text_renderer.o: text_renderer.h opengl.h
 unit.o: unit.h vector.h pi.h factory.h
 unit_test.o: unit_test.h unit.h vector.h pi.h factory.h
