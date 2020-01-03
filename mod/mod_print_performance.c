@@ -7,7 +7,7 @@ static void print_performance(GameModule * mod, clock_t duration) {
   printf("%s %luC\n", mod->name, duration);
 }
 
-static void mod_print_performance_initialize(Game * game) {
+static void mod_print_performance_initialize(Game * game, void * arg) {
   printf("\nPRINT PERFORMANCE - INITIALIZE\n");
   for (int i = 0; i < game->modules_count; i++) {
     GameModule * mod = &game->modules[i];
@@ -35,7 +35,7 @@ static void print_world_report(World * world) {
   print_world_pool_report("projectiles", &world->projectiles);
 }
 
-static void mod_print_performance_update(Game * game, unsigned int delta) {
+static void mod_print_performance_update(Game * game, unsigned int delta, void * arg) {
   if (game->modules->duration_update_index == 0 && delta > 0) {
     printf("\nPRINT PERFORMANCE - UPDATE\n");
     for (int i = 0; i < game->modules_count; i++) {
@@ -47,7 +47,7 @@ static void mod_print_performance_update(Game * game, unsigned int delta) {
   }
 }
 
-static void mod_print_performance_deinitialize(Game * game) {
+static void mod_print_performance_deinitialize(Game * game, void * arg) {
   printf("\nPRINT PERFORMANCE - DEINITIALIZE\n");
   for (int i = 0; i < game->modules_count; i++) {
     GameModule * mod = &game->modules[i];

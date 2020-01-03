@@ -76,7 +76,7 @@ static void destroy_entity_touching_projectile_entity(Entity * entity, void * ga
   }
 }
 
-static void mod_projectile_unit_impact_update(Game * game, unsigned int delta) {
+static void mod_projectile_unit_impact_update(Game * game, unsigned int delta, void * arg) {
   world_iterate_entities_of_type(&game->world, PROJECTILE, game, destroy_entity_touching_projectile_entity);
 }
 

@@ -3,7 +3,7 @@
 #include "../renderer.h"
 #include "../camera.h"
 
-static void mod_render_initialize(Game * game) {
+static void mod_render_initialize(Game * game, void * arg) {
   renderer_initialize(&game->renderer);
 }
 
@@ -14,7 +14,7 @@ static void handle_window_resize(Game * game) {
   }
 }
 
-static void mod_render_update(Game * game, unsigned int delta_i) {
+static void mod_render_update(Game * game, unsigned int delta_i, void * arg) {
   handle_window_resize(game);
   renderer_begin(&game->renderer);
   renderer_render_map(&game->renderer, &game->map);
@@ -23,7 +23,7 @@ static void mod_render_update(Game * game, unsigned int delta_i) {
   renderer_present(&game->renderer);
 }
 
-static void mod_render_deinitialize(Game * game) {
+static void mod_render_deinitialize(Game * game, void * arg) {
   renderer_deinitialize(&game->renderer);
 }
 

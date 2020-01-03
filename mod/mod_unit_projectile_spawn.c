@@ -24,7 +24,7 @@ static void create_unit_entity_projectiles(Entity * entity, void * game_ptr) {
   create_unit_projectiles(&entity->unit, &game->world, &game->seed);
 }
 
-static void mod_unit_projectile_spawn_update(Game * game, unsigned int delta) {
+static void mod_unit_projectile_spawn_update(Game * game, unsigned int delta, void * arg) {
   world_iterate_entities_of_type(&game->world, UNIT, game, create_unit_entity_projectiles);
 }
 

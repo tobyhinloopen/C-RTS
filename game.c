@@ -29,8 +29,6 @@ void game_initialize(Game * game, int spawn_points_count, int shapes_count, floa
   game->command_position_set = 0;
   vector_initialize(&game->command_position);
 
-  gui_initialize(&game->gui);
-
   SDL_InitSubSystem(SDL_INIT_TIMER);
 
   game->delta = 0;
@@ -44,14 +42,16 @@ void game_initialize(Game * game, int spawn_points_count, int shapes_count, floa
   game->update_count = 0;
 }
 
-static void noop_game(Game * game) {}
-static void noop_game_delta(Game * game, unsigned int delta) {}
+static void noop_game(Game * game, void * arg) {}
+static void noop_game_delta(Game * game, unsigned int delta, void * arg) {}
+static size_t alloc_zero(Game * game) { return 0; }
 
 static void game_clear_module(GameModule * mod) {
   mod->duration_initialize = 0;
   mod->duration_deinitialize = 0;
   mod->duration_update_index = 0;
   memset(&mod->duration_update, 0, sizeof(mod->duration_update));
+  mod->alloc_size = alloc_zero;
   mod->initialize = noop_game;
   mod->tick = noop_game;
   mod->update = noop_game_delta;
@@ -64,7 +64,10 @@ static void game_initialize_module(GameModule * mod, Game * game, char * name, v
   mod_fn(mod);
 
   clock_t start = clock();
-  mod->initialize(game);
+  size_t size = mod->alloc_size(game);
+  mod->data = size > 0 ? malloc(size) : NULL;
+  assert(size > 0 && mod->data != NULL || size == 0);
+  mod->initialize(game, mod->data);
   mod->duration_initialize = clock() - start;
 }
 
@@ -90,7 +93,7 @@ void game_update_time(Game * game, unsigned int current_time) {
       continue;
 
     clock_t start = clock();
-    mod->update(game, game->delta);
+    mod->update(game, game->delta, mod->data);
     mod->duration_update[mod->duration_update_index++] = clock() - start;
     mod->duration_update_index %= GAME_MODULE_DURATION_LENGTH;
   }
@@ -104,7 +107,10 @@ void game_deinitialize(Game * game) {
     GameModule * mod = &game->modules[i];
 
     clock_t start = clock();
-    mod->deinitialize(game);
+    mod->deinitialize(game, mod->data);
+    if (mod->data != NULL) {
+      free(mod->data);
+    }
     mod->duration_deinitialize = clock() - start;
   }
 

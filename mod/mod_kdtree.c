@@ -6,7 +6,7 @@ static void initialize_with_capacity(KDTree * kdtree, size_t capacity) {
   kdtree_set_capacity(kdtree, capacity);
 }
 
-static void mod_kdtree_initialize(Game * game) {
+static void mod_kdtree_initialize(Game * game, void * arg) {
   for (int i = 0; i < TEAM_COUNT; i++) {
     initialize_with_capacity(&game->units_kdtrees[i], 1024);
     initialize_with_capacity(&game->factories_kdtrees[i], 1024);
@@ -31,7 +31,7 @@ static void resize_and_build(KDTree * kdtree) {
   kdtree_build(kdtree);
 }
 
-static void mod_kdtree_update(Game * game, unsigned int delta) {
+static void mod_kdtree_update(Game * game, unsigned int delta, void * arg) {
   for (int i = 0; i < TEAM_COUNT; i++) {
     kdtree_clear(&game->units_kdtrees[i]);
     kdtree_clear(&game->factories_kdtrees[i]);
@@ -46,7 +46,7 @@ static void mod_kdtree_update(Game * game, unsigned int delta) {
   }
 }
 
-static void mod_kdtree_deinitialize(Game * game) {
+static void mod_kdtree_deinitialize(Game * game, void * arg) {
   for (int i = 0; i < TEAM_COUNT; i++)
     kdtree_deinitialize(&game->units_kdtrees[i]);
 }

@@ -3,7 +3,7 @@
 #include "../renderer.h"
 
 static void render_entity(Entity * entity, void * viewport_ptr) {
-  const GUIViewport * viewport = (GUIViewport *)viewport_ptr;
+  GUIViewport * viewport = (GUIViewport *)viewport_ptr;
 
   switch(entity->type) {
     case UNIT:

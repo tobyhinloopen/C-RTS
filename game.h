@@ -56,10 +56,12 @@ struct GameModule {
   clock_t duration_deinitialize;
   clock_t duration_update [GAME_MODULE_DURATION_LENGTH];
   int duration_update_index;
-  void (* initialize)(Game * game);
-  void (* tick)(Game * game);
-  void (* update)(Game * game, unsigned int delta_since_tick);
-  void (* deinitialize)(Game * game);
+  void * data;
+  size_t (* alloc_size)(Game * game);
+  void (* initialize)(Game * game, void * data);
+  void (* tick)(Game * game, void * data);
+  void (* update)(Game * game, unsigned int delta_since_tick, void * data);
+  void (* deinitialize)(Game * game, void * data);
 };
 
 void game_initialize(Game * game, int spawn_points_count, int shapes_count, float map_width, float map_height, size_t mod_capacity);

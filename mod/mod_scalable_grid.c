@@ -4,7 +4,7 @@
 
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
 
-static void mod_scalable_grid_initialize(Game * game) {
+static void mod_scalable_grid_initialize(Game * game, void * arg) {
   scalable_grid_initialize(&game->scalable_grid);
   scalable_grid_set_size(&game->scalable_grid, (GridXY){ CONFIG_SCALABLE_GRID_SIZE, CONFIG_SCALABLE_GRID_SIZE });
   scalable_grid_set_transform(&game->scalable_grid, (Vector){ -2048, -2048 }, (Vector){ 4096, 4096 });
@@ -52,7 +52,7 @@ static void ensure_capacity(ScalableGrid * scalable_grid, unsigned int required_
     scalable_grid_set_capacity(scalable_grid, required_capacity * 2);
 }
 
-static void mod_scalable_grid_update(Game * game, unsigned int delta) {
+static void mod_scalable_grid_update(Game * game, unsigned int delta, void * arg) {
   VectorCountMinMax c = {0, {0, 0}, {0, 0}};
   world_iterate_entities_of_type(&game->world, UNIT, &c, world_entity_count_min_max);
   world_iterate_entities_of_type(&game->world, FACTORY, &c, world_entity_count_min_max);
@@ -65,7 +65,7 @@ static void mod_scalable_grid_update(Game * game, unsigned int delta) {
   world_iterate_entities_of_type(&game->world, FACTORY, &game->scalable_grid, world_entity_scalable_grid_insert);
 }
 
-static void mod_scalable_grid_deinitialize(Game * game) {
+static void mod_scalable_grid_deinitialize(Game * game, void * arg) {
   scalable_grid_deinitialize(&game->scalable_grid);
 }
 

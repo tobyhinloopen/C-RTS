@@ -20,6 +20,7 @@
 #include "mod/mod_factory_spawn.h"
 #include "mod/mod_world_update.h"
 #include "mod/mod_camera_update.h"
+#include "mod/mod_gui.h"
 #include "mod/mod_render.h"
 #include "mod/mod_print_performance.h"
 
@@ -30,13 +31,13 @@
 #define CONFIG_MAKE_GAME
 #endif
 
-#define MOD_COUNT 14
+#define MOD_CAPACITY 32
 #define SHAPE_COUNT 1
 
 #ifdef CONFIG_MAKE_GAME
 
 static void make_game(Game * game, RandRangeSeed seed) {
-  game_initialize(game, SPAWN_POINTS_COUNT, SHAPE_COUNT, SIZE_X, SIZE_Y, MOD_COUNT);
+  game_initialize(game, SPAWN_POINTS_COUNT, SHAPE_COUNT, SIZE_X, SIZE_Y, MOD_CAPACITY);
   game->seed = seed;
 
   for (int i = 0; i < SPAWN_POINTS_COUNT; i++) {
@@ -80,6 +81,7 @@ static void make_game(Game * game, RandRangeSeed seed) {
   game_add_module(game, "mod_unit_behavior", mod_unit_behavior);
   game_add_module(game, "mod_world_update", mod_world_update);
   game_add_module(game, "mod_camera_update", mod_camera_update);
+  game_add_module(game, "mod_gui", mod_gui);
   game_add_module(game, "mod_render", mod_render);
 #ifdef CONFIG_PRINT_PERFORMANCE_ENABLED
   game_add_module(game, "mod_print_performance", mod_print_performance);

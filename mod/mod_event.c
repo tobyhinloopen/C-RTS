@@ -4,7 +4,7 @@
 #include "../renderer.h"
 #include <SDL2/SDL.h>
 
-static void mod_event_initialize(Game * game) {
+static void mod_event_initialize(Game * game, void * arg) {
   game->is_quit_requested = 0;
 }
 
@@ -63,7 +63,7 @@ static Vector3 camera_movement_from_keyboard_event(SDL_KeyboardEvent * event) {
   return movement;
 }
 
-static void mod_event_update(Game * game, unsigned int delta) {
+static void mod_event_update(Game * game, unsigned int delta, void * arg) {
   game->command_position_set = 0;
 
   SDL_Event event;

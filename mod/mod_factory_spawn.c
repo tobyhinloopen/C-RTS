@@ -3,7 +3,7 @@
 #include "../team_id.h"
 #include "../pi.h"
 
-static void mod_factory_spawn_initialize(Game * game) {
+static void mod_factory_spawn_initialize(Game * game, void * arg) {
   Map * map = &game->map;
   for (int i = 0; i < map->spawn_points_count; i++) {
     Vector spawn_point = map->spawn_points[i];
@@ -36,7 +36,7 @@ static void try_spawn_units_for_factory_entity(Entity * entity, void * world_ptr
   }
 }
 
-static void mod_factory_spawn_update(Game * game, unsigned int delta) {
+static void mod_factory_spawn_update(Game * game, unsigned int delta, void * arg) {
   world_iterate_entities_of_type(&game->world, FACTORY, &game->world, try_spawn_units_for_factory_entity);
 }
 

@@ -49,13 +49,13 @@ static void game_spawn_next_unit_group(Game * game) {
       setup_unit(&world_entity_allocate(&game->world, UNIT)->unit, &game->seed, team_offset, x, y);
 }
 
-static void mod_random_spawn_initialize(Game * game) {
+static void mod_random_spawn_initialize(Game * game, void * arg) {
   for(int i=0; i<UNIT_INITIAL_SPAWN_GROUP_COUNT; ++i)
     game_spawn_next_unit_group(game);
   game->last_spawn_time = game->start_time;
 }
 
-static void mod_random_spawn_update(Game * game, unsigned int delta) {
+static void mod_random_spawn_update(Game * game, unsigned int delta, void * arg) {
   while(is_game_unit_spawn_interval_passed(game, game->current_time))
     game_spawn_next_unit_group(game);
 }
