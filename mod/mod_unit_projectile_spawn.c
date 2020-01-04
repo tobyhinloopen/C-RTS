@@ -2,7 +2,7 @@
 #include "../rand_range.h"
 
 static Projectile * create_unit_projectile(Unit * unit, World * world, RandRangeSeed * seed) {
-  Projectile * projectile = &world_entity_allocate(world, PROJECTILE)->projectile;
+  Projectile * projectile = &world_entity_allocate(world, ENTITY_PROJECTILE)->projectile;
   projectile_initialize(projectile, unit->position,
     unit->direction + unit->head_direction + rand_rangef(seed, -0.02f, 0.02f), unit->team_id);
   projectile->distance_remaining *= rand_rangef(seed, 0.9f, 1.1f);
@@ -25,7 +25,7 @@ static void create_unit_entity_projectiles(Entity * entity, void * game_ptr) {
 }
 
 static void mod_unit_projectile_spawn_update(Game * game, unsigned int delta, void * arg) {
-  world_iterate_entities_of_type(&game->world, UNIT, game, create_unit_entity_projectiles);
+  world_iterate_entities_of_type(&game->world, ENTITY_UNIT, game, create_unit_entity_projectiles);
 }
 
 void mod_unit_projectile_spawn(GameModule * mod) {

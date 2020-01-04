@@ -94,7 +94,7 @@ gui/gui_frame.o: gui/gui_frame.h gui/gui_string.h gui/gui_component.h
 gui/gui_frame.o: gui/gui_button.h gui/gui_callback.h
 gui/gui_frame.o: gui/gui_component_group.h util/linked_list.h
 gui/gui_frame.o: gui/gui_viewport.h vector.h
-gui/gui_string.o: gui/gui_string.h
+gui/gui_string.o: gui/gui_string.h text_renderer.h
 gui/gui_viewport.o: gui/gui_viewport.h vector.h
 gui_impl/game_viewport.o: gui_impl/game_viewport.h game.h world.h unit.h
 gui_impl/game_viewport.o: vector.h pi.h factory.h projectile.h map.h shape.h
@@ -1141,8 +1141,8 @@ main.o: mod/mod_closest_enemy_unit.h mod/mod_closest_friendly_unit.h
 main.o: mod/mod_closest_factory.h mod/mod_event.h
 main.o: mod/mod_unit_projectile_spawn.h mod/mod_projectile_unit_impact.h
 main.o: mod/mod_unit_behavior.h mod/mod_factory_spawn.h
-main.o: mod/mod_world_update.h mod/mod_camera_update.h mod/mod_render.h
-main.o: mod/mod_print_performance.h
+main.o: mod/mod_world_update.h mod/mod_camera_update.h mod/mod_gui.h
+main.o: mod/mod_render.h mod/mod_print_performance.h
 map.o: map.h vector.h shape.h
 opencl.o: opencl.h
 opencl_benchmark.o: opencl_benchmark.h opencl.h file.h rand_range.h

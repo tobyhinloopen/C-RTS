@@ -7,7 +7,7 @@
 
 #define WORLD_POOL_SIZE 32
 
-typedef enum { NONE = 0, UNIT, PROJECTILE, FACTORY } EntityType;
+typedef enum { ENTITY_NONE = 0, ENTITY_UNIT, ENTITY_PROJECTILE, ENTITY_FACTORY } EntityType;
 
 typedef struct {
   EntityType type;

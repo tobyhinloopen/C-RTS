@@ -10,6 +10,7 @@ void gui_button_update(GUIButton * button, unsigned int delta) {
 }
 
 void gui_button_render(GUIButton * button) {
+  gui_string_render(&button->label);
 }
 
 void gui_button_deinitialize(GUIButton * button) {

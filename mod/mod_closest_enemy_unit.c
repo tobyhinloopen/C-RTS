@@ -18,7 +18,7 @@ static void assign_closest_enemy_unit(Entity * entity, void * game_ptr) {
 }
 
 static void mod_closest_enemy_unit_update(Game * game, unsigned int delta, void * arg) {
-  world_iterate_entities_of_type(&game->world, UNIT, game, assign_closest_enemy_unit);
+  world_iterate_entities_of_type(&game->world, ENTITY_UNIT, game, assign_closest_enemy_unit);
 }
 
 void mod_closest_enemy_unit(GameModule * mod) {

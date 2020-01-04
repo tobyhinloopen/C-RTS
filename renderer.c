@@ -215,19 +215,19 @@ static int is_vector_in_viewport(Renderer * renderer, Vector vector, int padding
 static void render_entity(Entity * entity, void * renderer_ptr) {
   Renderer * renderer = (Renderer *)renderer_ptr;
   switch(entity->type) {
-    case UNIT:
+    case ENTITY_UNIT:
       if(is_vector_in_viewport(renderer, entity->unit.position, HALF_UNIT_TEXTURE_SIZE))
         renderer_render_unit(&entity->unit);
       break;
-    case PROJECTILE:
+    case ENTITY_PROJECTILE:
       if(is_vector_in_viewport(renderer, entity->projectile.position, PROJECTILE_LENGTH))
         renderer_render_projectile(&entity->projectile);
       break;
-    case FACTORY:
+    case ENTITY_FACTORY:
       if(is_vector_in_viewport(renderer, entity->factory.position, HALF_FACTORY_TEXTURE_SIZE))
         renderer_render_factory(&entity->factory);
       break;
-    case NONE: break;
+    case ENTITY_NONE: break;
   }
 }
 
@@ -305,7 +305,7 @@ void renderer_render_world(Renderer * renderer, World * world) {
   glEnd();
 }
 
-static void ui_align(Renderer * renderer, float x, float y, float scale) {
+void renderer_align_ui(Renderer * renderer, float x, float y, float scale) {
   glLoadIdentity();
   glTranslatef(
     (renderer->viewport_width - UI_PADDING) * x / 2,
@@ -336,7 +336,7 @@ static int compare_module_performances(const void * a, const void * b) {
 }
 
 static void render_ui_debug(Renderer * renderer, Game * game) {
-  ui_align(renderer, -1, -1, 0.8);
+  renderer_align_ui(renderer, -1, -1, 0.8);
   char debug_str[2048];
   int length = snprintf(debug_str, sizeof(debug_str),
     "%.0f, %.0f %.0f%%; CMDPOS: %.0f, %.0f\n%22s:%7i\n%22s:%7i\n%22s:%7i\n%22s:%7i 0x%08x\n%22s:%7lu  fps%6.1f\n",
@@ -375,6 +375,8 @@ void renderer_render_ui(Renderer * renderer, Game * game) {
   glMatrixMode(GL_MODELVIEW);
   glColor3f(0.4f, 0.4f, 0.4f);
   render_ui_debug(renderer, game);
+
+  renderer_align_ui(renderer, -1, -1, 1);
   render_gui(renderer, &game->gui);
 }
 

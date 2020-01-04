@@ -7,7 +7,7 @@ static void mod_factory_spawn_initialize(Game * game, void * arg) {
   Map * map = &game->map;
   for (int i = 0; i < map->spawn_points_count; i++) {
     Vector spawn_point = map->spawn_points[i];
-    Factory * factory = &world_entity_allocate(&game->world, FACTORY)->factory;
+    Factory * factory = &world_entity_allocate(&game->world, ENTITY_FACTORY)->factory;
     factory_initialize(factory);
     factory->position = spawn_point;
     factory->team_id = 1 + i % (TEAM_COUNT - 1);
@@ -21,7 +21,7 @@ static void mod_factory_spawn_initialize(Game * game, void * arg) {
 static void spawn_units_for_factory(Factory * factory, World * world) {
   Unit unit;
   while (factory_try_build_unit(factory, &unit))
-    world_entity_allocate(world, UNIT)->unit = unit;
+    world_entity_allocate(world, ENTITY_UNIT)->unit = unit;
 }
 
 static void try_spawn_units_for_factory_entity(Entity * entity, void * world_ptr) {
@@ -37,7 +37,7 @@ static void try_spawn_units_for_factory_entity(Entity * entity, void * world_ptr
 }
 
 static void mod_factory_spawn_update(Game * game, unsigned int delta, void * arg) {
-  world_iterate_entities_of_type(&game->world, FACTORY, &game->world, try_spawn_units_for_factory_entity);
+  world_iterate_entities_of_type(&game->world, ENTITY_FACTORY, &game->world, try_spawn_units_for_factory_entity);
 }
 
 void mod_factory_spawn(GameModule * mod) {

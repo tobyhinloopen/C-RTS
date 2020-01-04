@@ -37,8 +37,8 @@ static void mod_kdtree_update(Game * game, unsigned int delta, void * arg) {
     kdtree_clear(&game->factories_kdtrees[i]);
   }
 
-  world_iterate_entities_of_type(&game->world, UNIT, game, add_unit_to_kdtree);
-  world_iterate_entities_of_type(&game->world, FACTORY, game, add_factory_to_kdtree);
+  world_iterate_entities_of_type(&game->world, ENTITY_UNIT, game, add_unit_to_kdtree);
+  world_iterate_entities_of_type(&game->world, ENTITY_FACTORY, game, add_factory_to_kdtree);
 
   for (int i = 0; i < TEAM_COUNT; i++) {
     resize_and_build(&game->units_kdtrees[i]);

@@ -46,8 +46,8 @@ void test_world() {
 //
 // void test_world_entity_allocate_single() {
 //   world_initialize(&world);
-//   Entity * entity = world_entity_allocate(&world, UNIT);
-//   assert_allocated_entity(entity, UNIT);
+//   Entity * entity = world_entity_allocate(&world, ENTITY_UNIT);
+//   assert_allocated_entity(entity, ENTITY_UNIT);
 //   assert(world.entity_pool_size >= 1);
 //   assert(world.entity_count == 1);
 //   assert(&world.entities[0] == entity);
@@ -56,12 +56,12 @@ void test_world() {
 //
 // void test_world_entity_allocate_multiple() {
 //   world_initialize(&world);
-//   Entity * a = world_entity_allocate(&world, UNIT);
-//   assert_allocated_entity(a, UNIT);
-//   Entity * b = world_entity_allocate(&world, UNIT);
-//   assert_allocated_entity(b, UNIT);
-//   Entity * c = world_entity_allocate(&world, UNIT);
-//   assert_allocated_entity(c, UNIT);
+//   Entity * a = world_entity_allocate(&world, ENTITY_UNIT);
+//   assert_allocated_entity(a, ENTITY_UNIT);
+//   Entity * b = world_entity_allocate(&world, ENTITY_UNIT);
+//   assert_allocated_entity(b, ENTITY_UNIT);
+//   Entity * c = world_entity_allocate(&world, ENTITY_UNIT);
+//   assert_allocated_entity(c, ENTITY_UNIT);
 //   assert(a != b);
 //   assert(b != c);
 //   assert(world.entity_pool_size >= 3);
@@ -71,12 +71,12 @@ void test_world() {
 //
 // void test_world_entity_deallocate() {
 //   world_initialize(&world);
-//   Entity * entity_foo = world_entity_allocate(&world, UNIT);
+//   Entity * entity_foo = world_entity_allocate(&world, ENTITY_UNIT);
 //   unit_initialize(&entity_foo->unit);
-//   Entity * entity_bar = world_entity_allocate(&world, UNIT);
+//   Entity * entity_bar = world_entity_allocate(&world, ENTITY_UNIT);
 //   unit_initialize(&entity_bar->unit);
 //   world_entity_deallocate(&world, entity_foo);
-//   assert(entity_foo->type == NONE);
+//   assert(entity_foo->type == ENTITY_NONE);
 //   assert(world.entity_pool_size >= 1);
 //   assert(world.entity_count == 1);
 //   world_deinitialize(&world);
@@ -90,7 +90,7 @@ void test_world() {
 // void test_world_entity_allocate_after_deallocate_once() {
 //   world_initialize(&world);
 //   allocate_and_deallocate_entity_once();
-//   assert_allocated_entity(world_entity_allocate(&world, UNIT), UNIT);
+//   assert_allocated_entity(world_entity_allocate(&world, ENTITY_UNIT), ENTITY_UNIT);
 //   assert(world.entity_count == 1);
 //   world_deinitialize(&world);
 // }
@@ -101,7 +101,7 @@ void test_world() {
 //   world_initialize(&world);
 //   for(int i=0; i<allocate_deallocate_cycle_count; i++)
 //     allocate_and_deallocate_entity_once();
-//   assert_allocated_entity(world_entity_allocate(&world, UNIT), UNIT);
+//   assert_allocated_entity(world_entity_allocate(&world, ENTITY_UNIT), ENTITY_UNIT);
 //   assert(world.entity_count == 1);
 //   assert(world.entity_pool_size < max_expected_pool_size);
 //   world_deinitialize(&world);
@@ -111,7 +111,7 @@ void test_world() {
 //   const float delta = 0.6f;
 //   const float throttle = 0.8f;
 //   world_initialize(&world);
-//   Entity * entity = world_entity_allocate(&world, UNIT);
+//   Entity * entity = world_entity_allocate(&world, ENTITY_UNIT);
 //   unit_initialize(&entity->unit);
 //   entity->unit.throttle = throttle;
 //   assert(entity->unit.throttle == throttle);
@@ -128,15 +128,15 @@ void test_world() {
 // void test_world_iterate_entities() {
 //   world_initialize(&world);
 //   test_world_iterate_entities_iterator_callback_called = 0;
-//   world_entity_allocate(&world, UNIT);
-//   world_entity_allocate(&world, UNIT);
+//   world_entity_allocate(&world, ENTITY_UNIT);
+//   world_entity_allocate(&world, ENTITY_UNIT);
 //   world_iterate_entities(&world, NULL, test_world_iterate_entities_iterator_callback);
 //   assert(test_world_iterate_entities_iterator_callback_called == 2);
 //   world_deinitialize(&world);
 // }
 //
 // void allocate_and_deallocate_entity_once() {
-//   world_entity_deallocate(&world, world_entity_allocate(&world, UNIT));
+//   world_entity_deallocate(&world, world_entity_allocate(&world, ENTITY_UNIT));
 // }
 //
 // void test_world_iterate_entities_iterator_callback(Entity * entity, void * arg) {

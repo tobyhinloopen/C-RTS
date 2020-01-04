@@ -8,10 +8,19 @@ typedef struct _GUIComponent GUIComponent;
 #include "gui_viewport.h"
 #include "gui_frame.h"
 
-typedef enum {BUTTON = 1, COMPONENT_GROUP, FRAME, VIEWPORT} GUIComponentType;
+#include "../util/rect.h"
+
+typedef enum {
+  GUI_COMPONENT_NONE = 0,
+  GUI_COMPONENT_BUTTON = 1,
+  GUI_COMPONENT_COMPONENT_GROUP,
+  GUI_COMPONENT_FRAME,
+  GUI_COMPONENT_VIEWPORT
+} GUIComponentType;
 
 struct _GUIComponent {
   GUIComponentType type;
+  Rect rect;
   union {
     GUIButton button;
     GUIComponentGroup component_group;
@@ -19,6 +28,9 @@ struct _GUIComponent {
     GUIViewport viewport;
   };
 };
+
+void gui_component_initialize_button(GUIComponent *, const char * label);
+void gui_component_initialize_viewport(GUIComponent *, void (*)(GUIViewport *, void * render_arg), void * render_arg);
 
 void gui_component_update(GUIComponent *, unsigned int);
 void gui_component_render(GUIComponent *);

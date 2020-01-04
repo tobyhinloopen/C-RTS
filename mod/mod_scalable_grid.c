@@ -12,9 +12,9 @@ static void mod_scalable_grid_initialize(Game * game, void * arg) {
 }
 
 static Vector * entity_position(Entity * entity) {
-  if (entity->type == UNIT) {
+  if (entity->type == ENTITY_UNIT) {
     return &entity->unit.position;
-  } else if(entity->type == FACTORY) {
+  } else if(entity->type == ENTITY_FACTORY) {
     return &entity->factory.position;
   } else {
     return NULL;
@@ -54,15 +54,15 @@ static void ensure_capacity(ScalableGrid * scalable_grid, unsigned int required_
 
 static void mod_scalable_grid_update(Game * game, unsigned int delta, void * arg) {
   VectorCountMinMax c = {0, {0, 0}, {0, 0}};
-  world_iterate_entities_of_type(&game->world, UNIT, &c, world_entity_count_min_max);
-  world_iterate_entities_of_type(&game->world, FACTORY, &c, world_entity_count_min_max);
+  world_iterate_entities_of_type(&game->world, ENTITY_UNIT, &c, world_entity_count_min_max);
+  world_iterate_entities_of_type(&game->world, ENTITY_FACTORY, &c, world_entity_count_min_max);
 
   scalable_grid_set_transform(&game->scalable_grid, c.min, c.max);
   ensure_capacity(&game->scalable_grid, c.count);
 
   scalable_grid_clear(&game->scalable_grid);
-  world_iterate_entities_of_type(&game->world, UNIT, &game->scalable_grid, world_entity_scalable_grid_insert);
-  world_iterate_entities_of_type(&game->world, FACTORY, &game->scalable_grid, world_entity_scalable_grid_insert);
+  world_iterate_entities_of_type(&game->world, ENTITY_UNIT, &game->scalable_grid, world_entity_scalable_grid_insert);
+  world_iterate_entities_of_type(&game->world, ENTITY_FACTORY, &game->scalable_grid, world_entity_scalable_grid_insert);
 }
 
 static void mod_scalable_grid_deinitialize(Game * game, void * arg) {

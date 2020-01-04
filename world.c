@@ -10,11 +10,11 @@ static void initialize_world_pool(WorldPool * world_pool) {
 }
 
 static WorldPool * get_world_pool_for_type(World * world, EntityType type) {
-  if (type == UNIT)
+  if (type == ENTITY_UNIT)
     return &world->units;
-  if (type == PROJECTILE)
+  if (type == ENTITY_PROJECTILE)
     return &world->projectiles;
-  if (type == FACTORY)
+  if (type == ENTITY_FACTORY)
     return &world->factories;
   return NULL;
 }
@@ -39,7 +39,7 @@ static Entity * get_none_entity(EntityPool * pool) {
     return &pool->entities[pool->entity_count];
   } else {
     Entity * entity = pool->free[--pool->free_count];
-    assert(entity->type == NONE);
+    assert(entity->type == ENTITY_NONE);
     return entity;
   }
 }
@@ -70,7 +70,7 @@ Entity * world_entity_allocate(World * world, EntityType type) {
 
 static void deallocate_pool_entity(WorldPool * world_pool, EntityPool * pool, Entity * entity) {
   assert(entity >= pool->entities && entity <= pool->entities + WORLD_POOL_SIZE);
-  entity->type = NONE;
+  entity->type = ENTITY_NONE;
   --pool->entity_count;
   --world_pool->entity_count;
   pool->free[pool->free_count++] = entity;
@@ -110,7 +110,7 @@ static void pool_iterate_entities(EntityPool * pool, void * arg, void (* fn)(Ent
   const int len = pool->free_count == 0 ? pool->entity_count : WORLD_POOL_SIZE;
   for(int i = 0; i < len; ++i) {
     Entity * entity = &pool->entities[i];
-    if(entity->type != NONE)
+    if(entity->type != ENTITY_NONE)
       (*fn)(entity, arg);
   }
 }

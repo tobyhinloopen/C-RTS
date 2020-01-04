@@ -13,12 +13,12 @@ void test_gui_component_group() {
   GUIComponentGroup group;
   gui_component_group_initialize(&group);
 
-  GUIComponent component_a = {BUTTON};
+  GUIComponent component_a = {GUI_COMPONENT_BUTTON};
   gui_button_initialize(&component_a.button, "Foo");
   assert(strcmp(component_a.button.label.text, "Foo") == 0);
   gui_component_group_add(&group, &component_a);
 
-  GUIComponent component_b = {BUTTON};
+  GUIComponent component_b = {GUI_COMPONENT_BUTTON};
   gui_button_initialize(&component_b.button, "Bar");
   assert(strcmp(component_b.button.label.text, "Bar") == 0);
 

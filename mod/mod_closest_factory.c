@@ -19,7 +19,7 @@ static void assign_closest_factory(Entity * entity, void * game_ptr) {
 }
 
 static void mod_closest_factory_update(Game * game, unsigned int delta, void * arg) {
-  world_iterate_entities_of_type(&game->world, UNIT, game, assign_closest_factory);
+  world_iterate_entities_of_type(&game->world, ENTITY_UNIT, game, assign_closest_factory);
 }
 
 void mod_closest_factory(GameModule * mod) {

@@ -140,13 +140,13 @@ static void update_unit_behavior(Unit * unit, Game * game) {
 }
 
 static void update_entity_unit_behavior(Entity * entity, void * game_ptr) {
-  if(entity->type == UNIT) {
+  if(entity->type == ENTITY_UNIT) {
     update_unit_behavior(&entity->unit, (Game *)game_ptr);
   }
 }
 
 static void mod_unit_behavior_update(Game * game, unsigned int delta, void * arg) {
-  world_iterate_entities_of_type(&game->world, UNIT, game, update_entity_unit_behavior);
+  world_iterate_entities_of_type(&game->world, ENTITY_UNIT, game, update_entity_unit_behavior);
 }
 
 void mod_unit_behavior(GameModule * mod) {

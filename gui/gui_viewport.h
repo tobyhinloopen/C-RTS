@@ -6,10 +6,10 @@
 typedef struct _GUIViewport GUIViewport;
 
 struct _GUIViewport {
-  int x;
-  int y;
-  int width;
-  int height;
+  int x; // deprecated
+  int y; // deprecated
+  int width; // deprecated
+  int height; // deprecated
   int center_x;
   int center_y;
   int zoom;

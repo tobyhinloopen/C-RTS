@@ -28,6 +28,7 @@ void renderer_begin(Renderer *);
 void renderer_render_map(Renderer *, Map *);
 void renderer_render_world(Renderer *, World *);
 void renderer_render_ui(Renderer *, Game *);
+void renderer_align_ui(Renderer *, float x, float y, float scale);
 void renderer_present(Renderer *);
 void renderer_deinitialize(Renderer *);
 

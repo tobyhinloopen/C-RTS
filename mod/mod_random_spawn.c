@@ -20,7 +20,7 @@ static int is_game_unit_spawn_interval_passed(Game * game, unsigned int current_
 
 static void increment_for_unit_entity(Entity * entity, void * count_ptr) {
   int * count = (int*)count_ptr;
-  if(entity->type == UNIT)
+  if(entity->type == ENTITY_UNIT)
     (*count)++;
 }
 
@@ -46,7 +46,7 @@ static void game_spawn_next_unit_group(Game * game) {
   int world_unit_count = world_count_units(&game->world);
   for(int unit_count = rand_rangei(&game->seed, 1, UNIT_SPAWN_MAX_GROUP_SIZE); unit_count >= 0; --unit_count)
     if(world_unit_count++ < UNIT_MAX_SPAWN_COUNT)
-      setup_unit(&world_entity_allocate(&game->world, UNIT)->unit, &game->seed, team_offset, x, y);
+      setup_unit(&world_entity_allocate(&game->world, ENTITY_UNIT)->unit, &game->seed, team_offset, x, y);
 }
 
 static void mod_random_spawn_initialize(Game * game, void * arg) {

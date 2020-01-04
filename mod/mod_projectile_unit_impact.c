@@ -18,12 +18,12 @@ static void destroy_touching_entities(void * entity_ptr, float distance, void * 
   Unit * unit = &entity->unit;
   Factory * factory = &entity->factory;
   Projectile * projectile = (Projectile*)projectile_ptr;
-  if (entity->type == UNIT) {
+  if (entity->type == ENTITY_UNIT) {
     if(unit->team_id != projectile->team_id && distance < PROJECTILE_UNIT_IMPACT_DISTANCE) {
       unit->health -= projectile_damage(projectile);
       projectile->hit_count++;
     }
-  } else if(entity->type == FACTORY) {
+  } else if(entity->type == ENTITY_FACTORY) {
     if(factory->team_id != projectile->team_id && distance < PROJECTILE_FACTORY_IMPACT_DISTANCE) {
       factory->health -= projectile_damage(projectile);
       if (factory_is_dead(factory)) {
@@ -44,12 +44,12 @@ static void destroy_entity_touching_projectile(Entity * entity, void * projectil
   Unit * unit = &entity->unit;
   Factory * factory = &entity->factory;
   Projectile * projectile = (Projectile*)projectile_ptr;
-  if(entity->type == UNIT
+  if(entity->type == ENTITY_UNIT
   && unit->team_id != projectile->team_id
   && vector_distance(projectile->position, unit->position) < PROJECTILE_UNIT_IMPACT_DISTANCE) {
     unit->health -= projectile_damage(projectile);
     projectile->hit_count++;
-  } else if(entity->type == FACTORY
+  } else if(entity->type == ENTITY_FACTORY
   && factory->team_id != projectile->team_id
   && vector_distance(projectile->position, factory->position) < PROJECTILE_FACTORY_IMPACT_DISTANCE) {
     factory->health -= projectile_damage(projectile);
@@ -61,14 +61,14 @@ static void destroy_entity_touching_projectile(Entity * entity, void * projectil
 
 static void destroy_entity_touching_projectile_entity(Entity * entity, void * game_ptr) {
   Projectile * projectile = &entity->projectile;
-  if(entity->type == PROJECTILE && !projectile->hit_count) {
+  if(entity->type == ENTITY_PROJECTILE && !projectile->hit_count) {
     Game * game = (Game *)game_ptr;
 
 #ifdef CONFIG_SCALABLE_GRID_ENABLED
   scalable_grid_iterate_items(&game->scalable_grid, projectile->position, PROJECTILE_MAX_IMPACT_DISTANCE, projectile, destroy_touching_entities);
 #else
-  world_iterate_entities_of_type(&game->world, UNIT, projectile, destroy_entity_touching_projectile);
-  world_iterate_entities_of_type(&game->world, FACTORY, projectile, destroy_entity_touching_projectile);
+  world_iterate_entities_of_type(&game->world, ENTITY_UNIT, projectile, destroy_entity_touching_projectile);
+  world_iterate_entities_of_type(&game->world, ENTITY_FACTORY, projectile, destroy_entity_touching_projectile);
 #endif
 
     if (projectile->hit_count)
@@ -77,7 +77,7 @@ static void destroy_entity_touching_projectile_entity(Entity * entity, void * ga
 }
 
 static void mod_projectile_unit_impact_update(Game * game, unsigned int delta, void * arg) {
-  world_iterate_entities_of_type(&game->world, PROJECTILE, game, destroy_entity_touching_projectile_entity);
+  world_iterate_entities_of_type(&game->world, ENTITY_PROJECTILE, game, destroy_entity_touching_projectile_entity);
 }
 
 void mod_projectile_unit_impact(GameModule * mod) {
